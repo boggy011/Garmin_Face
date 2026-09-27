@@ -16,3 +16,6 @@ __pycache__/
 # Store packages and side-load binaries, rebuilt from source
 release/*.iq
 release/*.prg
+
+# macOS Finder metadata
+.DS_Store
