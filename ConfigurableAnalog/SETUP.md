@@ -40,7 +40,7 @@ Simulator probe (auto page cycling, forced weather conditions, memory and frame 
     monkeyc -d fenix8solar51mm -f probe.jungle -o bin/ConfigurableAnalog-probe.prg -y ~/garmin-keys/developer_key.der -w -l 3
     uv run tools/simrun.py bin/ConfigurableAnalog-probe.prg fenix8solar51mm --restart --seconds 82 --prefix run --shots "generic@5 weather@13 health@21"
 
-Screenshots land in docs/screens. Icons: uv run tools/gen_icons.py after editing assets/icons/src or tools/icons.yaml. Fonts: uv run tools/gen_fonts.py after editing assets/fonts or tools/fonts.yaml (also checks that the widest values fit a panel).
+Screenshots land in docs/screens. Icons: uv run tools/gen_icons.py after editing assets/icons/src or tools/icons.yaml. Backgrounds: uv run tools/gen_backgrounds.py (topographic dial texture and weather condition discs). Fonts: uv run tools/gen_fonts.py after editing assets/fonts or tools/fonts.yaml (also checks that the widest values fit a panel).
 
 Debug colour swatches: set the showColourSwatches setting to true (phone settings, or Properties in the simulator) to draw the 64 colour palette grid over the face, photograph the real display and pick colours by index (row major, index = r * 16 + g * 4 + b with channel levels 00, 55, AA, FF).
 

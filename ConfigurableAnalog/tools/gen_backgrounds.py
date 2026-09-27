@@ -119,19 +119,19 @@ def field(x: float, y: float, seed: int) -> float:
     """Smooth pseudo random scalar field in [0, 1] from summed sines."""
     rng = random.Random(seed)
     value = 0.0
-    for i in range(6):
-        fx = rng.uniform(1.5, 4.5)
-        fy = rng.uniform(1.5, 4.5)
+    for i in range(9):
+        fx = rng.uniform(3.0, 11.0)
+        fy = rng.uniform(3.0, 11.0)
         px = rng.uniform(0, 6.28)
         py = rng.uniform(0, 6.28)
-        weight = 1.0 / (i + 1)
-        value += weight * math.sin(fx * x + px) * math.cos(fy * y + py)
-    return (math.tanh(value) + 1.0) / 2.0
+        weight = 1.0 / (1 + i * 0.6)
+        value += weight * math.sin(fx * x + px + 0.8 * math.sin(fy * y)) * math.cos(fy * y + py)
+    return (math.tanh(value * 0.9) + 1.0) / 2.0
 
 
 def topo(size: int, mip: bool) -> Image.Image:
     """Contour line dial background."""
-    levels = 14
+    levels = 26
     grid = [
         [int(field(x / size, y / size, 7) * levels) for x in range(size)]
         for y in range(size)
