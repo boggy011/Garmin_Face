@@ -194,7 +194,7 @@
   },
   "battery": {
     "visible": true,
-    "y": 12,
+    "y": 22,
     "color": "COLOR_LT_GRAY",
     "lowColor": "0xFFAAAA",
     "lowPercent": 15,

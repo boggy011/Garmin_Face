@@ -10,6 +10,27 @@ module SkinDefs {
     enum { SECONDS_ALWAYS = 0, SECONDS_AWAKE_ONLY = 1, SECONDS_NEVER = 2 }
     enum { SHAPE_BATON = 0, SHAPE_DAUPHINE = 1, SHAPE_ARROW = 2, SHAPE_LINE = 3, SHAPE_SKELETON = 4 }
 
+    //! Half intensity of a colour, snapped to the 64 colour palette levels. Used for soft edges.
+    function dimColor(color as Number) as Number {
+        var r = snapLevel(((color >> 16) & 0xFF) / 2);
+        var g = snapLevel(((color >> 8) & 0xFF) / 2);
+        var b = snapLevel((color & 0xFF) / 2);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    function snapLevel(channel as Number) as Number {
+        if (channel < 43) {
+            return 0x00;
+        }
+        if (channel < 128) {
+            return 0x55;
+        }
+        if (channel < 213) {
+            return 0xAA;
+        }
+        return 0xFF;
+    }
+
     //! Graphics.COLOR_* by name, or null.
     function namedColor(name as String) as Number? {
         if (name.equals("COLOR_WHITE")) { return Graphics.COLOR_WHITE; }

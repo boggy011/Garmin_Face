@@ -99,3 +99,7 @@ Memory after moving the skin lookup tables into functions and splitting each ski
 ## Contour texture softening
 
 The contour lines are now blurred (gaussian, 1.3 px) and faint. The resource pipeline keeps only one bit of alpha, so the softness cannot be alpha: on AMOLED the blurred coverage is painted as dim blue grey on opaque black (the dial is black, so it is equivalent to translucency). MIP has four grey levels and full dithering turned the field into speckle, so the blurred line core is drawn as a 50 percent checkerboard and its halo as a 25 percent pattern in the darkest grey 0x555555, which reads as a soft translucent line on the transflective display.
+
+## Soft edges
+
+The condition disc fades to black over its outer 28 percent (a quadratic falloff multiplied into the bitmap before the MIP dither), so it melts into the dial instead of ending in a hard rim. The sun and moon arcs got one extra dashed ring on each side in the half intensity palette colour (0xAAAA55 for the sun, 0x5555AA for the moon), which softens their borders without alpha. The battery readout moved to 22 percent from the top, into the gap between the top panels and above the centre icon, so the sun at the zenith no longer covers it.

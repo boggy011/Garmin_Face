@@ -106,10 +106,11 @@ class WeatherPageRenderer {
 
     //! Semicircle band that is widest at the zenith and one pixel at the horizon ends. With
     //! dither on, every other ring of the band is skipped in a checker pattern so the band
-    //! reads as translucent on both display types. Static, drawn once per page or skin change.
+    //! reads as translucent, and one dashed ring in the dimmed colour outside each edge softens
+    //! the border. Static, drawn once per page or skin change.
     private function drawTaperedArc(dc as Dc, r as Number, color as Number, maxWidth as Number, dither as Boolean, top as Boolean) as Void {
         var steps = 36;
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        var edge = SkinDefs.dimColor(color);
         dc.setPenWidth(1);
         for (var i = 0; i < steps; i++) {
             var a0 = 180.0 * i / steps;
@@ -118,7 +119,19 @@ class WeatherPageRenderer {
             var width = 1 + ((maxWidth - 1) * Math.sin(mid)).toNumber();
             var half = width / 2;
             var stride = dither ? 2 : 1;
-            for (var off = -half + (dither ? i % 2 : 0); off <= half; off += stride) {
+            for (var off = -half - 1; off <= half + 1; off += 1) {
+                var border = (off < -half) || (off > half);
+                if (border) {
+                    if (i % 2 == 1) {
+                        continue;
+                    }
+                    dc.setColor(edge, Graphics.COLOR_TRANSPARENT);
+                } else {
+                    if (dither && ((off + half + i) % stride != 0)) {
+                        continue;
+                    }
+                    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+                }
                 if (top) {
                     dc.drawArc(_cx, _cy, r + off, Graphics.ARC_CLOCKWISE, 180 - a0, 180 - a1);
                 } else {

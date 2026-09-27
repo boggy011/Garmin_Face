@@ -27,7 +27,7 @@ import re
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 TOOLS_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = TOOLS_DIR.parent
@@ -259,12 +259,38 @@ def sky_disc(category: str, size: int, mip: bool) -> Image.Image:
                 fill=(255, 255, 255, 220),
                 width=1,
             )
+    image = fade_rim(image, 0.72)
     image.putalpha(
         Image.composite(
             image.getchannel("A"), Image.new("L", (size, size), 0), circle_mask(size)
         )
     )
     return dither_to_palette(image) if mip else image
+
+
+def fade_rim(image: Image.Image, inner: float) -> Image.Image:
+    """Darken a disc image towards its rim from the inner fraction of the radius outwards."""
+    size = image.width
+    centre = (size - 1) / 2.0
+    radius = size / 2.0
+    raw = bytearray(size * size)
+    for y in range(size):
+        for x in range(size):
+            distance = math.hypot(x - centre, y - centre) / radius
+            if distance <= inner:
+                raw[y * size + x] = 255
+            elif distance >= 1.0:
+                raw[y * size + x] = 0
+            else:
+                t = (distance - inner) / (1.0 - inner)
+                raw[y * size + x] = int(255 * (1.0 - t) * (1.0 - t))
+    falloff = Image.frombytes("L", (size, size), bytes(raw))
+    rgb = ImageChops.multiply(
+        image.convert("RGB"), Image.merge("RGB", (falloff, falloff, falloff))
+    )
+    result = rgb.convert("RGBA")
+    result.putalpha(image.getchannel("A"))
+    return result
 
 
 def main() -> int:
