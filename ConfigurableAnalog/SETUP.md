@@ -33,6 +33,8 @@ Export for the store (all products, release):
 
     monkeyc -e -r -f monkey.jungle -o bin/ConfigurableAnalog.iq -y ~/garmin-keys/developer_key.der -l 3
 
+Developer key fingerprint (SHA256 of the public key, DER): 8c469231f94e733536dfbf9ec6f0312b43be76eae4d6dadb7223efaf722d7524. Every store update must be signed with this key. Check with: openssl pkey -inform DER -in ~/garmin-keys/developer_key.der -pubout -outform DER | openssl dgst -sha256
+
 Side load: build with the command above, then copy bin/ConfigurableAnalog.prg to GARMIN/APPS on the watch. The file to check on a real fenix 8 Solar 51mm is exactly bin/ConfigurableAnalog.prg built with -d fenix8solar51mm.
 
 Simulator probe (auto page cycling, forced weather conditions, memory and frame time log):
