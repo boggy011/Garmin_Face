@@ -140,8 +140,10 @@ TOPO_OPACITY = 0.45
 def topo(size: int, mip: bool) -> Image.Image:
     """Contour line dial background: blurred, low opacity iso lines masked to the round display.
 
-    AMOLED keeps the softness as real alpha. MIP has no alpha blending, so the blurred grey is
-    composited on black and dithered to the palette, which reads as faint dotted lines.
+    The resource pipeline keeps one bit of alpha, so both variants are opaque inside the dial
+    and the softness is painted as grey on black. MIP has only four grey levels, so the blurred line
+    core is drawn as a 50 percent checkerboard and its halo as a 25 percent pattern in the
+    darkest grey, which reads as a faint translucent line.
     """
     levels = 26
     grid = [
@@ -160,13 +162,24 @@ def topo(size: int, mip: bool) -> Image.Image:
     coverage = coverage.filter(ImageFilter.GaussianBlur(TOPO_BLUR))
     mask = circle_mask(size)
     if not mip:
-        alpha = coverage.point(lambda v: int(v * TOPO_OPACITY))
-        image = Image.new("RGBA", (size, size), (150, 150, 160, 255))
-        image.putalpha(Image.composite(alpha, Image.new("L", (size, size), 0), mask))
+        grey = coverage.point(lambda v: min(255, int(v * TOPO_OPACITY * 1.4)))
+        blue = coverage.point(lambda v: min(255, int(v * TOPO_OPACITY * 1.5)))
+        image = Image.merge(
+            "RGBA", (grey, grey, blue, Image.new("L", (size, size), 255))
+        )
+        image.putalpha(mask.point(lambda v: 255 if v >= 128 else 0))
         return image
-    grey = coverage.point(lambda v: int(v * TOPO_OPACITY * 0.8))
-    image = Image.merge("RGBA", (grey, grey, grey, Image.new("L", (size, size), 255)))
-    image = dither_to_palette(image)
+    raw = coverage.tobytes()
+    out = bytearray(size * size * 4)
+    for y in range(size):
+        for x in range(size):
+            value = raw[y * size + x]
+            core = value >= 130 and (x + y) % 2 == 0
+            halo = 80 <= value < 130 and (x + y) % 4 == 0
+            shade = 85 if (core or halo) else 0
+            index = (y * size + x) * 4
+            out[index : index + 4] = bytes((shade, shade, shade, 255))
+    image = Image.frombytes("RGBA", (size, size), bytes(out))
     image.putalpha(mask.point(lambda v: 255 if v >= 128 else 0))
     return image
 

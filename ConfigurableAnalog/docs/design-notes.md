@@ -95,3 +95,7 @@ Skin switch trace (probe build, fenix8solar51mm): old skin released 109.0 KB, ne
 ## Final simulator numbers (this round)
 
 Memory after moving the skin lookup tables into functions and splitting each skin into core, layout and pages resources: at rest 115 KB (minimal) to 117 KB (sport), peak over the whole matrix including every skin switch and all six forced weather conditions 122.0 KB on fenix8solar51mm and 122.0 KB on fenix847mm, against the 126.8 KB limit. The margin is about 5 KB, so any further feature must come with a measurement (probe.jungle plus tools/simrun.py). Tests: 18 pass. Screenshots of every state: docs/screens/pass2.
+
+## Contour texture softening
+
+The contour lines are now blurred (gaussian, 1.3 px) and faint. The resource pipeline keeps only one bit of alpha, so the softness cannot be alpha: on AMOLED the blurred coverage is painted as dim blue grey on opaque black (the dial is black, so it is equivalent to translucency). MIP has four grey levels and full dithering turned the field into speckle, so the blurred line core is drawn as a 50 percent checkerboard and its halo as a 25 percent pattern in the darkest grey 0x555555, which reads as a soft translucent line on the transflective display.
