@@ -1,0 +1,216 @@
+{
+  "id": "minimal",
+  "name": "Minimal",
+  "colors": {
+    "background": "COLOR_BLACK",
+    "dial": "COLOR_BLACK",
+    "tickMajor": "COLOR_LT_GRAY",
+    "tickMinor": "COLOR_DK_GRAY",
+    "numeral": "COLOR_WHITE",
+    "accent": "COLOR_BLUE",
+    "slotValue": "COLOR_WHITE",
+    "slotLabel": "COLOR_DK_GRAY",
+    "cap": "COLOR_WHITE",
+    "pageIndicator": "COLOR_DK_GRAY"
+  },
+  "ticks": {
+    "showMinor": false,
+    "majorLength": 6,
+    "minorLength": 3,
+    "majorWidth": 1,
+    "minorWidth": 1
+  },
+  "numerals": {
+    "style": "none",
+    "font": "FONT_TINY",
+    "radius": 76
+  },
+  "hands": {
+    "hour": {
+      "length": 0.5,
+      "width": 3,
+      "color": "COLOR_WHITE",
+      "shape": "line",
+      "tail": 0.0
+    },
+    "minute": {
+      "length": 0.82,
+      "width": 2,
+      "color": "COLOR_WHITE",
+      "shape": "line",
+      "tail": 0.0
+    },
+    "second": {
+      "length": 0.9,
+      "width": 1,
+      "color": "accent",
+      "shape": "line",
+      "tail": 0.0
+    },
+    "capRadius": 3
+  },
+  "secondsHandMode": "never",
+  "slots": {
+    "font": "FONT_TINY",
+    "labelFont": "FONT_XTINY",
+    "showIcons": false,
+    "showLabels": true,
+    "positions": [
+      {
+        "x": 50,
+        "y": 22,
+        "w": 34,
+        "align": "center"
+      },
+      {
+        "x": 24,
+        "y": 50,
+        "w": 26,
+        "align": "center"
+      },
+      {
+        "x": 76,
+        "y": 50,
+        "w": 26,
+        "align": "center"
+      },
+      {
+        "x": 50,
+        "y": 68,
+        "w": 34,
+        "align": "center"
+      },
+      {
+        "x": 50,
+        "y": 80,
+        "w": 34,
+        "align": "center"
+      }
+    ]
+  },
+  "pageIndicator": {
+    "visible": false,
+    "x": 50,
+    "y": 92,
+    "dotRadius": 1.0
+  },
+  "weatherPage": {
+    "arcRadius": 41,
+    "arcWidth": 1,
+    "sunArcColor": "COLOR_LT_GRAY",
+    "moonArcColor": "COLOR_DK_GRAY",
+    "sunColor": "COLOR_WHITE",
+    "sunDimColor": "COLOR_DK_GRAY",
+    "moonLitColor": "COLOR_WHITE",
+    "moonDarkColor": "COLOR_DK_GRAY",
+    "horizonColor": "COLOR_DK_GRAY",
+    "labelFont": "FONT_XTINY",
+    "labelColor": "COLOR_DK_GRAY",
+    "sunriseLabel": {
+      "x": 13,
+      "y": 44
+    },
+    "sunsetLabel": {
+      "x": 87,
+      "y": 44
+    },
+    "phaseLabel": {
+      "x": 50,
+      "y": 84
+    },
+    "icon": {
+      "x": 50,
+      "y": 50
+    },
+    "readoutFont": "FONT_XTINY",
+    "readoutColor": "COLOR_WHITE",
+    "readouts": [
+      {
+        "x": 30,
+        "y": 37,
+        "align": "right"
+      },
+      {
+        "x": 70,
+        "y": 37,
+        "align": "left"
+      },
+      {
+        "x": 30,
+        "y": 63,
+        "align": "right"
+      },
+      {
+        "x": 70,
+        "y": 63,
+        "align": "left"
+      }
+    ]
+  },
+  "healthPage": {
+    "arcRadius": 41,
+    "arcWidth": 3,
+    "trackColor": "COLOR_DK_GRAY",
+    "bodyBatteryColor": "COLOR_BLUE",
+    "spo2Color": "COLOR_PINK",
+    "hrvColor": "COLOR_PURPLE",
+    "stressLowColor": "COLOR_GREEN",
+    "stressMediumColor": "COLOR_YELLOW",
+    "stressHighColor": "COLOR_RED",
+    "stressLowMax": 25,
+    "stressMediumMax": 50,
+    "heartRate": {
+      "x": 50,
+      "y": 58,
+      "font": "FONT_NUMBER_MILD",
+      "color": "COLOR_WHITE"
+    },
+    "heartIcon": {
+      "x": 50,
+      "y": 38
+    },
+    "readoutFont": "FONT_XTINY",
+    "readoutColor": "COLOR_WHITE",
+    "readouts": [
+      {
+        "x": 27,
+        "y": 36,
+        "align": "right"
+      },
+      {
+        "x": 73,
+        "y": 36,
+        "align": "left"
+      },
+      {
+        "x": 27,
+        "y": 66,
+        "align": "right"
+      },
+      {
+        "x": 73,
+        "y": 66,
+        "align": "left"
+      }
+    ]
+  },
+  "effects": {
+    "mip": {
+      "fps": 6,
+      "rain": 40,
+      "snow": 30
+    },
+    "amoled": {
+      "fps": 10,
+      "rain": 80,
+      "snow": 60
+    },
+    "rainColor": "COLOR_LT_GRAY",
+    "snowColor": "COLOR_WHITE",
+    "flashColor": "COLOR_WHITE",
+    "fogColor": "COLOR_LT_GRAY",
+    "windColor": "COLOR_LT_GRAY",
+    "rainSpeed": 1.0,
+    "snowSpeed": 1.0
+  }
+}

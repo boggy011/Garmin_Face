@@ -1,0 +1,12 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="AppName">ConfigurableAnalog</string>
+    <string id="Placeholder">--</string>
+    <string id="moon_phase_0">New moon</string>
+    <string id="moon_phase_1">Waxing crescent</string>
+    <string id="moon_phase_2">First quarter</string>
+    <string id="moon_phase_3">Waxing gibbous</string>
+    <string id="moon_phase_4">Full moon</string>
+    <string id="moon_phase_5">Waning gibbous</string>
+    <string id="moon_phase_6">Last quarter</string>
+    <string id="moon_phase_7">Waning crescent</string>
+</strings>

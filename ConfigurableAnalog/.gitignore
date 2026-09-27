@@ -1,0 +1,14 @@
+# Connect IQ build output
+bin/
+
+# Local editor settings (contains the developer key path)
+.vscode/settings.json
+
+# Developer signing keys, never commit
+*.der
+*.pem
+
+# Python tooling
+__pycache__/
+.ruff_cache/
+.mypy_cache/

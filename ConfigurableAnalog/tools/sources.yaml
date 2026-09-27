@@ -1,0 +1,116 @@
+# Single source of truth for settings, strings, on-device editor config and Monkey C keys.
+# Run: python3 tools/gen_settings.py   (add --check to only validate)
+
+default_skin: classic
+
+# Phone settings store the position in this list, append only.
+skins:
+  - id: classic
+    label: Classic
+  - id: minimal
+    label: Minimal
+  - id: sport
+    label: Sport
+
+# Page types in enum order (PageTypes.GENERIC = 0, WEATHER = 1, HEALTH = 2). Append only.
+page_types:
+  - id: generic
+    label: Generic (5 slots)
+  - id: weather
+    label: Weather
+  - id: health
+    label: Health
+
+pages:
+  max: 6
+  slots_per_page: 5
+  default_count: 3
+  # Pages without an entry default to generic.
+  default_types: [generic, weather, health]
+  # Pages without an entry default to all Empty slots.
+  defaults:
+    - [Steps, HeartRate, Battery, Date, BodyBattery]
+    - [Weather, Sunrise, Sunset, Notifications, SecondTimeZone]
+    - [Calories, Distance, FloorsClimbed, Stress, ActiveMinutes]
+
+seconds_hand_modes:
+  - id: skin
+    label: Skin default
+  - id: always
+    label: Always
+  - id: awakeOnly
+    label: Awake only
+  - id: never
+    label: Never
+
+number_settings:
+  - key: secondTimeZoneOffsetMinutes
+    label: Second time zone, UTC offset in minutes
+    default: 0
+    min: -720
+    max: 840
+  - key: weatherRefreshMinutes
+    label: Weather refresh interval in minutes
+    default: 15
+    min: 5
+    max: 120
+
+# Choice settings are stored as the index of the option (append only within each list).
+choice_settings:
+  - key: pressureUnit
+    label: Pressure unit
+    default: hPa
+    options:
+      - { id: hPa, label: hPa }
+      - { id: mmHg, label: mmHg }
+      - { id: inHg, label: inHg }
+  - key: healthArcTop
+    label: Health page top arc
+    default: bodyBattery
+    options: &health_metrics
+      - { id: bodyBattery, label: Body Battery }
+      - { id: stress, label: Stress }
+      - { id: spo2, label: Pulse Ox }
+      - { id: hrv, label: HRV }
+  - key: healthArcBottom
+    label: Health page bottom arc
+    default: stress
+    options: *health_metrics
+  - key: effectsIntensity
+    label: Weather effects intensity
+    default: normal
+    options:
+      - { id: low, label: Low }
+      - { id: normal, label: Normal }
+      - { id: high, label: High }
+
+boolean_settings:
+  - { key: showSunTimes, label: Show sunrise and sunset times, default: true }
+  - { key: showMoonPhaseLabel, label: Show moon phase name, default: true }
+  - { key: effectsEnabled, label: Weather effects, default: true }
+  - { key: effectsOnWristRaiseOnly, label: Weather effects only while awake, default: true }
+
+# id must match the class in source/data/sources (<id>Source) and the registry entry.
+# Phone settings store the position in this list, so append new sources at the end and never reorder.
+# complication is the Toybox.Complications type used by the on-device editor, or null
+# when the source has no system complication equivalent (then it is phone-settings only).
+sources:
+  - { id: Empty,          label: Empty,             complication: null }
+  - { id: Battery,        label: Battery,           complication: COMPLICATION_TYPE_BATTERY }
+  - { id: Steps,          label: Steps,             complication: COMPLICATION_TYPE_STEPS }
+  - { id: HeartRate,      label: Heart rate,        complication: COMPLICATION_TYPE_HEART_RATE }
+  - { id: Date,           label: Date,              complication: COMPLICATION_TYPE_DATE }
+  - { id: DayOfWeek,      label: Day of week,       complication: COMPLICATION_TYPE_WEEKDAY_MONTHDAY }
+  - { id: BodyBattery,    label: Body Battery,      complication: COMPLICATION_TYPE_BODY_BATTERY }
+  - { id: Stress,         label: Stress,            complication: COMPLICATION_TYPE_STRESS }
+  - { id: Calories,       label: Calories,          complication: COMPLICATION_TYPE_CALORIES }
+  - { id: Distance,       label: Distance,          complication: null }
+  - { id: FloorsClimbed,  label: Floors climbed,    complication: COMPLICATION_TYPE_FLOORS_CLIMBED }
+  - { id: Notifications,  label: Notifications,     complication: COMPLICATION_TYPE_NOTIFICATION_COUNT }
+  - { id: Weather,        label: Temperature,       complication: COMPLICATION_TYPE_CURRENT_TEMPERATURE }
+  - { id: Sunrise,        label: Sunrise,           complication: COMPLICATION_TYPE_SUNRISE }
+  - { id: Sunset,         label: Sunset,            complication: COMPLICATION_TYPE_SUNSET }
+  - { id: SecondTimeZone, label: Second time zone,  complication: null }
+  - { id: Altitude,       label: Altitude,          complication: COMPLICATION_TYPE_ALTITUDE }
+  - { id: SolarIntensity, label: Solar intensity,   complication: COMPLICATION_TYPE_SOLAR_INPUT }
+  - { id: ActiveMinutes,  label: Intensity minutes, complication: COMPLICATION_TYPE_INTENSITY_MINUTES }

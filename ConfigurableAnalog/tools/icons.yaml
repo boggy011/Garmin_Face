@@ -1,0 +1,32 @@
+# Icon pipeline input for tools/gen_icons.py.
+# Sizes are percent of the screen width. Every icon belongs to one size group.
+# Resource ids are ic_<name> with dashes replaced by underscores.
+groups:
+  condition: 22
+  disc: 9
+  moon: 12
+  readout: 7
+  heart: 14
+
+icons:
+  sun: disc
+  moon: moon
+  clear: condition
+  partly-cloudy: condition
+  cloudy: condition
+  rain: condition
+  heavy-rain: condition
+  snow: condition
+  sleet: condition
+  thunder: condition
+  fog: condition
+  wind: condition
+  temperature: readout
+  precipitation: readout
+  uv: readout
+  pressure: readout
+  heart: heart
+  stress: readout
+  body-battery: readout
+  spo2: readout
+  hrv: readout

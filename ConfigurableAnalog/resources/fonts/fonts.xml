@@ -1,0 +1,6 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <!-- Skins use system fonts by name (see resources/skins/*.json, "font" fields).
+         To add a bitmap font: put the .fnt and .png here, declare
+         <font id="MyFont" filename="MyFont.fnt" filter="0123456789:"/>
+         and reference it from a skin as "font": "@MyFont". -->
+</resources>

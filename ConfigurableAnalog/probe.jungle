@@ -1,0 +1,4 @@
+# Simulator probe build: same project, includes source/util/Probe.mc (auto page cycling and memory log).
+project.manifest = manifest.xml
+project.typecheck = strict
+base.excludeAnnotations = noprobe

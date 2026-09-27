@@ -1,0 +1,21 @@
+<drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <bitmap id="LauncherIcon" filename="launcher_icon.svg"/>
+    <bitmap id="icon_activeminutes" filename="icon_activeminutes.svg"/>
+    <bitmap id="icon_altitude" filename="icon_altitude.svg"/>
+    <bitmap id="icon_battery" filename="icon_battery.svg"/>
+    <bitmap id="icon_bodybattery" filename="icon_bodybattery.svg"/>
+    <bitmap id="icon_calories" filename="icon_calories.svg"/>
+    <bitmap id="icon_date" filename="icon_date.svg"/>
+    <bitmap id="icon_dayofweek" filename="icon_dayofweek.svg"/>
+    <bitmap id="icon_distance" filename="icon_distance.svg"/>
+    <bitmap id="icon_floorsclimbed" filename="icon_floorsclimbed.svg"/>
+    <bitmap id="icon_heartrate" filename="icon_heartrate.svg"/>
+    <bitmap id="icon_notifications" filename="icon_notifications.svg"/>
+    <bitmap id="icon_secondtimezone" filename="icon_secondtimezone.svg"/>
+    <bitmap id="icon_solarintensity" filename="icon_solarintensity.svg"/>
+    <bitmap id="icon_steps" filename="icon_steps.svg"/>
+    <bitmap id="icon_stress" filename="icon_stress.svg"/>
+    <bitmap id="icon_sunrise" filename="icon_sunrise.svg"/>
+    <bitmap id="icon_sunset" filename="icon_sunset.svg"/>
+    <bitmap id="icon_weather" filename="icon_weather.svg"/>
+</drawables>
