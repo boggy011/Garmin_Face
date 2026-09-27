@@ -18,6 +18,6 @@ class DateSource extends DataSource {
 
     function getValue() as String {
         var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-        return info.day.toString() + " " + info.month.toString();
+        return (info.day.toString() + " " + info.month.toString()).toUpper();
     }
 }

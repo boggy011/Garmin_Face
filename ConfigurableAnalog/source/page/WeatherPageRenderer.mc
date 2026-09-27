@@ -6,7 +6,7 @@ import Toybox.WatchUi;
 
 //! Sun arc, moon arc with phase, condition icon, sunrise and sunset labels, four readout
 //! panels, pressure trend chart, night star field. Geometry and colours come from
-//! skin.weather() and skin.panels, values from WeatherCache. Per frame drawing allocates nothing.
+//! skin.weather() and skin.panels(), values from WeatherCache. Per frame drawing allocates nothing.
 class WeatherPageRenderer {
     enum { ICON_TEMPERATURE = 0, ICON_PRECIPITATION = 1, ICON_UV = 2, ICON_PRESSURE = 3, ICON_SUN = 4, ICON_MOON = 5, ICON_MOON_LARGE = 6, ICON_SUNRISE = 7, ICON_SUNSET = 8 }
     const STARS = 30;
@@ -176,7 +176,7 @@ class WeatherPageRenderer {
         var x = Panels.centreX(index);
         var y = Panels.centreY(index);
         var r = Panels.radius();
-        if (percent != null && skin.panels.gauge) {
+        if (percent != null && skin.panels().gauge) {
             Panels.drawGauge(dc, skin, x, y, r, percent, false);
         }
         Panels.drawContent(dc, skin, x, y, r, _icons.get(iconIndex), value, label, valueColor, labelColor, false);

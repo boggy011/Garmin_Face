@@ -21,7 +21,7 @@ module BatteryIndicator {
     }
 
     function draw(dc as Dc, skin as Skin, width as Number, height as Number) as Void {
-        var battery = skin.battery;
+        var battery = skin.battery();
         if (!battery.visible) {
             return;
         }

@@ -5,7 +5,7 @@ import Toybox.WatchUi;
 
 //! Centre heart rate panel, four readout panels (stress, body battery, pulse ox, HRV) with
 //! rim gauges for the percentages, plus the two arc gauges from settings. Geometry and
-//! colours from skin.health() and skin.panels, values from HealthCache.
+//! colours from skin.health() and skin.panels(), values from HealthCache.
 class HealthPageRenderer {
     enum { ICON_STRESS = 0, ICON_BODY_BATTERY = 1, ICON_SPO2 = 2, ICON_HRV = 3, ICON_HEART = 4 }
 
@@ -75,7 +75,7 @@ class HealthPageRenderer {
         var x = Panels.centreX(index);
         var y = Panels.centreY(index);
         var r = Panels.radius();
-        if (percent != null && skin.panels.gauge) {
+        if (percent != null && skin.panels().gauge) {
             Panels.drawGauge(dc, skin, x, y, r, percent, index == 0);
         }
         Panels.drawContent(dc, skin, x, y, r, _icons.get(iconIndex), value, label, valueColor, labelColor, false);

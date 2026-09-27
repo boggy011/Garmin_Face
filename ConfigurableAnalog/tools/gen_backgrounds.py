@@ -125,31 +125,49 @@ def field(x: float, y: float, seed: int) -> float:
         px = rng.uniform(0, 6.28)
         py = rng.uniform(0, 6.28)
         weight = 1.0 / (1 + i * 0.6)
-        value += weight * math.sin(fx * x + px + 0.8 * math.sin(fy * y)) * math.cos(fy * y + py)
+        value += (
+            weight
+            * math.sin(fx * x + px + 0.8 * math.sin(fy * y))
+            * math.cos(fy * y + py)
+        )
     return (math.tanh(value * 0.9) + 1.0) / 2.0
 
 
+TOPO_BLUR = 1.3
+TOPO_OPACITY = 0.45
+
+
 def topo(size: int, mip: bool) -> Image.Image:
-    """Contour line dial background."""
+    """Contour line dial background: blurred, low opacity iso lines masked to the round display.
+
+    AMOLED keeps the softness as real alpha. MIP has no alpha blending, so the blurred grey is
+    composited on black and dithered to the palette, which reads as faint dotted lines.
+    """
     levels = 26
     grid = [
         [int(field(x / size, y / size, 7) * levels) for x in range(size)]
         for y in range(size)
     ]
-    image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    pixels = image.load()
+    coverage = Image.new("L", (size, size), 0)
+    pixels = coverage.load()
     for y in range(1, size - 1):
         for x in range(1, size - 1):
             level = grid[y][x]
-            if level != grid[y][x - 1] or level != grid[y - 1][x]:
-                shade = (170, 170, 170, 255) if level % 5 == 0 else (85, 85, 85, 255)
-                if pixels is not None:
-                    pixels[x, y] = shade
-    image.putalpha(
-        Image.composite(
-            image.getchannel("A"), Image.new("L", (size, size), 0), circle_mask(size)
-        )
-    )
+            if (
+                level != grid[y][x - 1] or level != grid[y - 1][x]
+            ) and pixels is not None:
+                pixels[x, y] = 255 if level % 5 == 0 else 170
+    coverage = coverage.filter(ImageFilter.GaussianBlur(TOPO_BLUR))
+    mask = circle_mask(size)
+    if not mip:
+        alpha = coverage.point(lambda v: int(v * TOPO_OPACITY))
+        image = Image.new("RGBA", (size, size), (150, 150, 160, 255))
+        image.putalpha(Image.composite(alpha, Image.new("L", (size, size), 0), mask))
+        return image
+    grey = coverage.point(lambda v: int(v * TOPO_OPACITY * 0.8))
+    image = Image.merge("RGBA", (grey, grey, grey, Image.new("L", (size, size), 255)))
+    image = dither_to_palette(image)
+    image.putalpha(mask.point(lambda v: 255 if v >= 128 else 0))
     return image
 
 

@@ -27,6 +27,6 @@ class AltitudeSource extends DataSource {
         }
         var metric = System.getDeviceSettings().elevationUnits == System.UNIT_METRIC;
         var value = metric ? meters : meters * 3.28084;
-        return value.toNumber().toString() + (metric ? " m" : " ft");
+        return value.toNumber().toString() + (metric ? " M" : " FT");
     }
 }

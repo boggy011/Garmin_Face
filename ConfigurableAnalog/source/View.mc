@@ -327,7 +327,7 @@ class FaceView extends WatchUi.WatchFace {
 
     private function effectiveSecondsMode() as Number {
         var skin = _skin;
-        var mode = SkinDefs.SECONDS_MODES[Settings.getSecondsHandMode()];
+        var mode = SkinDefs.secondsMode(Settings.getSecondsHandMode());
         if (mode != null) {
             return mode;
         }

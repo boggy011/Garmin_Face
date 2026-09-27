@@ -469,19 +469,30 @@ CORE_KEYS = (
 )
 
 
-def split_skin(skin_id: str) -> tuple[str, str]:
-    """Split an authored skin JSON into the core and the pages part (compact JSON)."""
+LAYOUT_KEYS = ("dial", "panels", "battery")
+
+
+def split_skin(skin_id: str) -> tuple[str, str, str]:
+    """Split an authored skin JSON into core, layout and pages parts (compact JSON)."""
     data = json.loads(
         (PROJECT_DIR / "resources/skins" / f"{skin_id}.json").read_text(
             encoding="utf-8"
         )
     )
-    core = {key: value for key, value in data.items() if key in CORE_KEYS}
+    core = {
+        key: value
+        for key, value in data.items()
+        if key in CORE_KEYS and key not in LAYOUT_KEYS
+    }
+    layout = {key: value for key, value in data.items() if key in LAYOUT_KEYS}
     pages = {key: value for key, value in data.items() if key not in CORE_KEYS}
     pages["id"] = skin_id
-    return json.dumps(core, separators=(",", ":")) + "\n", json.dumps(
-        pages, separators=(",", ":")
-    ) + "\n"
+    compact = (",", ":")
+    return (
+        json.dumps(core, separators=compact) + "\n",
+        json.dumps(layout, separators=compact) + "\n",
+        json.dumps(pages, separators=compact) + "\n",
+    )
 
 
 def render_skins_xml(cfg: dict[str, Any]) -> str:
@@ -491,12 +502,11 @@ def render_skins_xml(cfg: dict[str, Any]) -> str:
         f"    <!-- {HEADER} Authored skins live in resources/skins/<id>.json. -->",
     ]
     for skin_id in ids(cfg["skins"]):
-        lines.append(
-            f'    <jsonData id="skin_{skin_id}" filename="gen/{skin_id}_core.json"/>'
-        )
-        lines.append(
-            f'    <jsonData id="skin_{skin_id}_pages" filename="gen/{skin_id}_pages.json"/>'
-        )
+        for part in ("", "_layout", "_pages"):
+            file_part = part if part else "_core"
+            lines.append(
+                f'    <jsonData id="skin_{skin_id}{part}" filename="gen/{skin_id}{file_part}.json"/>'
+            )
     lines.append("</jsonDataResources>")
     return "\n".join(lines) + "\n"
 
@@ -508,7 +518,10 @@ def skin_outputs(cfg: dict[str, Any]) -> dict[Path, str]:
     }
     for skin_id in ids(cfg["skins"]):
         if (PROJECT_DIR / "resources/skins" / f"{skin_id}.json").exists():
-            core, pages = split_skin(skin_id)
+            core, layout, pages = split_skin(skin_id)
+            result[PROJECT_DIR / "resources/skins/gen" / f"{skin_id}_layout.json"] = (
+                layout
+            )
             result[PROJECT_DIR / "resources/skins/gen" / f"{skin_id}_core.json"] = core
             result[PROJECT_DIR / "resources/skins/gen" / f"{skin_id}_pages.json"] = (
                 pages

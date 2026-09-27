@@ -26,6 +26,6 @@ class DistanceSource extends DataSource {
         if (!metric) {
             value = value * 0.621371;
         }
-        return value.format("%.1f") + (metric ? " km" : " mi");
+        return value.format("%.1f") + (metric ? " KM" : " MI");
     }
 }

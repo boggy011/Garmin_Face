@@ -18,6 +18,6 @@ class DayOfWeekSource extends DataSource {
 
     function getValue() as String {
         var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-        return info.day_of_week.toString();
+        return info.day_of_week.toString().toUpper();
     }
 }

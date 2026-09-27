@@ -24,8 +24,8 @@ module Panels {
     function layout(skin as Skin, width as Number, height as Number) as Void {
         _width = width;
         _height = height;
-        var panels = skin.panels;
-        var ringPercent = skin.dial.chapterRing ? skin.dial.chapterRingRadius / 2 : 48;
+        var panels = skin.panels();
+        var ringPercent = skin.dial().chapterRing ? skin.dial().chapterRingRadius / 2 : 48;
         var radiusPercent = panels.layoutRadius(ringPercent);
         var offset = (width * radiusPercent / 100 * 707) / 1000;
         var cx = width / 2;
@@ -72,7 +72,7 @@ module Panels {
 
     //! Static frame: fill, one pixel rim, tick marks every 30 degrees.
     function drawFrame(dc as Dc, skin as Skin, x as Number, y as Number, r as Number) as Void {
-        var panels = skin.panels;
+        var panels = skin.panels();
         dc.setColor(skin.resolveColor(panels.fill), Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(x, y, r);
         dc.setPenWidth(1);
@@ -91,7 +91,7 @@ module Panels {
     //! split into the skin's low, medium and high colour bands. reverse swaps the band
     //! colours for metrics where low is good (stress).
     function drawGauge(dc as Dc, skin as Skin, x as Number, y as Number, r as Number, value as Number, reverse as Boolean) as Void {
-        var panels = skin.panels;
+        var panels = skin.panels();
         var v = (value < 0) ? 0 : ((value > 100) ? 100 : value);
         var lowColor = skin.resolveColor(reverse ? panels.gaugeHighColor : panels.gaugeLowColor);
         var highColor = skin.resolveColor(reverse ? panels.gaugeLowColor : panels.gaugeHighColor);
@@ -114,7 +114,7 @@ module Panels {
 
     //! Icon in the upper third, value in the middle, uppercase label in the lower third.
     function drawContent(dc as Dc, skin as Skin, x as Number, y as Number, r as Number, icon as BitmapResource or BitmapReference or Null, value as String, label as String?, valueColor as Number, labelColor as Number, large as Boolean) as Void {
-        var panels = skin.panels;
+        var panels = skin.panels();
         var valueFont = large ? panels.largeValueFont : panels.valueFont;
         if (icon != null || large) {
             dc.setColor(skin.resolveColor(panels.fill), Graphics.COLOR_TRANSPARENT);

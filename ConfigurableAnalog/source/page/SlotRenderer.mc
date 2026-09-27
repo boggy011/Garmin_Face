@@ -50,7 +50,7 @@ class SlotRenderer {
         var labelColor = skin.resolveColor(skin.slotLabelColor);
         if (inPanel) {
             var percent = source.getPercent();
-            if (skin.panels.gauge && percent != null) {
+            if (skin.panels().gauge && percent != null) {
                 Panels.drawGauge(dc, skin, x, y, r, percent, source.getId().equals("Stress"));
             }
             Panels.drawContent(dc, skin, x, y, r, icon, value, label, valueColor, labelColor, false);

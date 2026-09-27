@@ -10,57 +10,117 @@ module SkinDefs {
     enum { SECONDS_ALWAYS = 0, SECONDS_AWAKE_ONLY = 1, SECONDS_NEVER = 2 }
     enum { SHAPE_BATON = 0, SHAPE_DAUPHINE = 1, SHAPE_ARROW = 2, SHAPE_LINE = 3, SHAPE_SKELETON = 4 }
 
-    var NAMED_COLORS as Dictionary<String, Number> = {
-        "COLOR_WHITE" => Graphics.COLOR_WHITE,
-        "COLOR_LT_GRAY" => Graphics.COLOR_LT_GRAY,
-        "COLOR_DK_GRAY" => Graphics.COLOR_DK_GRAY,
-        "COLOR_BLACK" => Graphics.COLOR_BLACK,
-        "COLOR_RED" => Graphics.COLOR_RED,
-        "COLOR_DK_RED" => Graphics.COLOR_DK_RED,
-        "COLOR_ORANGE" => Graphics.COLOR_ORANGE,
-        "COLOR_YELLOW" => Graphics.COLOR_YELLOW,
-        "COLOR_GREEN" => Graphics.COLOR_GREEN,
-        "COLOR_DK_GREEN" => Graphics.COLOR_DK_GREEN,
-        "COLOR_BLUE" => Graphics.COLOR_BLUE,
-        "COLOR_DK_BLUE" => Graphics.COLOR_DK_BLUE,
-        "COLOR_PURPLE" => Graphics.COLOR_PURPLE,
-        "COLOR_PINK" => Graphics.COLOR_PINK,
-        "COLOR_TRANSPARENT" => Graphics.COLOR_TRANSPARENT
-    } as Dictionary<String, Number>;
+    //! Graphics.COLOR_* by name, or null.
+    function namedColor(name as String) as Number? {
+        if (name.equals("COLOR_WHITE")) { return Graphics.COLOR_WHITE; }
+        if (name.equals("COLOR_LT_GRAY")) { return Graphics.COLOR_LT_GRAY; }
+        if (name.equals("COLOR_DK_GRAY")) { return Graphics.COLOR_DK_GRAY; }
+        if (name.equals("COLOR_BLACK")) { return Graphics.COLOR_BLACK; }
+        if (name.equals("COLOR_RED")) { return Graphics.COLOR_RED; }
+        if (name.equals("COLOR_DK_RED")) { return Graphics.COLOR_DK_RED; }
+        if (name.equals("COLOR_ORANGE")) { return Graphics.COLOR_ORANGE; }
+        if (name.equals("COLOR_YELLOW")) { return Graphics.COLOR_YELLOW; }
+        if (name.equals("COLOR_GREEN")) { return Graphics.COLOR_GREEN; }
+        if (name.equals("COLOR_DK_GREEN")) { return Graphics.COLOR_DK_GREEN; }
+        if (name.equals("COLOR_BLUE")) { return Graphics.COLOR_BLUE; }
+        if (name.equals("COLOR_DK_BLUE")) { return Graphics.COLOR_DK_BLUE; }
+        if (name.equals("COLOR_PURPLE")) { return Graphics.COLOR_PURPLE; }
+        if (name.equals("COLOR_PINK")) { return Graphics.COLOR_PINK; }
+        if (name.equals("COLOR_TRANSPARENT")) { return Graphics.COLOR_TRANSPARENT; }
+        return null;
+    }
 
-    var FONTS as Dictionary<String, Graphics.FontDefinition> = {
-        "FONT_XTINY" => Graphics.FONT_XTINY,
-        "FONT_TINY" => Graphics.FONT_TINY,
-        "FONT_SMALL" => Graphics.FONT_SMALL,
-        "FONT_MEDIUM" => Graphics.FONT_MEDIUM,
-        "FONT_LARGE" => Graphics.FONT_LARGE,
-        "FONT_NUMBER_MILD" => Graphics.FONT_NUMBER_MILD,
-        "FONT_NUMBER_MEDIUM" => Graphics.FONT_NUMBER_MEDIUM,
-        "FONT_NUMBER_HOT" => Graphics.FONT_NUMBER_HOT,
-        "FONT_NUMBER_THAI_HOT" => Graphics.FONT_NUMBER_THAI_HOT
-    } as Dictionary<String, Graphics.FontDefinition>;
+    //! Graphics.FONT_* by name, or null.
+    function systemFont(name as String) as Graphics.FontDefinition? {
+        if (name.equals("FONT_XTINY")) { return Graphics.FONT_XTINY; }
+        if (name.equals("FONT_TINY")) { return Graphics.FONT_TINY; }
+        if (name.equals("FONT_SMALL")) { return Graphics.FONT_SMALL; }
+        if (name.equals("FONT_MEDIUM")) { return Graphics.FONT_MEDIUM; }
+        if (name.equals("FONT_LARGE")) { return Graphics.FONT_LARGE; }
+        if (name.equals("FONT_NUMBER_MILD")) { return Graphics.FONT_NUMBER_MILD; }
+        if (name.equals("FONT_NUMBER_MEDIUM")) { return Graphics.FONT_NUMBER_MEDIUM; }
+        if (name.equals("FONT_NUMBER_HOT")) { return Graphics.FONT_NUMBER_HOT; }
+        if (name.equals("FONT_NUMBER_THAI_HOT")) { return Graphics.FONT_NUMBER_THAI_HOT; }
+        return null;
+    }
 
-    var JUSTIFY as Dictionary<String, Graphics.TextJustification> = {
-        "left" => Graphics.TEXT_JUSTIFY_LEFT,
-        "center" => Graphics.TEXT_JUSTIFY_CENTER,
-        "right" => Graphics.TEXT_JUSTIFY_RIGHT
-    } as Dictionary<String, Graphics.TextJustification>;
+    //! Named option to its enum value: hand shapes, numeral styles, seconds modes, textures.
+    function shape(name as String) as Number? {
+        if (name.equals("baton")) { return SHAPE_BATON; }
+        if (name.equals("dauphine")) { return SHAPE_DAUPHINE; }
+        if (name.equals("arrow")) { return SHAPE_ARROW; }
+        if (name.equals("line")) { return SHAPE_LINE; }
+        if (name.equals("skeleton")) { return SHAPE_SKELETON; }
+        return null;
+    }
 
-    var SHAPES as Dictionary<String, Number> = {
-        "baton" => SHAPE_BATON, "dauphine" => SHAPE_DAUPHINE, "arrow" => SHAPE_ARROW, "line" => SHAPE_LINE, "skeleton" => SHAPE_SKELETON
-    } as Dictionary<String, Number>;
+    function numeralStyle(name as String) as Number? {
+        if (name.equals("none")) { return NUMERALS_NONE; }
+        if (name.equals("quarters")) { return NUMERALS_QUARTERS; }
+        if (name.equals("all")) { return NUMERALS_ALL; }
+        return null;
+    }
 
-    var NUMERAL_STYLES as Dictionary<String, Number> = {
-        "none" => NUMERALS_NONE, "quarters" => NUMERALS_QUARTERS, "all" => NUMERALS_ALL
-    } as Dictionary<String, Number>;
+    function secondsMode(name as String) as Number? {
+        if (name.equals("always")) { return SECONDS_ALWAYS; }
+        if (name.equals("awakeOnly")) { return SECONDS_AWAKE_ONLY; }
+        if (name.equals("never")) { return SECONDS_NEVER; }
+        return null;
+    }
 
-    var TEXTURES as Dictionary<String, Number> = {
-        "none" => 0, "sunburst" => 1, "concentricRings" => 2, "crosshatch" => 3, "dotGrid" => 4, "topo" => 5
-    } as Dictionary<String, Number>;
+    function texture(name as String) as Number? {
+        if (name.equals("none")) { return 0; }
+        if (name.equals("sunburst")) { return 1; }
+        if (name.equals("concentricRings")) { return 2; }
+        if (name.equals("crosshatch")) { return 3; }
+        if (name.equals("dotGrid")) { return 4; }
+        if (name.equals("topo")) { return 5; }
+        return null;
+    }
 
-    var SECONDS_MODES as Dictionary<String, Number> = {
-        "always" => SECONDS_ALWAYS, "awakeOnly" => SECONDS_AWAKE_ONLY, "never" => SECONDS_NEVER
-    } as Dictionary<String, Number>;
+    function shapeOption(d as Dictionary, key as String, fallback as Number) as Number {
+        var value = d[key];
+        if (value instanceof String) {
+            var found = shape(value);
+            if (found != null) {
+                return found;
+            }
+        }
+        return fallback;
+    }
+
+    function numeralStyleOption(d as Dictionary, key as String, fallback as Number) as Number {
+        var value = d[key];
+        if (value instanceof String) {
+            var found = numeralStyle(value);
+            if (found != null) {
+                return found;
+            }
+        }
+        return fallback;
+    }
+
+    function secondsModeOption(d as Dictionary, key as String, fallback as Number) as Number {
+        var value = d[key];
+        if (value instanceof String) {
+            var found = secondsMode(value);
+            if (found != null) {
+                return found;
+            }
+        }
+        return fallback;
+    }
+
+    function textureOption(d as Dictionary, key as String, fallback as Number) as Number {
+        var value = d[key];
+        if (value instanceof String) {
+            var found = texture(value);
+            if (found != null) {
+                return found;
+            }
+        }
+        return fallback;
+    }
 
     function dict(d as Dictionary, key as String) as Dictionary {
         var value = d[key];
@@ -125,7 +185,7 @@ module SkinDefs {
             if (value.equals("accent")) {
                 return ACCENT_REF;
             }
-            var named = NAMED_COLORS[value];
+            var named = namedColor(value);
             if (named != null) {
                 return named;
             }
@@ -157,7 +217,7 @@ module SkinDefs {
     function font(d as Dictionary, key as String, fallback as Graphics.FontType) as Graphics.FontType {
         var value = d[key];
         if (value instanceof String) {
-            var found = FONTS[value];
+            var found = systemFont(value);
             if (found != null) {
                 return found;
             }
@@ -177,23 +237,14 @@ module SkinDefs {
     function justify(d as Dictionary, key as String) as Graphics.TextJustification {
         var value = d[key];
         if (value instanceof String) {
-            var found = JUSTIFY[value];
-            if (found != null) {
-                return found;
+            if (value.equals("left")) {
+                return Graphics.TEXT_JUSTIFY_LEFT;
+            }
+            if (value.equals("right")) {
+                return Graphics.TEXT_JUSTIFY_RIGHT;
             }
         }
         return Graphics.TEXT_JUSTIFY_CENTER;
-    }
-
-    function lookup(table as Dictionary<String, Number>, d as Dictionary, key as String, fallback as Number) as Number {
-        var value = d[key];
-        if (value instanceof String) {
-            var found = table[value];
-            if (found != null) {
-                return found;
-            }
-        }
-        return fallback;
     }
 }
 
@@ -210,7 +261,7 @@ class HandSpec {
         length = SkinDefs.flt(d, "length", defaultLength);
         width = SkinDefs.num(d, "width", defaultWidth);
         color = SkinDefs.color(d, "color", Graphics.COLOR_WHITE);
-        shape = SkinDefs.lookup(SkinDefs.SHAPES, d, "shape", SkinDefs.SHAPE_BATON);
+        shape = SkinDefs.shapeOption(d, "shape", SkinDefs.SHAPE_BATON);
         tail = SkinDefs.flt(d, "tail", 0.1);
         counterweight = SkinDefs.num(d, "counterweight", 0);
     }
@@ -261,9 +312,9 @@ class Skin {
     var _weather as WeatherSkin?;
     var _health as HealthSkin?;
     var _effects as EffectsSkin?;
-    var dial as DialSkin;
-    var panels as PanelSkin;
-    var battery as BatterySkin;
+    var _dial as DialSkin?;
+    var _panels as PanelSkin?;
+    var _battery as BatterySkin?;
 
     function initialize(d as Dictionary) {
         id = SkinDefs.str(d, "id", "unknown");
@@ -288,7 +339,7 @@ class Skin {
         tickMinorWidth = SkinDefs.num(ticks, "minorWidth", 1);
 
         var numerals = SkinDefs.dict(d, "numerals");
-        numeralStyle = SkinDefs.lookup(SkinDefs.NUMERAL_STYLES, numerals, "style", SkinDefs.NUMERALS_QUARTERS);
+        numeralStyle = SkinDefs.numeralStyleOption(numerals, "style", SkinDefs.NUMERALS_QUARTERS);
         numeralFont = SkinDefs.font(numerals, "font", Graphics.FONT_MEDIUM);
         numeralRadius = SkinDefs.num(numerals, "radius", 76);
 
@@ -297,7 +348,7 @@ class Skin {
         minuteHand = new HandSpec(SkinDefs.dict(hands, "minute"), 0.8, 6);
         secondHand = new HandSpec(SkinDefs.dict(hands, "second"), 0.9, 2);
         capRadius = SkinDefs.num(hands, "capRadius", 4);
-        secondsHandMode = SkinDefs.lookup(SkinDefs.SECONDS_MODES, d, "secondsHandMode", SkinDefs.SECONDS_AWAKE_ONLY);
+        secondsHandMode = SkinDefs.secondsModeOption(d, "secondsHandMode", SkinDefs.SECONDS_AWAKE_ONLY);
 
         var slots = SkinDefs.dict(d, "slots");
         slotFont = SkinDefs.font(slots, "font", Graphics.FONT_TINY);
@@ -312,12 +363,43 @@ class Skin {
         pageIndicatorDotRadius = SkinDefs.flt(indicator, "dotRadius", 1.2);
 
         hitboxPaddingPercent = SkinDefs.num(d, "hitboxPaddingPercent", 15);
-        dial = new DialSkin(SkinDefs.dict(d, "dial"));
-        panels = new PanelSkin(SkinDefs.dict(d, "panels"));
-        battery = new BatterySkin(SkinDefs.dict(d, "battery"));
     }
 
-    //! Second stage: the page blocks, loaded from a separate resource to halve the peak.
+    //! Second stage: dial depth, panels and battery block from the layout resource.
+    function parseLayout(d as Dictionary) as Void {
+        _dial = new DialSkin(SkinDefs.dict(d, "dial"));
+        _panels = new PanelSkin(SkinDefs.dict(d, "panels"));
+        _battery = new BatterySkin(SkinDefs.dict(d, "battery"));
+    }
+
+    function dial() as DialSkin {
+        var value = _dial;
+        if (value == null) {
+            value = new DialSkin({});
+            _dial = value;
+        }
+        return value;
+    }
+
+    function panels() as PanelSkin {
+        var value = _panels;
+        if (value == null) {
+            value = new PanelSkin({});
+            _panels = value;
+        }
+        return value;
+    }
+
+    function battery() as BatterySkin {
+        var value = _battery;
+        if (value == null) {
+            value = new BatterySkin({});
+            _battery = value;
+        }
+        return value;
+    }
+
+    //! Third stage: the page blocks, loaded from a separate resource to keep the peak low.
     function parsePages(d as Dictionary) as Void {
         _weather = new WeatherSkin(SkinDefs.dict(d, "weatherPage"));
         _health = new HealthSkin(SkinDefs.dict(d, "healthPage"));

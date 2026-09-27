@@ -168,7 +168,7 @@ class DialSkin {
     var centreCapFill as Number;
 
     function initialize(d as Dictionary) {
-        texture = SkinDefs.lookup(SkinDefs.TEXTURES, d, "texture", TEXTURE_NONE);
+        texture = SkinDefs.textureOption(d, "texture", TEXTURE_NONE);
         textureColor = SkinDefs.color(d, "textureColor", Graphics.COLOR_DK_GRAY);
         textureSpacing = SkinDefs.num(d, "textureSpacing", 3);
         var ring = SkinDefs.dict(d, "chapterRing");
