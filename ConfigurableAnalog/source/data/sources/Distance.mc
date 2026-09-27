@@ -5,7 +5,7 @@ import Toybox.System;
 
 class DistanceSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Distance, Rez.Drawables.icon_distance);
+        DataSource.initialize(Rez.Strings.src_Distance, Rez.Strings.srcs_Distance, Rez.Drawables.icon_distance);
     }
 
     function getId() as String {

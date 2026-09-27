@@ -14,6 +14,7 @@
     <property id="showMoonPhaseLabel" type="boolean">true</property>
     <property id="effectsEnabled" type="boolean">true</property>
     <property id="effectsOnWristRaiseOnly" type="boolean">true</property>
+    <property id="showColourSwatches" type="boolean">false</property>
     <property id="page1type" type="number">0</property>
     <property id="page2type" type="number">1</property>
     <property id="page3type" type="number">2</property>
@@ -23,7 +24,7 @@
     <property id="page1slot1" type="number">2</property>
     <property id="page1slot2" type="number">3</property>
     <property id="page1slot3" type="number">1</property>
-    <property id="page1slot4" type="number">4</property>
+    <property id="page1slot4" type="number">19</property>
     <property id="page1slot5" type="number">6</property>
     <property id="page2slot1" type="number">12</property>
     <property id="page2slot2" type="number">13</property>

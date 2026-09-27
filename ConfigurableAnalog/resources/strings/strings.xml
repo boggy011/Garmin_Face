@@ -9,4 +9,13 @@
     <string id="moon_phase_5">Waning gibbous</string>
     <string id="moon_phase_6">Last quarter</string>
     <string id="moon_phase_7">Waning crescent</string>
+    <string id="lbl_temperature">TEMP</string>
+    <string id="lbl_precipitation">RAIN</string>
+    <string id="lbl_uv">UV</string>
+    <string id="lbl_pressure">PRESS</string>
+    <string id="lbl_bpm">BPM</string>
+    <string id="lbl_stress">STRESS</string>
+    <string id="lbl_body_battery">BODY</string>
+    <string id="lbl_spo2">SPO2</string>
+    <string id="lbl_hrv">HRV</string>
 </strings>

@@ -4,7 +4,7 @@ import Toybox.System;
 
 class SolarIntensitySource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_SolarIntensity, Rez.Drawables.icon_solarintensity);
+        DataSource.initialize(Rez.Strings.src_SolarIntensity, Rez.Strings.srcs_SolarIntensity, Rez.Drawables.icon_solarintensity);
     }
 
     function getId() as String {

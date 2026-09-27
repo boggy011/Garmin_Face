@@ -5,8 +5,6 @@ import Toybox.WatchUi;
 //! Draws slot values at skin defined positions and the page indicator.
 //! Records each slot's bounding box for tap hit testing in the on-device editor.
 class SlotRenderer {
-    private const ICON_GAP = 4;
-
     private var _width as Number;
     private var _height as Number;
     private var _boxes as Array<Array<Number>>;
@@ -21,45 +19,43 @@ class SlotRenderer {
         _boxes = boxes;
     }
 
-    //! Draw one slot. When suppressed is true only the bounding box is updated
-    //! (the editor draws the highlighted slot itself).
-    function drawSlot(dc as Dc, skin as Skin, index as Number, source as DataSource, suppressed as Boolean) as Void {
-        var x = _width * skin.slotX[index] / 100;
-        var y = _height * skin.slotY[index] / 100;
-        var w = _width * skin.slotW[index] / 100;
-        var align = skin.slotAlign[index];
-        var font = skin.slotFont;
-        var fontHeight = dc.getFontHeight(font);
-        var labelHeight = skin.showLabels ? dc.getFontHeight(skin.slotLabelFont) : 0;
-
+    //! Draw one slot: slots one to four inside their diagonal panel (icon, value, label, optional
+    //! gauge for percentage sources), slot five as a compact stack below. When suppressed is true
+    //! only the bounding box and press region are updated (the editor draws the slot itself).
+    function drawSlot(dc as Dc, skin as Skin, pageIndex as Number, index as Number, source as DataSource, suppressed as Boolean) as Void {
+        var x = Panels.centreX(index);
+        var y = Panels.centreY(index);
+        var inPanel = index < Panels.OUTER_COUNT;
+        var r = Panels.radius();
+        var w = inPanel ? 2 * r : Panels.fifthWidth();
+        var h = inPanel ? 2 * r : dc.getFontHeight(skin.slotFont) + dc.getFontHeight(skin.slotLabelFont);
         var box = _boxes[index];
-        box[0] = (align == Graphics.TEXT_JUSTIFY_LEFT) ? x : ((align == Graphics.TEXT_JUSTIFY_RIGHT) ? x - w : x - w / 2);
-        box[1] = y - fontHeight / 2;
+        box[0] = x - w / 2;
+        box[1] = y - h / 2;
         box[2] = w;
-        box[3] = fontHeight + labelHeight;
+        box[3] = h;
+        var target = inPanel ? Panels.targetSide() : w;
+        Regions.register(SettingsKeys.complicationUid(pageIndex, index), x, y, target, inPanel ? target : h, ComplicationLaunch.idForType(source.getComplicationType()));
         if (suppressed) {
             return;
         }
-
         var value = source.isSupported() ? source.getValue() : Sources.PLACEHOLDER;
         var icon = skin.showIcons ? source.getIcon() : null;
-        var textX = x;
-        if (icon != null) {
-            var iconWidth = icon.getWidth();
-            var textWidth = dc.getTextWidthInPixels(value, font);
-            var total = iconWidth + ICON_GAP + textWidth;
-            var left = (align == Graphics.TEXT_JUSTIFY_LEFT) ? x : ((align == Graphics.TEXT_JUSTIFY_RIGHT) ? x - total : x - total / 2);
-            dc.drawBitmap(left, y - icon.getHeight() / 2, icon);
-            textX = left + iconWidth + ICON_GAP;
-            dc.setColor(skin.resolveColor(skin.slotValueColor), Graphics.COLOR_TRANSPARENT);
-            dc.drawText(textX, y, font, value, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-        } else {
-            dc.setColor(skin.resolveColor(skin.slotValueColor), Graphics.COLOR_TRANSPARENT);
-            dc.drawText(textX, y, font, value, align | Graphics.TEXT_JUSTIFY_VCENTER);
+        var label = (skin.showLabels && !source.getId().equals(SettingsKeys.EMPTY_SOURCE_ID)) ? source.getShortLabel() : null;
+        var dynamicLabel = source.getDynamicLabel();
+        if (dynamicLabel != null && label != null) {
+            label = dynamicLabel;
         }
-        if (skin.showLabels) {
-            dc.setColor(skin.resolveColor(skin.slotLabelColor), Graphics.COLOR_TRANSPARENT);
-            dc.drawText(x, y + fontHeight / 2 + labelHeight / 2, skin.slotLabelFont, source.getLabel(), align | Graphics.TEXT_JUSTIFY_VCENTER);
+        var valueColor = skin.resolveColor(skin.slotValueColor);
+        var labelColor = skin.resolveColor(skin.slotLabelColor);
+        if (inPanel) {
+            var percent = source.getPercent();
+            if (skin.panels.gauge && percent != null) {
+                Panels.drawGauge(dc, skin, x, y, r, percent, source.getId().equals("Stress"));
+            }
+            Panels.drawContent(dc, skin, x, y, r, icon, value, label, valueColor, labelColor, false);
+        } else {
+            Panels.drawContent(dc, skin, x, y, h / 2, null, value, label, valueColor, labelColor, false);
         }
     }
 
@@ -109,20 +105,22 @@ class SlotRenderer {
 class SlotHighlightDrawable extends WatchUi.Drawable {
     private var _renderer as SlotRenderer;
     private var _skin as Skin;
+    private var _pageIndex as Number;
     private var _index as Number;
     private var _source as DataSource;
 
-    function initialize(renderer as SlotRenderer, skin as Skin, index as Number, source as DataSource) {
+    function initialize(renderer as SlotRenderer, skin as Skin, pageIndex as Number, index as Number, source as DataSource) {
         var box = renderer.getBox(index);
         Drawable.initialize({:locX => box[0], :locY => box[1], :width => box[2], :height => box[3]});
         _renderer = renderer;
         _skin = skin;
+        _pageIndex = pageIndex;
         _index = index;
         _source = source;
     }
 
     function draw(dc as Dc) as Void {
-        _renderer.drawSlot(dc, _skin, _index, _source, false);
+        _renderer.drawSlot(dc, _skin, _pageIndex, _index, _source, false);
     }
 
     function getBoundingBox() as Graphics.BoundingBox {

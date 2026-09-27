@@ -3,6 +3,7 @@
     <!-- fenix8solar51mm: 280 px screen, MIP, 64 colour quantised -->
     <bitmap id="ic_sun" filename="ic_sun.png"/>
     <bitmap id="ic_moon" filename="ic_moon.png"/>
+    <bitmap id="ic_moon_large" filename="ic_moon_large.png"/>
     <bitmap id="ic_clear" filename="ic_clear.png"/>
     <bitmap id="ic_partly_cloudy" filename="ic_partly_cloudy.png"/>
     <bitmap id="ic_cloudy" filename="ic_cloudy.png"/>

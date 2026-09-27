@@ -3,7 +3,7 @@ import Toybox.Lang;
 
 class EmptySource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Empty, null);
+        DataSource.initialize(Rez.Strings.src_Empty, Rez.Strings.srcs_Empty, null);
     }
 
     function getId() as String {

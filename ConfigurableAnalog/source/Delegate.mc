@@ -2,32 +2,6 @@ import Toybox.Application.WatchFaceConfig;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Tap regions on the dial that are not data slots.
-module HitRegions {
-    const CENTER = 1;
-    const CENTER_DIAMETER_PERCENT = 30;
-
-    var _cx as Number = 0;
-    var _cy as Number = 0;
-    var _radiusSquared as Number = 0;
-
-    function configure(width as Number, height as Number) as Void {
-        _cx = width / 2;
-        _cy = height / 2;
-        var radius = width * CENTER_DIAMETER_PERCENT / 200;
-        _radiusSquared = radius * radius;
-    }
-
-    function contains(id as Number, x as Number, y as Number) as Boolean {
-        if (id == CENTER) {
-            var dx = x - _cx;
-            var dy = y - _cy;
-            return dx * dx + dy * dy <= _radiusSquared;
-        }
-        return false;
-    }
-}
-
 //! Input handling: hold on the dial centre cycles pages, editor callbacks map slots.
 class FaceDelegate extends WatchUi.WatchFaceDelegate {
     private var _view as FaceView;
@@ -39,13 +13,21 @@ class FaceDelegate extends WatchUi.WatchFaceDelegate {
         _editMode = editMode;
     }
 
-    //! Touch and hold. Inside the centre region cycles to the next page.
+    //! Touch and hold. The centre region cycles pages, any other registered region opens
+    //! the native app of its complication.
     function onPress(clickEvent as ClickEvent) as Boolean {
         var coords = clickEvent.getCoordinates();
-        if (HitRegions.contains(HitRegions.CENTER, coords[0], coords[1])) {
+        if (Regions.centerContains(coords[0], coords[1])) {
             _view.nextPage();
             WatchUi.requestUpdate();
             return true;
+        }
+        var regionId = Regions.hitTest(coords[0], coords[1]);
+        if (regionId != null) {
+            var launch = Regions.launchIdFor(regionId);
+            if (launch != null && ComplicationLaunch.launch(launch)) {
+                return true;
+            }
         }
         return false;
     }

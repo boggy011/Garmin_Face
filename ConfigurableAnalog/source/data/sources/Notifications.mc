@@ -4,7 +4,7 @@ import Toybox.System;
 
 class NotificationsSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Notifications, Rez.Drawables.icon_notifications);
+        DataSource.initialize(Rez.Strings.src_Notifications, Rez.Strings.srcs_Notifications, Rez.Drawables.icon_notifications);
     }
 
     function getId() as String {

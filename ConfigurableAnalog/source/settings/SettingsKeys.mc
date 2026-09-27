@@ -34,6 +34,8 @@ module SettingsKeys {
     const EFFECTS_ENABLED_DEFAULT = true;
     const EFFECTS_ON_WRIST_RAISE_ONLY = "effectsOnWristRaiseOnly";
     const EFFECTS_ON_WRIST_RAISE_ONLY_DEFAULT = true;
+    const SHOW_COLOUR_SWATCHES = "showColourSwatches";
+    const SHOW_COLOUR_SWATCHES_DEFAULT = false;
     const MAX_PAGES = 6;
     const SLOTS_PER_PAGE = 5;
     const DEFAULT_PAGE_COUNT = 3;
@@ -43,26 +45,38 @@ module SettingsKeys {
     //! Ordered as in sources.yaml. Phone settings store indices into these lists, so only append.
     var SKIN_IDS as Array<String> = ["classic", "minimal", "sport"];
     var SECONDS_HAND_MODES as Array<String> = ["skin", "always", "awakeOnly", "never"];
-    var SOURCE_IDS as Array<String> = ["Empty", "Battery", "Steps", "HeartRate", "Date", "DayOfWeek", "BodyBattery", "Stress", "Calories", "Distance", "FloorsClimbed", "Notifications", "Weather", "Sunrise", "Sunset", "SecondTimeZone", "Altitude", "SolarIntensity", "ActiveMinutes"];
+    var SOURCE_IDS as Array<String> = ["Empty", "Battery", "Steps", "HeartRate", "Date", "DayOfWeek", "BodyBattery", "Stress", "Calories", "Distance", "FloorsClimbed", "Notifications", "Weather", "Sunrise", "Sunset", "SecondTimeZone", "Altitude", "SolarIntensity", "ActiveMinutes", "NextEvent"];
     var PAGE_TYPE_IDS as Array<String> = ["generic", "weather", "health"];
-    var PAGE_TYPE_KEYS as Array<String> = ["page1type", "page2type", "page3type", "page4type", "page5type", "page6type"];
     var DEFAULT_PAGE_TYPES as Array<String> = ["generic", "weather", "health", "generic", "generic", "generic"];
-    var SLOT_KEYS as Array<Array<String>> = [
-        ["page1slot1", "page1slot2", "page1slot3", "page1slot4", "page1slot5"],
-        ["page2slot1", "page2slot2", "page2slot3", "page2slot4", "page2slot5"],
-        ["page3slot1", "page3slot2", "page3slot3", "page3slot4", "page3slot5"],
-        ["page4slot1", "page4slot2", "page4slot3", "page4slot4", "page4slot5"],
-        ["page5slot1", "page5slot2", "page5slot3", "page5slot4", "page5slot5"],
-        ["page6slot1", "page6slot2", "page6slot3", "page6slot4", "page6slot5"],
+    //! Default source index (into SOURCE_IDS) per page and slot.
+    var DEFAULT_SLOTS as Array<Array<Number>> = [
+        [2, 3, 1, 19, 6],
+        [12, 13, 14, 11, 15],
+        [8, 9, 10, 7, 18],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
     ];
-    var DEFAULT_SLOTS as Array<Array<String>> = [
-        ["Steps", "HeartRate", "Battery", "Date", "BodyBattery"],
-        ["Weather", "Sunrise", "Sunset", "Notifications", "SecondTimeZone"],
-        ["Calories", "Distance", "FloorsClimbed", "Stress", "ActiveMinutes"],
-        ["Empty", "Empty", "Empty", "Empty", "Empty"],
-        ["Empty", "Empty", "Empty", "Empty", "Empty"],
-        ["Empty", "Empty", "Empty", "Empty", "Empty"],
-    ];
+
+    //! Property key of a 0-based page and slot (built on demand, only at reload).
+    function slotKey(page as Number, slot as Number) as String {
+        return "page" + (page + 1) + "slot" + (slot + 1);
+    }
+
+    //! Property key of a 0-based page's type.
+    function pageTypeKey(page as Number) as String {
+        return "page" + (page + 1) + "type";
+    }
+
+    //! Default source ids of a 0-based page.
+    function defaultSlotIds(page as Number) as Array<String> {
+        var row = DEFAULT_SLOTS[page];
+        var result = [] as Array<String>;
+        for (var i = 0; i < row.size(); i++) {
+            result.add(SOURCE_IDS[row[i]]);
+        }
+        return result;
+    }
 
     //! On-device editor complication id for a 0-based page and slot.
     function complicationUid(page as Number, slot as Number) as Number {

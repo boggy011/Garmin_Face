@@ -1,0 +1,16 @@
+# Bitmap font pipeline input for tools/gen_fonts.py.
+# Each font is rendered per device from a TTF in assets/fonts at a pixel size that is
+# percent of the screen width. Resource id is the key, referenced from skins as "@<key>".
+fonts:
+  Value:
+    ttf: Rajdhani-SemiBold.ttf
+    percent: 8.8
+    chars: "0123456789:%°-.,/ "
+  ValueLarge:
+    ttf: Rajdhani-SemiBold.ttf
+    percent: 18
+    chars: "0123456789:%°-. "
+  Label:
+    ttf: Montserrat-SemiBold.ttf
+    percent: 4.2
+    chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .:%/-"

@@ -59,6 +59,11 @@ class HealthCache {
         hrv = Sources.formatNumber(hrvValue);
     }
 
+    //! Id of the HRV complication found at startup, for launch regions. Null when absent.
+    function getHrvComplicationId() as Complications.Id? {
+        return _hrvId;
+    }
+
     //! Numeric value of a metric id for the arc gauges, null when unavailable.
     function gaugeValue(metric as String) as Number? {
         if (metric.equals(HealthMetrics.BODY_BATTERY)) {

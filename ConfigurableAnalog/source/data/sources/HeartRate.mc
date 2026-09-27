@@ -5,7 +5,7 @@ import Toybox.ActivityMonitor;
 
 class HeartRateSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_HeartRate, Rez.Drawables.icon_heartrate);
+        DataSource.initialize(Rez.Strings.src_HeartRate, Rez.Strings.srcs_HeartRate, Rez.Drawables.icon_heartrate);
     }
 
     function getId() as String {

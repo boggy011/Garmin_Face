@@ -65,17 +65,15 @@ function testSkinJsonParsing(logger as Logger) as Boolean {
     var skin = SkinRegistry.load("classic");
     Test.assertEqualMessage(skin.id, "classic", "id parsed");
     Test.assertEqualMessage(skin.backgroundColor, Graphics.COLOR_BLACK, "named colour parsed");
-    Test.assertEqualMessage(skin.hourHand.shape, SkinDefs.SHAPE_BATON, "hand shape parsed");
+    Test.assertEqualMessage(skin.hourHand.shape, SkinDefs.SHAPE_SKELETON, "hand shape parsed");
     Test.assertEqualMessage(skin.secondHand.color, SkinDefs.ACCENT_REF, "accent reference parsed");
     Test.assertEqualMessage(skin.resolveColor(skin.secondHand.color), Graphics.COLOR_RED, "accent resolves to skin accent");
-    Test.assertEqualMessage(skin.slotX.size(), 5, "five slot positions");
     Test.assertEqualMessage(skin.secondsHandMode, SkinDefs.SECONDS_AWAKE_ONLY, "seconds mode parsed");
     Test.assertEqualMessage(SkinDefs.parseColor("0xFF5500", 0), 0xFF5500, "hex string parsed");
     Test.assertEqualMessage(SkinDefs.parseColor("bogus", 7), 7, "unknown colour falls back");
     var fallback = SkinRegistry.load("no-such-skin");
     Test.assertEqualMessage(fallback.id, SettingsKeys.DEFAULT_SKIN_ID, "unknown skin id loads the default skin");
     var bare = new Skin({});
-    Test.assertEqualMessage(bare.slotX.size(), 5, "empty definition still has five slots");
     Test.assertEqualMessage(bare.numeralStyle, SkinDefs.NUMERALS_QUARTERS, "empty definition uses defaults");
     return true;
 }
@@ -85,7 +83,7 @@ function testMemoryBudget(logger as Logger) as Boolean {
     DataSourceRegistry.init();
     var skin = SkinRegistry.load("sport");
     var manager = new PageManager();
-    manager.rebuildWith(SettingsKeys.DEFAULT_SLOTS);
+    manager.rebuildWith([SettingsKeys.defaultSlotIds(0), SettingsKeys.defaultSlotIds(1), SettingsKeys.defaultSlotIds(2)] as Array<Array<String>>);
     var stats = System.getSystemStats();
     logger.debug("skin " + skin.id + ", memory used " + stats.usedMemory + " of " + stats.totalMemory + " bytes, free " + stats.freeMemory);
     Test.assertMessage(stats.freeMemory > 8192, "at least 8 KB free after loading a skin and every page");
@@ -118,13 +116,13 @@ function testPageRenderersDrawEveryPageType(logger as Logger) as Boolean {
     WeatherCache.refresh(now);
     var pages = new PageManager();
     var types = [PageTypes.GENERIC, PageTypes.WEATHER, PageTypes.HEALTH] as Array<Number>;
-    var slots = [SettingsKeys.DEFAULT_SLOTS[0], SettingsKeys.DEFAULT_SLOTS[1], SettingsKeys.DEFAULT_SLOTS[2]] as Array<Array<String>>;
+    var slots = [SettingsKeys.defaultSlotIds(0), SettingsKeys.defaultSlotIds(1), SettingsKeys.defaultSlotIds(2)] as Array<Array<String>>;
     pages.rebuildTyped(types, slots);
     for (var i = 0; i < 3; i++) {
         pages.setIndex(i);
         var page = pages.getCurrentPage();
         Test.assertEqualMessage(page.getType(), types[i], "page " + i + " has the requested type");
-        renderer.drawStatic(dc, skin, page);
+        renderer.drawStatic(dc, skin, page, false);
         renderer.draw(dc, skin, page, pages, null, now, health);
     }
     logger.debug("weather category " + WeatherCache.category + ", moon phase " + WeatherCache.moonPhase + " (" + WeatherCache.moonPhaseLabel + "), rise " + WeatherCache.moonRise + " set " + WeatherCache.moonSet);

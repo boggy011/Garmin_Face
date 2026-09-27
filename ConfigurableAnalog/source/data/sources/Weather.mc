@@ -5,7 +5,7 @@ import Toybox.Weather;
 
 class WeatherSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Weather, Rez.Drawables.icon_weather);
+        DataSource.initialize(Rez.Strings.src_Weather, Rez.Strings.srcs_Weather, Rez.Drawables.icon_weather);
     }
 
     function getId() as String {

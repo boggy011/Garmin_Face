@@ -76,12 +76,15 @@ module Sources {
 //! where relevant, isSupported and getComplicationType.
 class DataSource {
     private var _labelRez as ResourceId;
+    private var _shortRez as ResourceId;
     private var _iconRez as ResourceId?;
     private var _label as String?;
+    private var _short as String?;
     private var _icon as BitmapResource or BitmapReference or Null;
 
-    function initialize(labelRez as ResourceId, iconRez as ResourceId?) {
+    function initialize(labelRez as ResourceId, shortRez as ResourceId, iconRez as ResourceId?) {
         _labelRez = labelRez;
+        _shortRez = shortRez;
         _iconRez = iconRez;
     }
 
@@ -96,6 +99,16 @@ class DataSource {
         if (label == null) {
             label = WatchUi.loadResource(_labelRez) as String;
             _label = label;
+        }
+        return label;
+    }
+
+    //! Short uppercase label for panels, loaded once.
+    function getShortLabel() as String {
+        var label = _short;
+        if (label == null) {
+            label = WatchUi.loadResource(_shortRez) as String;
+            _short = label;
         }
         return label;
     }
@@ -126,6 +139,16 @@ class DataSource {
 
     //! System complication type the on-device editor maps to this source, or null.
     function getComplicationType() as Complications.Type? {
+        return null;
+    }
+
+    //! Label that changes with the value (for example an event title), or null for the static one.
+    function getDynamicLabel() as String? {
+        return null;
+    }
+
+    //! 0..100 value for a rim gauge when the source is a percentage, else null.
+    function getPercent() as Number? {
         return null;
     }
 }

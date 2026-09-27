@@ -34,6 +34,7 @@ module DataSourceRegistry {
         register(new AltitudeSource());
         register(new SolarIntensitySource());
         register(new ActiveMinutesSource());
+        register(new NextEventSource());
     }
 
     function register(source as DataSource) as Void {

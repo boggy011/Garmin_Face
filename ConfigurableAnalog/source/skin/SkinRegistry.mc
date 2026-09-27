@@ -1,20 +1,21 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Maps skin ids to their JSON resources and loads them on demand. Only the active
-//! skin is kept in memory. Style ids for the on-device editor are 1-based positions
-//! in SettingsKeys.SKIN_IDS, which the generated watchface_config.xml uses too.
+//! Maps skin ids to their JSON resources and loads them on demand. Each skin is two
+//! resources (core, pages) parsed one after the other so only half of the definition is
+//! in memory as a dictionary at any time. Only the active skin is kept. Style ids for the
+//! on-device editor are 1-based positions in SettingsKeys.SKIN_IDS.
 module SkinRegistry {
-    var _resources as Dictionary<String, ResourceId>?;
+    var _resources as Dictionary<String, Array<ResourceId>>?;
 
-    function resources() as Dictionary<String, ResourceId> {
+    function resources() as Dictionary<String, Array<ResourceId>> {
         var map = _resources;
         if (map == null) {
             map = {
-                "classic" => Rez.JsonData.skin_classic,
-                "minimal" => Rez.JsonData.skin_minimal,
-                "sport" => Rez.JsonData.skin_sport
-            } as Dictionary<String, ResourceId>;
+                "classic" => [Rez.JsonData.skin_classic, Rez.JsonData.skin_classic_pages] as Array<ResourceId>,
+                "minimal" => [Rez.JsonData.skin_minimal, Rez.JsonData.skin_minimal_pages] as Array<ResourceId>,
+                "sport" => [Rez.JsonData.skin_sport, Rez.JsonData.skin_sport_pages] as Array<ResourceId>
+            } as Dictionary<String, Array<ResourceId>>;
             _resources = map;
         }
         return map;
@@ -25,10 +26,13 @@ module SkinRegistry {
         var map = resources();
         var rez = map[id];
         if (rez == null) {
-            rez = map[SettingsKeys.DEFAULT_SKIN_ID] as ResourceId;
+            rez = map[SettingsKeys.DEFAULT_SKIN_ID] as Array<ResourceId>;
         }
-        var data = WatchUi.loadResource(rez) as Dictionary;
-        return new Skin(data);
+        var skin = new Skin(WatchUi.loadResource(rez[0]) as Dictionary);
+        Probe.mark("core parsed");
+        skin.parsePages(WatchUi.loadResource(rez[1]) as Dictionary);
+        Probe.mark("pages parsed");
+        return skin;
     }
 
     function exists(id as String) as Boolean {

@@ -30,6 +30,7 @@ module Settings {
     var _effectsEnabled as Boolean = SettingsKeys.EFFECTS_ENABLED_DEFAULT;
     var _effectsOnWristRaiseOnly as Boolean = SettingsKeys.EFFECTS_ON_WRIST_RAISE_ONLY_DEFAULT;
     var _weatherRefreshMinutes as Number = SettingsKeys.WEATHER_REFRESH_MINUTES_DEFAULT;
+    var _showColourSwatches as Boolean = SettingsKeys.SHOW_COLOUR_SWATCHES_DEFAULT;
     var _accentOverride as Number?;
     var _dataColorOverride as Number?;
     var _configId as WatchFaceConfig.Id?;
@@ -60,14 +61,14 @@ module Settings {
         for (var p = 0; p < SettingsKeys.MAX_PAGES; p++) {
             var row = [] as Array<String>;
             for (var s = 0; s < SettingsKeys.SLOTS_PER_PAGE; s++) {
-                row.add(coerceSourceId(read(SettingsKeys.SLOT_KEYS[p][s]), SettingsKeys.DEFAULT_SLOTS[p][s]));
+                row.add(coerceSourceId(read(SettingsKeys.slotKey(p, s)), SettingsKeys.SOURCE_IDS[SettingsKeys.DEFAULT_SLOTS[p][s]]));
             }
             slots.add(row);
         }
         _slots = slots;
         var types = [] as Array<Number>;
         for (var p = 0; p < SettingsKeys.MAX_PAGES; p++) {
-            types.add(PageTypes.fromId(coerceChoice(read(SettingsKeys.PAGE_TYPE_KEYS[p]), SettingsKeys.PAGE_TYPE_IDS, SettingsKeys.DEFAULT_PAGE_TYPES[p])));
+            types.add(PageTypes.fromId(coerceChoice(read(SettingsKeys.pageTypeKey(p)), SettingsKeys.PAGE_TYPE_IDS, SettingsKeys.DEFAULT_PAGE_TYPES[p])));
         }
         _pageTypes = types;
         _pressureUnit = coerceChoice(read(SettingsKeys.PRESSURE_UNIT), SettingsKeys.PRESSURE_UNIT_OPTIONS, SettingsKeys.PRESSURE_UNIT_DEFAULT);
@@ -78,6 +79,7 @@ module Settings {
         _showMoonPhaseLabel = coerceBoolean(read(SettingsKeys.SHOW_MOON_PHASE_LABEL), SettingsKeys.SHOW_MOON_PHASE_LABEL_DEFAULT);
         _effectsEnabled = coerceBoolean(read(SettingsKeys.EFFECTS_ENABLED), SettingsKeys.EFFECTS_ENABLED_DEFAULT);
         _effectsOnWristRaiseOnly = coerceBoolean(read(SettingsKeys.EFFECTS_ON_WRIST_RAISE_ONLY), SettingsKeys.EFFECTS_ON_WRIST_RAISE_ONLY_DEFAULT);
+        _showColourSwatches = coerceBoolean(read(SettingsKeys.SHOW_COLOUR_SWATCHES), SettingsKeys.SHOW_COLOUR_SWATCHES_DEFAULT);
         _weatherRefreshMinutes = coerceNumber(
             read(SettingsKeys.WEATHER_REFRESH_MINUTES),
             SettingsKeys.WEATHER_REFRESH_MINUTES_MIN,
@@ -178,7 +180,7 @@ module Settings {
             Properties.setValue(SettingsKeys.SKIN_ID, SettingsKeys.SKIN_IDS.indexOf(_skinId));
             for (var p = 0; p < SettingsKeys.MAX_PAGES; p++) {
                 for (var s = 0; s < SettingsKeys.SLOTS_PER_PAGE; s++) {
-                    Properties.setValue(SettingsKeys.SLOT_KEYS[p][s], SettingsKeys.SOURCE_IDS.indexOf(_slots[p][s]));
+                    Properties.setValue(SettingsKeys.slotKey(p, s), SettingsKeys.SOURCE_IDS.indexOf(_slots[p][s]));
                 }
             }
         } catch (e) {
@@ -246,6 +248,11 @@ module Settings {
 
     function getWeatherRefreshMinutes() as Number {
         return _weatherRefreshMinutes;
+    }
+
+    //! Debug: draw the 64 colour palette grid over the face.
+    function getShowColourSwatches() as Boolean {
+        return _showColourSwatches;
     }
 
     //! "skin", "always", "awakeOnly" or "never".

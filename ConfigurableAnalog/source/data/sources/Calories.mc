@@ -4,7 +4,7 @@ import Toybox.ActivityMonitor;
 
 class CaloriesSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Calories, Rez.Drawables.icon_calories);
+        DataSource.initialize(Rez.Strings.src_Calories, Rez.Strings.srcs_Calories, Rez.Drawables.icon_calories);
     }
 
     function getId() as String {

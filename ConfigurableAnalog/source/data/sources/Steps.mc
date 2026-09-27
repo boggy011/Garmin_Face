@@ -4,7 +4,7 @@ import Toybox.ActivityMonitor;
 
 class StepsSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Steps, Rez.Drawables.icon_steps);
+        DataSource.initialize(Rez.Strings.src_Steps, Rez.Strings.srcs_Steps, Rez.Drawables.icon_steps);
     }
 
     function getId() as String {

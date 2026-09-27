@@ -5,7 +5,7 @@ import Toybox.Time;
 
 class SecondTimeZoneSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_SecondTimeZone, Rez.Drawables.icon_secondtimezone);
+        DataSource.initialize(Rez.Strings.src_SecondTimeZone, Rez.Strings.srcs_SecondTimeZone, Rez.Drawables.icon_secondtimezone);
     }
 
     function getId() as String {

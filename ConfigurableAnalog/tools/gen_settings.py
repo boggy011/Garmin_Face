@@ -279,6 +279,7 @@ def render_strings(cfg: dict[str, Any]) -> str:
         add(f"ptype_{page_type['id']}", str(page_type["label"]))
     for source in cfg["sources"]:
         add(f"src_{source['id']}", str(source["label"]))
+        add(f"srcs_{source['id']}", str(source.get("short", source["label"])).upper())
     seen: set[str] = set()
     for setting in cfg["choice_settings"]:
         for option in setting["options"]:
@@ -398,21 +399,39 @@ def render_settings_keys(cfg: dict[str, Any]) -> str:
         f"    var PAGE_TYPE_IDS as Array<String> = {mc_string_list(ids(cfg['page_types']))};"
     )
     lines.append(
-        f"    var PAGE_TYPE_KEYS as Array<String> = {mc_string_list([page_type_key(p) for p in range(1, max_pages + 1)])};"
-    )
-    lines.append(
         f"    var DEFAULT_PAGE_TYPES as Array<String> = {mc_string_list(page_types(cfg))};"
     )
-    lines.append("    var SLOT_KEYS as Array<Array<String>> = [")
+    source_index = {
+        source_id: index for index, source_id in enumerate(ids(cfg["sources"]))
+    }
+    lines.append("    //! Default source index (into SOURCE_IDS) per page and slot.")
+    lines.append("    var DEFAULT_SLOTS as Array<Array<Number>> = [")
     lines += [
-        f"        {mc_string_list([slot_key(page, slot) for slot in range(1, slots + 1)])},"
-        for page in range(1, max_pages + 1)
+        f"        [{', '.join(str(source_index[source]) for source in row)}],"
+        for row in page_defaults(cfg)
     ]
     lines.append("    ];")
-    lines.append("    var DEFAULT_SLOTS as Array<Array<String>> = [")
-    lines += [f"        {mc_string_list(row)}," for row in page_defaults(cfg)]
-    lines.append("    ];")
     lines += [
+        "",
+        "    //! Property key of a 0-based page and slot (built on demand, only at reload).",
+        "    function slotKey(page as Number, slot as Number) as String {",
+        '        return "page" + (page + 1) + "slot" + (slot + 1);',
+        "    }",
+        "",
+        "    //! Property key of a 0-based page's type.",
+        "    function pageTypeKey(page as Number) as String {",
+        '        return "page" + (page + 1) + "type";',
+        "    }",
+        "",
+        "    //! Default source ids of a 0-based page.",
+        "    function defaultSlotIds(page as Number) as Array<String> {",
+        "        var row = DEFAULT_SLOTS[page];",
+        "        var result = [] as Array<String>;",
+        "        for (var i = 0; i < row.size(); i++) {",
+        "            result.add(SOURCE_IDS[row[i]]);",
+        "        }",
+        "        return result;",
+        "    }",
         "",
         "    //! On-device editor complication id for a 0-based page and slot.",
         "    function complicationUid(page as Number, slot as Number) as Number {",
@@ -433,8 +452,79 @@ def render_settings_keys(cfg: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+CORE_KEYS = (
+    "id",
+    "name",
+    "colors",
+    "ticks",
+    "numerals",
+    "hands",
+    "secondsHandMode",
+    "slots",
+    "pageIndicator",
+    "hitboxPaddingPercent",
+    "dial",
+    "panels",
+    "battery",
+)
+
+
+def split_skin(skin_id: str) -> tuple[str, str]:
+    """Split an authored skin JSON into the core and the pages part (compact JSON)."""
+    data = json.loads(
+        (PROJECT_DIR / "resources/skins" / f"{skin_id}.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    core = {key: value for key, value in data.items() if key in CORE_KEYS}
+    pages = {key: value for key, value in data.items() if key not in CORE_KEYS}
+    pages["id"] = skin_id
+    return json.dumps(core, separators=(",", ":")) + "\n", json.dumps(
+        pages, separators=(",", ":")
+    ) + "\n"
+
+
+def render_skins_xml(cfg: dict[str, Any]) -> str:
+    """Render resources/skins/skins.xml pointing at the generated split files."""
+    lines = [
+        f"<jsonDataResources {XML_ROOT}>",
+        f"    <!-- {HEADER} Authored skins live in resources/skins/<id>.json. -->",
+    ]
+    for skin_id in ids(cfg["skins"]):
+        lines.append(
+            f'    <jsonData id="skin_{skin_id}" filename="gen/{skin_id}_core.json"/>'
+        )
+        lines.append(
+            f'    <jsonData id="skin_{skin_id}_pages" filename="gen/{skin_id}_pages.json"/>'
+        )
+    lines.append("</jsonDataResources>")
+    return "\n".join(lines) + "\n"
+
+
+def skin_outputs(cfg: dict[str, Any]) -> dict[Path, str]:
+    """Generated split skin files."""
+    result: dict[Path, str] = {
+        PROJECT_DIR / "resources/skins/skins.xml": render_skins_xml(cfg)
+    }
+    for skin_id in ids(cfg["skins"]):
+        if (PROJECT_DIR / "resources/skins" / f"{skin_id}.json").exists():
+            core, pages = split_skin(skin_id)
+            result[PROJECT_DIR / "resources/skins/gen" / f"{skin_id}_core.json"] = core
+            result[PROJECT_DIR / "resources/skins/gen" / f"{skin_id}_pages.json"] = (
+                pages
+            )
+    return result
+
+
 def outputs(cfg: dict[str, Any]) -> dict[Path, str]:
     """Map every output path to its rendered content."""
+    result = skin_outputs(cfg)
+    result.update(main_outputs(cfg))
+    return result
+
+
+def main_outputs(cfg: dict[str, Any]) -> dict[Path, str]:
+    """Settings, strings, editor config and Monkey C keys."""
     return {
         PROJECT_DIR / "resources/settings/properties.xml": render_properties(cfg),
         PROJECT_DIR / "resources/settings/settings.xml": render_settings(cfg),

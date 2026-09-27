@@ -1,8 +1,8 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 
-//! Rain plus a flash every 4 to 12 seconds: one frame of the top half filled with the
-//! flash colour, then a lightning polyline for two frames.
+//! Rain plus a discreet lightning bolt every 4 to 12 seconds: a thick stroke for one frame,
+//! then a thin one for two frames, no full screen flash.
 class ThunderEffect extends RainEffect {
     const FLASH_FRAMES = 1;
     const BOLT_FRAMES = 2;
@@ -68,13 +68,10 @@ class ThunderEffect extends RainEffect {
         if (skin == null) {
             return;
         }
-        var flash = skin.resolveColor(skin.effects.flashColor);
-        if (_flashFrames > 0) {
+        var flash = skin.resolveColor(skin.effects().flashColor);
+        if (_flashFrames > 0 || _boltFrames > 0) {
             dc.setColor(flash, Graphics.COLOR_TRANSPARENT);
-            dc.fillRectangle(0, 0, _width, _horizon);
-        } else if (_boltFrames > 0) {
-            dc.setColor(flash, Graphics.COLOR_TRANSPARENT);
-            dc.setPenWidth(2);
+            dc.setPenWidth((_flashFrames > 0) ? 3 : 1);
             for (var i = 1; i < BOLT_POINTS; i++) {
                 dc.drawLine(_boltX[i - 1], _boltY[i - 1], _boltX[i], _boltY[i]);
             }

@@ -5,7 +5,7 @@ import Toybox.Time.Gregorian;
 
 class DayOfWeekSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_DayOfWeek, Rez.Drawables.icon_dayofweek);
+        DataSource.initialize(Rez.Strings.src_DayOfWeek, Rez.Strings.srcs_DayOfWeek, Rez.Drawables.icon_dayofweek);
     }
 
     function getId() as String {

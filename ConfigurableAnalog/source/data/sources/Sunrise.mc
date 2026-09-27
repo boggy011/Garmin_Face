@@ -3,7 +3,7 @@ import Toybox.Lang;
 
 class SunriseSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Sunrise, Rez.Drawables.icon_sunrise);
+        DataSource.initialize(Rez.Strings.src_Sunrise, Rez.Strings.srcs_Sunrise, Rez.Drawables.icon_sunrise);
     }
 
     function getId() as String {

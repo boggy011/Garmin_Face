@@ -66,6 +66,9 @@
     <setting propertyKey="@Properties.effectsOnWristRaiseOnly" title="@Strings.set_effectsOnWristRaiseOnly">
         <settingConfig type="boolean"/>
     </setting>
+    <setting propertyKey="@Properties.showColourSwatches" title="@Strings.set_showColourSwatches">
+        <settingConfig type="boolean"/>
+    </setting>
     <group id="page1" title="@Strings.page_1">
         <setting propertyKey="@Properties.page1type" title="@Strings.set_pageType">
             <settingConfig type="list">
@@ -95,6 +98,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot2" title="@Strings.slot_2">
@@ -118,6 +122,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot3" title="@Strings.slot_3">
@@ -141,6 +146,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot4" title="@Strings.slot_4">
@@ -164,6 +170,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot5" title="@Strings.slot_5">
@@ -187,6 +194,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -219,6 +227,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot2" title="@Strings.slot_2">
@@ -242,6 +251,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot3" title="@Strings.slot_3">
@@ -265,6 +275,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot4" title="@Strings.slot_4">
@@ -288,6 +299,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot5" title="@Strings.slot_5">
@@ -311,6 +323,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -343,6 +356,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot2" title="@Strings.slot_2">
@@ -366,6 +380,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot3" title="@Strings.slot_3">
@@ -389,6 +404,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot4" title="@Strings.slot_4">
@@ -412,6 +428,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot5" title="@Strings.slot_5">
@@ -435,6 +452,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -467,6 +485,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot2" title="@Strings.slot_2">
@@ -490,6 +509,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot3" title="@Strings.slot_3">
@@ -513,6 +533,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot4" title="@Strings.slot_4">
@@ -536,6 +557,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot5" title="@Strings.slot_5">
@@ -559,6 +581,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -591,6 +614,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot2" title="@Strings.slot_2">
@@ -614,6 +638,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot3" title="@Strings.slot_3">
@@ -637,6 +662,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot4" title="@Strings.slot_4">
@@ -660,6 +686,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot5" title="@Strings.slot_5">
@@ -683,6 +710,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -715,6 +743,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot2" title="@Strings.slot_2">
@@ -738,6 +767,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot3" title="@Strings.slot_3">
@@ -761,6 +791,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot4" title="@Strings.slot_4">
@@ -784,6 +815,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot5" title="@Strings.slot_5">
@@ -807,6 +839,7 @@
                 <listEntry value="16">@Strings.src_Altitude</listEntry>
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
+                <listEntry value="19">@Strings.src_NextEvent</listEntry>
             </settingConfig>
         </setting>
     </group>

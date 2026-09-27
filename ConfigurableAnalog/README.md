@@ -22,8 +22,8 @@ tools/sources.yaml is the single source of truth for sources, skins, defaults an
 
 1. Copy resources/skins/classic.json to resources/skins/NEWID.json and set "id" to NEWID.
 2. Edit the fields. Colours are Graphics.COLOR_* names, "0xRRGGBB" values from the 64 colour MIP palette (each channel 00, 55, AA or FF), or "accent" to follow the accent colour. Fonts are Graphics.FONT_* names. Positions are percent of the screen. Hand shapes are baton, dauphine, arrow or line. secondsHandMode is always, awakeOnly or never. pageIndicator.visible may be false.
-3. Declare the resource in resources/skins/skins.xml as jsonData id skin_NEWID with filename NEWID.json.
-4. Add the entry "NEWID" to Rez.JsonData.skin_NEWID in source/skin/SkinRegistry.mc.
+3. Run python3 tools/gen_settings.py: it splits the file into resources/skins/gen/NEWID_core.json and NEWID_pages.json and rewrites resources/skins/skins.xml (never edit those three by hand).
+4. Add "NEWID" => [Rez.JsonData.skin_NEWID, Rez.JsonData.skin_NEWID_pages] to source/skin/SkinRegistry.mc.
 5. Append the skin (id and label) to skins in tools/sources.yaml. Append only, phone settings store the position in the list.
 6. Run python3 tools/gen_settings.py and build. The generator rejects colours outside the palette and missing registry entries.
 
@@ -58,6 +58,39 @@ Touch and hold inside the dial centre (a circle of 30 percent of the screen diam
 ## Power
 
 The static dial is drawn once per skin load into a BufferedBitmap with a palette limited to the dial colours. Each minute the view blits the dial, draws slots and hands into a second full screen buffer and copies it to the screen. In low power mode the seconds hand is drawn by onPartialUpdate inside a clip rectangle around the hand, restoring the previous area from the face buffer, only when the effective seconds mode is always. When the system reports the power budget exceeded, partial updates stop. Hand polygons use preallocated point arrays. The only per update allocations are the value strings the data sources format.
+
+## Icons
+
+Page icons are authored as SVG under assets/icons/src (64 px artboard, 2 px strokes, light palette, transparent background) and rasterised per device by tools/gen_icons.py from tools/icons.yaml, which maps every icon to a size group in percent of the screen width. Output goes to resources-DEVICE/drawables/ic_NAME.png plus a generated icons.xml. MIP devices get colours snapped to the 64 colour palette and one bit alpha.
+
+To add an icon:
+
+1. Draw assets/icons/src/NAME.svg in the same style.
+2. Add NAME to icons in tools/icons.yaml with a size group (or add a group).
+3. Run uv run tools/gen_icons.py (uv installs cairosvg, pillow and pyyaml in an isolated environment). Without uv, install cairosvg or rsvg-convert and run python3 tools/gen_icons.py.
+4. Reference Rez.Drawables.ic_NAME from an IconSet in the renderer that needs it.
+
+The generic page slot icons under resources/drawables are plain white SVGs and are not part of this pipeline.
+
+## Pages
+
+Page types are generic (five slots), weather and health, chosen per page with the pageNtype setting. The weather page shows a sun arc and a moon arc (Astronomy.mc computes phase, moonrise and moonset locally), a condition icon and four readouts (temperature, precipitation chance, UV, pressure), refreshed at most every weatherRefreshMinutes into WeatherCache. The health page shows two gauges (healthArcTop, healthArcBottom), heart rate and four readouts, refreshed once per minute into HealthCache. HRV comes from a system complication when the device exposes one. Weather effects (rain, heavy rain, snow, thunder, fog, wind) animate on the weather page while awake, particle counts and frame rate come from the skin's effects block and the effectsIntensity setting.
+
+Holding a readout opens its native app through Complications.exitTo. Regions are registered by the renderers (Regions.mc), never overlap the centre cycling circle, and sized to at least hitboxPaddingPercent of the screen width.
+
+The generic page's NextEvent source reads the system calendar complication (time as the value, event title as the label). Every page carries a small battery readout at the top (skin block battery). Weather effects draw behind the chapter ring, numerals, panel contents and hands.
+
+## Skin options for depth and panels
+
+The dial block of a skin pre renders depth into the cached dial bitmap: texture (none, sunburst, concentricRings, crosshatch, dotGrid), chapterRing (minute track with long fifth marks in the silver numeral colour, optional accentQuadrant 0 to 3), innerBezel, subdialFrames, handShadow and centreCap. Hands may use the shapes baton, dauphine, arrow, line and skeleton (silver outline with a dark cut out); the seconds hand may carry a counterweight.
+
+The panels block defines the circular readout panels: diameter and centreDiameter in percent of the screen, fill, rim and tickColor, gauge on or off with gaugeLow/Medium/High colours and thresholds, spacing, and the fonts (valueFont, largeValueFont, labelFont). Fonts are Graphics.FONT_* names or @Value, @ValueLarge and @Label, the bitmap fonts rendered by tools/gen_fonts.py from tools/fonts.yaml. Panel positions are never written in a skin: PanelSkin.layoutRadius places the four outer panels on the diagonals at a radius that keeps them clear of the centre element, of each other and of the chapter ring, on every screen size.
+
+Colour rule: each skin has one accent colour, used by the seconds hand, the active page dot, the top health arc, the temperature value, the pressure bars above the baseline and the centre cap core. Numerals and major ticks are the silver 0xAAAAAA, the only silver on the 64 colour palette. See docs/design-notes.md for the reasoning and the reference faces.
+
+## Tools
+
+tools/gen_settings.py renders settings, strings, editor config and SettingsKeys.mc from tools/sources.yaml. tools/gen_icons.py rasterises icons. tools/simrun.py runs a .prg in the simulator for a bounded time, prints its console output and takes timed screenshots (uv run tools/simrun.py bin/x.prg fenix8solar51mm --shots "generic@5"). tools/screenshot.py captures the simulator window into docs/screens. probe.jungle builds a variant that cycles pages and forces weather conditions while logging memory and frame times.
 
 ## Tests
 

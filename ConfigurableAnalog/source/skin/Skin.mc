@@ -1,5 +1,6 @@
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.WatchUi;
 
 //! Constants and typed accessors used to turn a skin JSON dictionary into a Skin.
 module SkinDefs {
@@ -7,7 +8,7 @@ module SkinDefs {
 
     enum { NUMERALS_NONE = 0, NUMERALS_QUARTERS = 1, NUMERALS_ALL = 2 }
     enum { SECONDS_ALWAYS = 0, SECONDS_AWAKE_ONLY = 1, SECONDS_NEVER = 2 }
-    enum { SHAPE_BATON = 0, SHAPE_DAUPHINE = 1, SHAPE_ARROW = 2, SHAPE_LINE = 3 }
+    enum { SHAPE_BATON = 0, SHAPE_DAUPHINE = 1, SHAPE_ARROW = 2, SHAPE_LINE = 3, SHAPE_SKELETON = 4 }
 
     var NAMED_COLORS as Dictionary<String, Number> = {
         "COLOR_WHITE" => Graphics.COLOR_WHITE,
@@ -36,12 +37,7 @@ module SkinDefs {
         "FONT_NUMBER_MILD" => Graphics.FONT_NUMBER_MILD,
         "FONT_NUMBER_MEDIUM" => Graphics.FONT_NUMBER_MEDIUM,
         "FONT_NUMBER_HOT" => Graphics.FONT_NUMBER_HOT,
-        "FONT_NUMBER_THAI_HOT" => Graphics.FONT_NUMBER_THAI_HOT,
-        "FONT_SYSTEM_XTINY" => Graphics.FONT_SYSTEM_XTINY,
-        "FONT_SYSTEM_TINY" => Graphics.FONT_SYSTEM_TINY,
-        "FONT_SYSTEM_SMALL" => Graphics.FONT_SYSTEM_SMALL,
-        "FONT_SYSTEM_MEDIUM" => Graphics.FONT_SYSTEM_MEDIUM,
-        "FONT_SYSTEM_LARGE" => Graphics.FONT_SYSTEM_LARGE
+        "FONT_NUMBER_THAI_HOT" => Graphics.FONT_NUMBER_THAI_HOT
     } as Dictionary<String, Graphics.FontDefinition>;
 
     var JUSTIFY as Dictionary<String, Graphics.TextJustification> = {
@@ -51,11 +47,15 @@ module SkinDefs {
     } as Dictionary<String, Graphics.TextJustification>;
 
     var SHAPES as Dictionary<String, Number> = {
-        "baton" => SHAPE_BATON, "dauphine" => SHAPE_DAUPHINE, "arrow" => SHAPE_ARROW, "line" => SHAPE_LINE
+        "baton" => SHAPE_BATON, "dauphine" => SHAPE_DAUPHINE, "arrow" => SHAPE_ARROW, "line" => SHAPE_LINE, "skeleton" => SHAPE_SKELETON
     } as Dictionary<String, Number>;
 
     var NUMERAL_STYLES as Dictionary<String, Number> = {
         "none" => NUMERALS_NONE, "quarters" => NUMERALS_QUARTERS, "all" => NUMERALS_ALL
+    } as Dictionary<String, Number>;
+
+    var TEXTURES as Dictionary<String, Number> = {
+        "none" => 0, "sunburst" => 1, "concentricRings" => 2, "crosshatch" => 3, "dotGrid" => 4
     } as Dictionary<String, Number>;
 
     var SECONDS_MODES as Dictionary<String, Number> = {
@@ -146,12 +146,29 @@ module SkinDefs {
         return parseColor(d[key] as Object?, fallback);
     }
 
-    function font(d as Dictionary, key as String, fallback as Graphics.FontDefinition) as Graphics.FontDefinition {
+    var CUSTOM_FONTS as Dictionary<String, ResourceId> = {
+        "@Value" => Rez.Fonts.Value,
+        "@ValueLarge" => Rez.Fonts.ValueLarge,
+        "@Label" => Rez.Fonts.Label
+    } as Dictionary<String, ResourceId>;
+    var _loadedFonts as Dictionary<String, FontResource> = {} as Dictionary<String, FontResource>;
+
+    //! A Graphics.FONT_* name or a "@Name" bitmap font from the resource build.
+    function font(d as Dictionary, key as String, fallback as Graphics.FontType) as Graphics.FontType {
         var value = d[key];
         if (value instanceof String) {
             var found = FONTS[value];
             if (found != null) {
                 return found;
+            }
+            var custom = CUSTOM_FONTS[value];
+            if (custom != null) {
+                var loaded = _loadedFonts[value];
+                if (loaded == null) {
+                    loaded = WatchUi.loadResource(custom) as FontResource;
+                    _loadedFonts[value] = loaded;
+                }
+                return loaded;
             }
         }
         return fallback;
@@ -187,6 +204,7 @@ class HandSpec {
     var color as Number;
     var shape as Number;
     var tail as Float;
+    var counterweight as Number;
 
     function initialize(d as Dictionary, defaultLength as Float, defaultWidth as Number) {
         length = SkinDefs.flt(d, "length", defaultLength);
@@ -194,13 +212,13 @@ class HandSpec {
         color = SkinDefs.color(d, "color", Graphics.COLOR_WHITE);
         shape = SkinDefs.lookup(SkinDefs.SHAPES, d, "shape", SkinDefs.SHAPE_BATON);
         tail = SkinDefs.flt(d, "tail", 0.1);
+        counterweight = SkinDefs.num(d, "counterweight", 0);
     }
 }
 
 //! A fully parsed skin definition. Every field has a default so a partial JSON still renders.
 class Skin {
     var id as String;
-    var name as String;
 
     var backgroundColor as Number;
     var dialColor as Number;
@@ -220,7 +238,7 @@ class Skin {
     var tickMinorWidth as Number;
 
     var numeralStyle as Number;
-    var numeralFont as Graphics.FontDefinition;
+    var numeralFont as Graphics.FontType;
     var numeralRadius as Number;
 
     var hourHand as HandSpec;
@@ -229,27 +247,26 @@ class Skin {
     var capRadius as Number;
     var secondsHandMode as Number;
 
-    var slotFont as Graphics.FontDefinition;
-    var slotLabelFont as Graphics.FontDefinition;
+    var slotFont as Graphics.FontType;
+    var slotLabelFont as Graphics.FontType;
     var showIcons as Boolean;
     var showLabels as Boolean;
-    var slotX as Array<Number>;
-    var slotY as Array<Number>;
-    var slotW as Array<Number>;
-    var slotAlign as Array<Graphics.TextJustification>;
 
     var pageIndicatorVisible as Boolean;
     var pageIndicatorX as Number;
     var pageIndicatorY as Number;
     var pageIndicatorDotRadius as Float;
+    var hitboxPaddingPercent as Number;
 
-    var weather as WeatherSkin;
-    var health as HealthSkin;
-    var effects as EffectsSkin;
+    var _weather as WeatherSkin?;
+    var _health as HealthSkin?;
+    var _effects as EffectsSkin?;
+    var dial as DialSkin;
+    var panels as PanelSkin;
+    var battery as BatterySkin;
 
     function initialize(d as Dictionary) {
         id = SkinDefs.str(d, "id", "unknown");
-        name = SkinDefs.str(d, "name", id);
 
         var colors = SkinDefs.dict(d, "colors");
         backgroundColor = SkinDefs.color(colors, "background", Graphics.COLOR_BLACK);
@@ -287,19 +304,6 @@ class Skin {
         slotLabelFont = SkinDefs.font(slots, "labelFont", Graphics.FONT_XTINY);
         showIcons = SkinDefs.bool(slots, "showIcons", false);
         showLabels = SkinDefs.bool(slots, "showLabels", false);
-        slotX = [] as Array<Number>;
-        slotY = [] as Array<Number>;
-        slotW = [] as Array<Number>;
-        slotAlign = [] as Array<Graphics.TextJustification>;
-        var positions = SkinDefs.array(slots, "positions");
-        for (var i = 0; i < SettingsKeys.SLOTS_PER_PAGE; i++) {
-            var raw = (i < positions.size()) ? positions[i] : null;
-            var position = (raw instanceof Dictionary) ? raw : {};
-            slotX.add(SkinDefs.num(position, "x", 50));
-            slotY.add(SkinDefs.num(position, "y", 20 + i * 15));
-            slotW.add(SkinDefs.num(position, "w", 30));
-            slotAlign.add(SkinDefs.justify(position, "align"));
-        }
 
         var indicator = SkinDefs.dict(d, "pageIndicator");
         pageIndicatorVisible = SkinDefs.bool(indicator, "visible", true);
@@ -307,9 +311,44 @@ class Skin {
         pageIndicatorY = SkinDefs.num(indicator, "y", 90);
         pageIndicatorDotRadius = SkinDefs.flt(indicator, "dotRadius", 1.2);
 
-        weather = new WeatherSkin(SkinDefs.dict(d, "weatherPage"));
-        health = new HealthSkin(SkinDefs.dict(d, "healthPage"));
-        effects = new EffectsSkin(SkinDefs.dict(d, "effects"));
+        hitboxPaddingPercent = SkinDefs.num(d, "hitboxPaddingPercent", 15);
+        dial = new DialSkin(SkinDefs.dict(d, "dial"));
+        panels = new PanelSkin(SkinDefs.dict(d, "panels"));
+        battery = new BatterySkin(SkinDefs.dict(d, "battery"));
+    }
+
+    //! Second stage: the page blocks, loaded from a separate resource to halve the peak.
+    function parsePages(d as Dictionary) as Void {
+        _weather = new WeatherSkin(SkinDefs.dict(d, "weatherPage"));
+        _health = new HealthSkin(SkinDefs.dict(d, "healthPage"));
+        _effects = new EffectsSkin(SkinDefs.dict(d, "effects"));
+    }
+
+    function weather() as WeatherSkin {
+        var value = _weather;
+        if (value == null) {
+            value = new WeatherSkin({});
+            _weather = value;
+        }
+        return value;
+    }
+
+    function health() as HealthSkin {
+        var value = _health;
+        if (value == null) {
+            value = new HealthSkin({});
+            _health = value;
+        }
+        return value;
+    }
+
+    function effects() as EffectsSkin {
+        var value = _effects;
+        if (value == null) {
+            value = new EffectsSkin({});
+            _effects = value;
+        }
+        return value;
     }
 
     //! Resolve the "accent" reference to the current accent colour.
@@ -325,21 +364,5 @@ class Skin {
         if (dataColor != null) {
             slotValueColor = dataColor;
         }
-    }
-
-    //! Unique colours used by the static dial and page backgrounds, for a small buffered bitmap palette.
-    function getDialPalette() as Array<Number> {
-        var candidates = [
-            backgroundColor, dialColor, tickMajorColor, tickMinorColor, numeralColor,
-            weather.sunArcColor, weather.moonArcColor, weather.horizonColor, health.trackColor
-        ] as Array<Number>;
-        var palette = [] as Array<Number>;
-        for (var i = 0; i < candidates.size(); i++) {
-            var resolved = resolveColor(candidates[i]);
-            if (palette.indexOf(resolved) < 0) {
-                palette.add(resolved);
-            }
-        }
-        return palette;
     }
 }

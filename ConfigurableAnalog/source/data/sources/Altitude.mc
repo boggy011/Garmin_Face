@@ -5,7 +5,7 @@ import Toybox.System;
 
 class AltitudeSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Altitude, Rez.Drawables.icon_altitude);
+        DataSource.initialize(Rez.Strings.src_Altitude, Rez.Strings.srcs_Altitude, Rez.Drawables.icon_altitude);
     }
 
     function getId() as String {

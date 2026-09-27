@@ -1,3 +1,4 @@
+import Toybox.Application;
 import Toybox.Application.WatchFaceConfig;
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -25,11 +26,14 @@ class FaceView extends WatchUi.WatchFace {
     private var _faceBuffer as BufferedBitmap?;
     private var _selectedUid as Number?;
     private var _staticPageIndex as Number = -1;
+    private var _staticNight as Boolean = false;
     private var _effect as WeatherEffect?;
     private var _effectCategory as Number = -1;
     private var _effectTimer as Timer.Timer?;
     private var _effectLastMs as Number = 0;
     private var _effectBudgetHit as Boolean = false;
+    private var _effectLastDrawMs as Number = 0;
+    private var _effectMaxDrawMs as Number = 0;
 
     function initialize() {
         WatchFace.initialize();
@@ -39,7 +43,7 @@ class FaceView extends WatchUi.WatchFace {
     function onLayout(dc as Dc) as Void {
         _width = dc.getWidth();
         _height = dc.getHeight();
-        HitRegions.configure(_width, _height);
+        Regions.configure(_width, _height);
         _renderer = new AnalogRenderer(_width, _height);
         _pageRenderer = new PageRenderer(_width, _height);
         _health = new HealthCache();
@@ -52,22 +56,37 @@ class FaceView extends WatchUi.WatchFace {
         Settings.reload();
         _pages.rebuild();
         var id = Settings.getSkinId();
-        var skin = _skin;
-        if (skin == null || !id.equals(_skinId)) {
+        if (_skin == null || !id.equals(_skinId)) {
             loadSkin(id);
         } else {
-            skin.applyOverrides(Settings.getAccentOverride(), Settings.getDataColorOverride());
+            applyOverrides();
         }
         redrawStatic();
         _fullRefresh = true;
     }
 
+    private function applyOverrides() as Void {
+        var skin = _skin;
+        if (skin != null) {
+            skin.applyOverrides(Settings.getAccentOverride(), Settings.getDataColorOverride());
+        }
+    }
+
     private function loadSkin(id as String) as Void {
+        Probe.mark("loadSkin start");
+        _skin = null;
+        _skinId = "";
+        disposeEffect();
+        Probe.mark("old skin released");
         var skin = SkinRegistry.load(id);
+        Probe.mark("new skin loaded");
         skin.applyOverrides(Settings.getAccentOverride(), Settings.getDataColorOverride());
+        Regions.setMinimumSizePercent(skin.hitboxPaddingPercent);
         _skin = skin;
         _skinId = id;
-        _dialBuffer = createBuffer(skin.getDialPalette());
+        if (_dialBuffer == null) {
+            _dialBuffer = createBuffer(null);
+        }
         if (_faceBuffer == null && _partialAllowed) {
             _faceBuffer = createBuffer(null);
             if (_faceBuffer == null) {
@@ -76,8 +95,11 @@ class FaceView extends WatchUi.WatchFace {
         }
     }
 
-    //! Dial plus the current page's static background into the cached bitmap.
+    //! Dial plus the current page's static background into the cached bitmap. The buffer
+    //! deliberately has no palette: text drawn into a palette limited BufferedBitmap does
+    //! not render on either display type, which hid the numerals.
     private function redrawStatic() as Void {
+        Regions.reset();
         var skin = _skin;
         var renderer = _renderer;
         var pageRenderer = _pageRenderer;
@@ -88,7 +110,8 @@ class FaceView extends WatchUi.WatchFace {
         }
         var target = dial.getDc();
         renderer.drawDial(target, skin);
-        pageRenderer.drawStatic(target, skin, _pages.getCurrentPage());
+        _staticNight = pageRenderer.getWeather().isNight(Time.now().value());
+        pageRenderer.drawStatic(target, skin, _pages.getCurrentPage(), _staticNight);
     }
 
     private function createBuffer(palette as Array<Number>?) as BufferedBitmap? {
@@ -106,6 +129,8 @@ class FaceView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
+        var now = Time.now().value();
+        Probe.onFrame(self, now);
         var skin = _skin;
         var renderer = _renderer;
         var pageRenderer = _pageRenderer;
@@ -115,7 +140,6 @@ class FaceView extends WatchUi.WatchFace {
         }
         dc.clearClip();
         var time = System.getClockTime();
-        var now = Time.now().value();
         var page = _pages.getCurrentPage();
         var type = page.getType();
         if (type == PageTypes.WEATHER) {
@@ -123,7 +147,7 @@ class FaceView extends WatchUi.WatchFace {
         } else if (type == PageTypes.HEALTH) {
             health.refreshIfDue(now);
         }
-        if (_staticPageIndex != _pages.getIndex()) {
+        if (_staticPageIndex != _pages.getIndex() || (type == PageTypes.WEATHER && pageRenderer.getWeather().isNight(now) != _staticNight)) {
             redrawStatic();
         }
 
@@ -132,11 +156,13 @@ class FaceView extends WatchUi.WatchFace {
         drawFace(target, skin, renderer, pageRenderer, page, health, now);
         pageRenderer.getGeneric().getSlotRenderer().drawPageIndicator(target, skin, _pages.getIndex(), _pages.getPageCount());
         renderer.drawHourMinute(target, skin, time.hour, time.min);
+        if (Settings.getShowColourSwatches()) {
+            Swatches.draw(target, _width, _height);
+        }
         if (face != null) {
             dc.drawBitmap(0, 0, face);
         }
 
-        Probe.onFrame(self, now);
         _fullRefresh = true;
         if (secondsVisible()) {
             if (!_awake && _partialAllowed) {
@@ -155,15 +181,20 @@ class FaceView extends WatchUi.WatchFace {
             target.drawBitmap(0, 0, dial);
         } else {
             renderer.drawDial(target, skin);
-            pageRenderer.drawStatic(target, skin, page);
+            pageRenderer.drawStatic(target, skin, page, _staticNight);
         }
         if (page.getType() == PageTypes.WEATHER) {
             syncEffect(skin);
-            drawEffect(target);
+            if (_effect != null) {
+                drawEffect(target);
+                renderer.drawForeground(target, skin);
+            }
         } else {
             disposeEffect();
         }
         pageRenderer.draw(target, skin, page, _pages, _selectedUid, now, health);
+        BatteryIndicator.refresh(now);
+        BatteryIndicator.draw(target, skin, _width, _height);
     }
 
     //! Create or replace the overlay for the current condition, run its timer while awake.
@@ -192,6 +223,10 @@ class FaceView extends WatchUi.WatchFace {
         var started = System.getTimer();
         effect.draw(target);
         var elapsed = System.getTimer() - started;
+        _effectLastDrawMs = elapsed;
+        if (elapsed > _effectMaxDrawMs) {
+            _effectMaxDrawMs = elapsed;
+        }
         if (!_effectBudgetHit && effect.getFps() > 0 && elapsed > effect.getBudgetMs()) {
             effect.halveParticles();
             _effectBudgetHit = true;
@@ -354,6 +389,41 @@ class FaceView extends WatchUi.WatchFace {
         return _pages.getCurrentPage().getType();
     }
 
+    //! Probe helpers: [category, particles, fps, last draw ms, max draw ms, budget hit].
+    function getEffectStats() as Array<Number> {
+        var effect = _effect;
+        var particles = (effect != null) ? effect.getParticleCount() : 0;
+        var fps = (effect != null) ? effect.getFps() : 0;
+        return [_effectCategory, particles, fps, _effectLastDrawMs, _effectMaxDrawMs, _effectBudgetHit ? 1 : 0] as Array<Number>;
+    }
+
+    function resetEffectStats() as Void {
+        _effectMaxDrawMs = 0;
+    }
+
+    //! Probe helper: switch skin by index and rebuild.
+    function applySkinIndex(index as Number) as Void {
+        Probe.mark("switch start");
+        try {
+            Application.Properties.setValue(SettingsKeys.SKIN_ID, index);
+        } catch (e) {
+        }
+        Probe.mark("after setValue");
+        reloadSettings();
+        Probe.mark("switch done");
+    }
+
+    function jumpToPageType(type as Number) as Void {
+        for (var i = 0; i < _pages.getPageCount(); i++) {
+            _pages.setIndex(i);
+            if (_pages.getCurrentPage().getType() == type) {
+                break;
+            }
+        }
+        redrawStatic();
+        _fullRefresh = true;
+    }
+
     //! Editor: complication id of the slot under a tap, or null. Only generic pages have slots.
     function getTappedComplicationUid(x as Number, y as Number) as Number? {
         var pageRenderer = _pageRenderer;
@@ -388,7 +458,7 @@ class FaceView extends WatchUi.WatchFace {
         _selectedUid = uid;
         WatchUi.requestUpdate();
         var slots = pageRenderer.getGeneric().getSlotRenderer();
-        var drawable = new SlotHighlightDrawable(slots, skin, slot, _pages.getCurrentPage().getSource(slot));
+        var drawable = new SlotHighlightDrawable(slots, skin, _pages.getIndex(), slot, _pages.getCurrentPage().getSource(slot));
         return new WatchUi.ComplicationDrawableRef({:drawable => drawable, :boundingBox => drawable.getBoundingBox()});
     }
 

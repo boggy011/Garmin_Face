@@ -24,6 +24,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="12">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -42,6 +43,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="13">
                 <type default="true">Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -60,12 +62,13 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="14">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
                 <type>Complications.COMPLICATION_TYPE_STEPS</type>
                 <type>Complications.COMPLICATION_TYPE_HEART_RATE</type>
-                <type default="true">Complications.COMPLICATION_TYPE_DATE</type>
+                <type>Complications.COMPLICATION_TYPE_DATE</type>
                 <type>Complications.COMPLICATION_TYPE_WEEKDAY_MONTHDAY</type>
                 <type>Complications.COMPLICATION_TYPE_BODY_BATTERY</type>
                 <type>Complications.COMPLICATION_TYPE_STRESS</type>
@@ -78,6 +81,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type default="true">Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="15">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -96,6 +100,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="21">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -114,6 +119,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="22">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -132,6 +138,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="23">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -150,6 +157,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="24">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -168,6 +176,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="25">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -186,6 +195,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="31">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -204,6 +214,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="32">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -222,6 +233,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="33">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -240,6 +252,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="34">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -258,6 +271,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="35">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -276,6 +290,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type default="true">Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="41">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -294,6 +309,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="42">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -312,6 +328,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="43">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -330,6 +347,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="44">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -348,6 +366,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="45">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -366,6 +385,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="51">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -384,6 +404,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="52">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -402,6 +423,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="53">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -420,6 +442,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="54">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -438,6 +461,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="55">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -456,6 +480,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="61">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -474,6 +499,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="62">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -492,6 +518,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="63">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -510,6 +537,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="64">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -528,6 +556,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
             <complication id="65">
                 <type>Complications.COMPLICATION_TYPE_BATTERY</type>
@@ -546,6 +575,7 @@
                 <type>Complications.COMPLICATION_TYPE_ALTITUDE</type>
                 <type>Complications.COMPLICATION_TYPE_SOLAR_INPUT</type>
                 <type>Complications.COMPLICATION_TYPE_INTENSITY_MINUTES</type>
+                <type>Complications.COMPLICATION_TYPE_CALENDAR_EVENTS</type>
             </complication>
         </data>
         <dataColors allowAny="true"/>

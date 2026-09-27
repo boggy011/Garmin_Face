@@ -2,15 +2,17 @@
 # Sizes are percent of the screen width. Every icon belongs to one size group.
 # Resource ids are ic_<name> with dashes replaced by underscores.
 groups:
-  condition: 22
-  disc: 9
-  moon: 12
+  condition: 30
+  disc: 13
+  moon: 10
+  moonLarge: 13
   readout: 7
   heart: 14
 
 icons:
   sun: disc
   moon: moon
+  moon-large: moonLarge
   clear: condition
   partly-cloudy: condition
   cloudy: condition

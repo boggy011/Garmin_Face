@@ -1,8 +1,8 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 
-//! Three horizontal translucent bands sliding slowly. Translucency is approximated with
-//! dithered lines (every other row) which also reads correctly on MIP.
+//! Three translucent bands sliding slowly. Translucency is a dither: every other row, with
+//! the rows shortened towards the band edges so the bands look soft.
 class FogEffect extends WeatherEffect {
     const BANDS = 3;
 
@@ -16,10 +16,10 @@ class FogEffect extends WeatherEffect {
     }
 
     protected function spawn(index as Number, initial as Boolean) as Void {
-        _len[index] = _width * (0.5 + 0.2 * index);
-        _y[index] = _height * (0.2 + 0.25 * index);
+        _len[index] = _width * (0.45 + 0.15 * index);
+        _y[index] = _height * (0.22 + 0.24 * index);
         _vy[index] = 0.0;
-        _vx[index] = _width * (0.02 + 0.01 * index) * ((index % 2 == 0) ? 1.0 : -1.0);
+        _vx[index] = _width * (0.015 + 0.008 * index) * ((index % 2 == 0) ? 1.0 : -1.0);
         _x[index] = initial ? Effects.randomBelow(_width).toFloat() : ((_vx[index] > 0.0) ? -_len[index] : _width.toFloat());
     }
 
@@ -43,15 +43,18 @@ class FogEffect extends WeatherEffect {
         if (skin == null) {
             return;
         }
-        dc.setColor(skin.resolveColor(skin.effects.fogColor), Graphics.COLOR_TRANSPARENT);
+        dc.setColor(skin.resolveColor(skin.effects().fogColor), Graphics.COLOR_TRANSPARENT);
         dc.setPenWidth(1);
-        var thickness = _height / 14;
+        var rows = _height / 24;
         for (var i = 0; i < _active; i++) {
-            var x0 = _x[i].toNumber();
-            var x1 = (_x[i] + _len[i]).toNumber();
+            var length = _len[i].toNumber();
+            var centreX = (_x[i] + _len[i] / 2.0).toNumber();
             var y0 = _y[i].toNumber();
-            for (var y = y0; y < y0 + thickness; y += 2) {
-                dc.drawLine(x0, y, x1, y);
+            for (var row = 0; row < rows; row += 2) {
+                var edge = (row < rows / 2) ? row : rows - row;
+                var rowLength = length - (rows / 2 - edge) * length / rows;
+                var offset = (row % 4 == 0) ? 0 : 1;
+                dc.drawLine(centreX - rowLength / 2 + offset, y0 + row, centreX + rowLength / 2 + offset, y0 + row);
             }
         }
     }

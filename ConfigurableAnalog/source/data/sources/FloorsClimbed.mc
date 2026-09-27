@@ -4,7 +4,7 @@ import Toybox.ActivityMonitor;
 
 class FloorsClimbedSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_FloorsClimbed, Rez.Drawables.icon_floorsclimbed);
+        DataSource.initialize(Rez.Strings.src_FloorsClimbed, Rez.Strings.srcs_FloorsClimbed, Rez.Drawables.icon_floorsclimbed);
     }
 
     function getId() as String {

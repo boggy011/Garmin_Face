@@ -33,7 +33,16 @@ Export for the store (all products, release):
 
     monkeyc -e -r -f monkey.jungle -o bin/ConfigurableAnalog.iq -y ~/garmin-keys/developer_key.der -l 3
 
-Side load: copy bin/ConfigurableAnalog.prg to GARMIN/APPS on the watch.
+Side load: build with the command above, then copy bin/ConfigurableAnalog.prg to GARMIN/APPS on the watch. The file to check on a real fenix 8 Solar 51mm is exactly bin/ConfigurableAnalog.prg built with -d fenix8solar51mm.
+
+Simulator probe (auto page cycling, forced weather conditions, memory and frame time log):
+
+    monkeyc -d fenix8solar51mm -f probe.jungle -o bin/ConfigurableAnalog-probe.prg -y ~/garmin-keys/developer_key.der -w -l 3
+    uv run tools/simrun.py bin/ConfigurableAnalog-probe.prg fenix8solar51mm --restart --seconds 82 --prefix run --shots "generic@5 weather@13 health@21"
+
+Screenshots land in docs/screens. Icons: uv run tools/gen_icons.py after editing assets/icons/src or tools/icons.yaml. Fonts: uv run tools/gen_fonts.py after editing assets/fonts or tools/fonts.yaml (also checks that the widest values fit a panel).
+
+Debug colour swatches: set the showColourSwatches setting to true (phone settings, or Properties in the simulator) to draw the 64 colour palette grid over the face, photograph the real display and pick colours by index (row major, index = r * 16 + g * 4 + b with channel levels 00, 55, AA, FF).
 
 Python tooling checks for the generator:
 

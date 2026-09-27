@@ -35,11 +35,7 @@ module Effects {
 
     //! AMOLED profile when the device needs burn in protection, MIP profile otherwise.
     function isAmoled() as Boolean {
-        var settings = System.getDeviceSettings();
-        if (settings has :requiresBurnInProtection) {
-            return settings.requiresBurnInProtection;
-        }
-        return false;
+        return Display.isAmoled();
     }
 }
 
@@ -70,7 +66,7 @@ class WeatherEffect {
         _height = height;
         _horizon = height / 2;
         _skin = skin;
-        _fps = Effects.isAmoled() ? skin.effects.fpsAmoled : skin.effects.fpsMip;
+        _fps = Effects.isAmoled() ? skin.effects().fpsAmoled : skin.effects().fpsMip;
     }
 
     protected function allocate(count as Number) as Void {

@@ -4,7 +4,7 @@ import Toybox.ActivityMonitor;
 
 class ActiveMinutesSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_ActiveMinutes, Rez.Drawables.icon_activeminutes);
+        DataSource.initialize(Rez.Strings.src_ActiveMinutes, Rez.Strings.srcs_ActiveMinutes, Rez.Drawables.icon_activeminutes);
     }
 
     function getId() as String {

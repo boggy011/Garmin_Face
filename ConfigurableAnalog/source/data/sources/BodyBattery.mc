@@ -4,7 +4,7 @@ import Toybox.SensorHistory;
 
 class BodyBatterySource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_BodyBattery, Rez.Drawables.icon_bodybattery);
+        DataSource.initialize(Rez.Strings.src_BodyBattery, Rez.Strings.srcs_BodyBattery, Rez.Drawables.icon_bodybattery);
     }
 
     function getId() as String {
@@ -17,6 +17,18 @@ class BodyBatterySource extends DataSource {
 
     function isSupported() as Boolean {
         return (Toybox has :SensorHistory) && (SensorHistory has :getBodyBatteryHistory);
+    }
+
+    function getPercent() as Number? {
+        if (!isSupported()) {
+            return null;
+        }
+        var sample = SensorHistory.getBodyBatteryHistory({:period => 1, :order => SensorHistory.ORDER_NEWEST_FIRST}).next();
+        if (sample == null) {
+            return null;
+        }
+        var data = sample.data;
+        return (data == null) ? null : data.toNumber();
     }
 
     function getValue() as String {

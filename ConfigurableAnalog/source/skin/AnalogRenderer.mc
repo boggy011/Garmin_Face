@@ -30,8 +30,96 @@ class AnalogRenderer {
             dc.setColor(dial, Graphics.COLOR_TRANSPARENT);
             dc.fillCircle(_cx, _cy, _radius);
         }
+        drawTexture(dc, skin);
+        drawChapterRing(dc, skin);
         drawTicks(dc, skin);
         drawNumerals(dc, skin);
+        if (skin.dial.innerBezel) {
+            dc.setPenWidth(1);
+            dc.setColor(skin.resolveColor(skin.dial.innerBezelColor), Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(_cx, _cy, _radius * skin.dial.innerBezelRadius / 100);
+        }
+    }
+
+    //! Ring, ticks and numerals only, redrawn over an animated overlay so the overlay
+    //! stays behind the time markers.
+    function drawForeground(dc as Dc, skin as Skin) as Void {
+        drawChapterRing(dc, skin);
+        drawTicks(dc, skin);
+        drawNumerals(dc, skin);
+    }
+
+    //! Pre rendered depth: radial lines, dithered rings, crosshatch or a dot grid.
+    private function drawTexture(dc as Dc, skin as Skin) as Void {
+        var dial = skin.dial;
+        if (dial.texture == DialSkin.TEXTURE_NONE) {
+            return;
+        }
+        dc.setColor(skin.resolveColor(dial.textureColor), Graphics.COLOR_TRANSPARENT);
+        dc.setPenWidth(1);
+        var spacing = (dial.textureSpacing < 2) ? 2 : dial.textureSpacing;
+        if (dial.texture == DialSkin.TEXTURE_SUNBURST) {
+            var count = 360 / spacing;
+            for (var i = 0; i < count; i++) {
+                var angle = i * _twoPi / count;
+                dc.drawLine(_cx, _cy, _cx + _radius * Math.sin(angle), _cy - _radius * Math.cos(angle));
+            }
+        } else if (dial.texture == DialSkin.TEXTURE_RINGS) {
+            var gap = spacing;
+            var r = _radius;
+            while (r > _radius / 4) {
+                dc.drawCircle(_cx, _cy, r);
+                r -= gap;
+                gap += 1;
+            }
+        } else if (dial.texture == DialSkin.TEXTURE_CROSSHATCH) {
+            var step = spacing * 3;
+            var size = _radius * 2;
+            for (var offset = -size; offset <= size; offset += step) {
+                dc.drawLine(_cx - _radius + offset, _cy - _radius, _cx + _radius + offset, _cy + _radius);
+                dc.drawLine(_cx + _radius - offset, _cy - _radius, _cx - _radius - offset, _cy + _radius);
+            }
+        } else if (dial.texture == DialSkin.TEXTURE_DOT_GRID) {
+            var step = spacing * 3;
+            for (var y = _cy - _radius; y <= _cy + _radius; y += step) {
+                for (var x = _cx - _radius; x <= _cx + _radius; x += step) {
+                    dc.drawPoint(x, y);
+                }
+            }
+        }
+        var background = skin.resolveColor(skin.backgroundColor);
+        dc.setColor(background, Graphics.COLOR_TRANSPARENT);
+        var inner = _radius * 22 / 100;
+        dc.fillCircle(_cx, _cy, inner);
+    }
+
+    //! Outer ring with a minute track, long marks every five minutes in the numeral silver.
+    private function drawChapterRing(dc as Dc, skin as Skin) as Void {
+        var dial = skin.dial;
+        if (!dial.chapterRing) {
+            return;
+        }
+        var r = _radius * dial.chapterRingRadius / 100;
+        dc.setPenWidth(dial.chapterRingWidth);
+        dc.setColor(skin.resolveColor(dial.chapterRingColor), Graphics.COLOR_TRANSPARENT);
+        dc.drawCircle(_cx, _cy, r);
+        for (var i = 0; i < 60; i++) {
+            var major = (i % 5 == 0);
+            var length = major ? _radius * 6 / 100 : _radius * 3 / 100;
+            var angle = i * _twoPi / 60.0;
+            var s = Math.sin(angle);
+            var c = Math.cos(angle);
+            dc.setPenWidth(major ? 2 : 1);
+            dc.setColor(skin.resolveColor(major ? skin.tickMajorColor : dial.chapterRingColor), Graphics.COLOR_TRANSPARENT);
+            dc.drawLine(_cx + (r - length) * s, _cy - (r - length) * c, _cx + r * s, _cy - r * c);
+        }
+        if (dial.accentQuadrant >= 0 && dial.accentQuadrant < 4) {
+            dc.setPenWidth(dial.chapterRingWidth + 1);
+            dc.setColor(skin.accentColor, Graphics.COLOR_TRANSPARENT);
+            var startDegrees = 90 - dial.accentQuadrant * 90;
+            dc.drawArc(_cx, _cy, r, Graphics.ARC_CLOCKWISE, startDegrees, startDegrees - 90);
+        }
+        dc.setPenWidth(1);
     }
 
     private function drawTicks(dc as Dc, skin as Skin) as Void {
@@ -72,17 +160,44 @@ class AnalogRenderer {
     function drawHourMinute(dc as Dc, skin as Skin, hour as Number, minute as Number) as Void {
         var minuteAngle = minute * _twoPi / 60.0;
         var hourAngle = ((hour % 12) * 60 + minute) * _twoPi / 720.0;
-        drawHand(dc, skin, skin.hourHand, hourAngle);
-        drawHand(dc, skin, skin.minuteHand, minuteAngle);
-        dc.setColor(skin.resolveColor(skin.capColor), Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(_cx, _cy, skin.capRadius);
+        if (skin.dial.handShadow) {
+            var offset = skin.dial.handShadowOffset;
+            _cx += offset;
+            _cy += offset;
+            drawHand(dc, skin, skin.hourHand, hourAngle, skin.dial.handShadowColor);
+            drawHand(dc, skin, skin.minuteHand, minuteAngle, skin.dial.handShadowColor);
+            _cx -= offset;
+            _cy -= offset;
+        }
+        drawHand(dc, skin, skin.hourHand, hourAngle, null);
+        drawHand(dc, skin, skin.minuteHand, minuteAngle, null);
+        drawCap(dc, skin);
+    }
+
+    //! Centre cap: filled disc with a rim when enabled, else the plain cap colour.
+    private function drawCap(dc as Dc, skin as Skin) as Void {
+        var dial = skin.dial;
+        if (dial.centreCap) {
+            dc.setColor(skin.resolveColor(dial.centreCapRim), Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(_cx, _cy, dial.centreCapRadius);
+            dc.setColor(skin.resolveColor(dial.centreCapFill), Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(_cx, _cy, (dial.centreCapRadius > 2) ? dial.centreCapRadius - 2 : 1);
+        } else {
+            dc.setColor(skin.resolveColor(skin.capColor), Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(_cx, _cy, skin.capRadius);
+        }
     }
 
     //! Seconds hand only. Used by full and partial updates.
     function drawSeconds(dc as Dc, skin as Skin, second as Number) as Void {
-        drawHand(dc, skin, skin.secondHand, second * _twoPi / 60.0);
-        dc.setColor(skin.resolveColor(skin.capColor), Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(_cx, _cy, skin.capRadius);
+        var angle = second * _twoPi / 60.0;
+        drawHand(dc, skin, skin.secondHand, angle, null);
+        if (skin.secondHand.counterweight > 0) {
+            var tail = skin.secondHand.tail * _radius * 0.7;
+            dc.setColor(skin.resolveColor(skin.secondHand.color), Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(_cx - tail * Math.sin(angle), _cy + tail * Math.cos(angle), skin.secondHand.counterweight);
+        }
+        drawCap(dc, skin);
     }
 
     //! Clip rectangle [x, y, w, h] covering the seconds hand at the given second.
@@ -94,7 +209,7 @@ class AnalogRenderer {
         var c = Math.cos(angle);
         var length = hand.length * _radius;
         var tail = hand.tail * _radius;
-        var margin = hand.width + skin.capRadius + 2;
+        var margin = hand.width + skin.capRadius + skin.dial.centreCapRadius + 2;
         var tipX = _cx + length * s;
         var tipY = _cy - length * c;
         var tailX = _cx - tail * s;
@@ -110,8 +225,9 @@ class AnalogRenderer {
         return _clip;
     }
 
-    private function drawHand(dc as Dc, skin as Skin, hand as HandSpec, angle as Float) as Void {
-        dc.setColor(skin.resolveColor(hand.color), Graphics.COLOR_TRANSPARENT);
+    //! Draw one hand, in its own colour or in an override colour (used for the shadow pass).
+    private function drawHand(dc as Dc, skin as Skin, hand as HandSpec, angle as Float, colorOverride as Number?) as Void {
+        dc.setColor((colorOverride != null) ? colorOverride : skin.resolveColor(hand.color), Graphics.COLOR_TRANSPARENT);
         var s = Math.sin(angle);
         var c = Math.cos(angle);
         var length = hand.length * _radius;
@@ -121,6 +237,25 @@ class AnalogRenderer {
             dc.setPenWidth(hand.width);
             dc.drawLine(_cx + tail * s, _cy - tail * c, _cx + length * s, _cy - length * c);
             dc.setPenWidth(1);
+            return;
+        }
+        if (hand.shape == SkinDefs.SHAPE_SKELETON) {
+            setPoint(_pts4, 0, tail, -half, s, c);
+            setPoint(_pts4, 1, length, -half, s, c);
+            setPoint(_pts4, 2, length, half, s, c);
+            setPoint(_pts4, 3, tail, half, s, c);
+            dc.fillPolygon(_pts4 as Array<[Numeric, Numeric]>);
+            if (colorOverride == null && half > 2.0) {
+                var inset = half - 2.0;
+                var innerStart = length * 0.25;
+                var innerEnd = length * 0.82;
+                dc.setColor(skin.resolveColor(skin.dial.subdialFill), Graphics.COLOR_TRANSPARENT);
+                setPoint(_pts4, 0, innerStart, -inset, s, c);
+                setPoint(_pts4, 1, innerEnd, -inset, s, c);
+                setPoint(_pts4, 2, innerEnd, inset, s, c);
+                setPoint(_pts4, 3, innerStart, inset, s, c);
+                dc.fillPolygon(_pts4 as Array<[Numeric, Numeric]>);
+            }
             return;
         }
         if (hand.shape == SkinDefs.SHAPE_DAUPHINE) {

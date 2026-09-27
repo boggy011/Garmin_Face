@@ -29,7 +29,7 @@ pages:
   default_types: [generic, weather, health]
   # Pages without an entry default to all Empty slots.
   defaults:
-    - [Steps, HeartRate, Battery, Date, BodyBattery]
+    - [Steps, HeartRate, Battery, NextEvent, BodyBattery]
     - [Weather, Sunrise, Sunset, Notifications, SecondTimeZone]
     - [Calories, Distance, FloorsClimbed, Stress, ActiveMinutes]
 
@@ -89,28 +89,30 @@ boolean_settings:
   - { key: showMoonPhaseLabel, label: Show moon phase name, default: true }
   - { key: effectsEnabled, label: Weather effects, default: true }
   - { key: effectsOnWristRaiseOnly, label: Weather effects only while awake, default: true }
+  - { key: showColourSwatches, label: Debug, draw the 64 colour palette grid, default: false }
 
 # id must match the class in source/data/sources (<id>Source) and the registry entry.
 # Phone settings store the position in this list, so append new sources at the end and never reorder.
 # complication is the Toybox.Complications type used by the on-device editor, or null
 # when the source has no system complication equivalent (then it is phone-settings only).
 sources:
-  - { id: Empty,          label: Empty,             complication: null }
-  - { id: Battery,        label: Battery,           complication: COMPLICATION_TYPE_BATTERY }
-  - { id: Steps,          label: Steps,             complication: COMPLICATION_TYPE_STEPS }
-  - { id: HeartRate,      label: Heart rate,        complication: COMPLICATION_TYPE_HEART_RATE }
-  - { id: Date,           label: Date,              complication: COMPLICATION_TYPE_DATE }
-  - { id: DayOfWeek,      label: Day of week,       complication: COMPLICATION_TYPE_WEEKDAY_MONTHDAY }
-  - { id: BodyBattery,    label: Body Battery,      complication: COMPLICATION_TYPE_BODY_BATTERY }
-  - { id: Stress,         label: Stress,            complication: COMPLICATION_TYPE_STRESS }
-  - { id: Calories,       label: Calories,          complication: COMPLICATION_TYPE_CALORIES }
-  - { id: Distance,       label: Distance,          complication: null }
-  - { id: FloorsClimbed,  label: Floors climbed,    complication: COMPLICATION_TYPE_FLOORS_CLIMBED }
-  - { id: Notifications,  label: Notifications,     complication: COMPLICATION_TYPE_NOTIFICATION_COUNT }
-  - { id: Weather,        label: Temperature,       complication: COMPLICATION_TYPE_CURRENT_TEMPERATURE }
-  - { id: Sunrise,        label: Sunrise,           complication: COMPLICATION_TYPE_SUNRISE }
-  - { id: Sunset,         label: Sunset,            complication: COMPLICATION_TYPE_SUNSET }
-  - { id: SecondTimeZone, label: Second time zone,  complication: null }
-  - { id: Altitude,       label: Altitude,          complication: COMPLICATION_TYPE_ALTITUDE }
-  - { id: SolarIntensity, label: Solar intensity,   complication: COMPLICATION_TYPE_SOLAR_INPUT }
-  - { id: ActiveMinutes,  label: Intensity minutes, complication: COMPLICATION_TYPE_INTENSITY_MINUTES }
+  - { id: Empty,          label: Empty, short: EMPTY,             complication: null }
+  - { id: Battery,        label: Battery, short: BATT,           complication: COMPLICATION_TYPE_BATTERY }
+  - { id: Steps,          label: Steps, short: STEPS,             complication: COMPLICATION_TYPE_STEPS }
+  - { id: HeartRate,      label: Heart rate, short: HR,        complication: COMPLICATION_TYPE_HEART_RATE }
+  - { id: Date,           label: Date, short: DATE,              complication: COMPLICATION_TYPE_DATE }
+  - { id: DayOfWeek,      label: Day of week, short: DAY,       complication: COMPLICATION_TYPE_WEEKDAY_MONTHDAY }
+  - { id: BodyBattery,    label: Body Battery, short: BODY,      complication: COMPLICATION_TYPE_BODY_BATTERY }
+  - { id: Stress,         label: Stress, short: STRESS,            complication: COMPLICATION_TYPE_STRESS }
+  - { id: Calories,       label: Calories, short: KCAL,          complication: COMPLICATION_TYPE_CALORIES }
+  - { id: Distance,       label: Distance, short: DIST,          complication: null }
+  - { id: FloorsClimbed,  label: Floors climbed, short: FLOORS,    complication: COMPLICATION_TYPE_FLOORS_CLIMBED }
+  - { id: Notifications,  label: Notifications, short: NOTIF,     complication: COMPLICATION_TYPE_NOTIFICATION_COUNT }
+  - { id: Weather,        label: Temperature, short: TEMP,       complication: COMPLICATION_TYPE_CURRENT_TEMPERATURE }
+  - { id: Sunrise,        label: Sunrise, short: SUNRISE,           complication: COMPLICATION_TYPE_SUNRISE }
+  - { id: Sunset,         label: Sunset, short: SUNSET,            complication: COMPLICATION_TYPE_SUNSET }
+  - { id: SecondTimeZone, label: Second time zone, short: TZ2,  complication: null }
+  - { id: Altitude,       label: Altitude, short: ALT,          complication: COMPLICATION_TYPE_ALTITUDE }
+  - { id: SolarIntensity, label: Solar intensity, short: SOLAR,   complication: COMPLICATION_TYPE_SOLAR_INPUT }
+  - { id: ActiveMinutes,  label: Intensity minutes, short: INTENS, complication: COMPLICATION_TYPE_INTENSITY_MINUTES }
+  - { id: NextEvent,      label: Next calendar event, short: EVENT, complication: COMPLICATION_TYPE_CALENDAR_EVENTS }

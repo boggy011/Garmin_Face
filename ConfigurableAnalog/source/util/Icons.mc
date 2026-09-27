@@ -39,29 +39,3 @@ class IconSet {
         return get(index).getHeight();
     }
 }
-
-//! Icon plus value readout used by the weather and health pages. The anchor x is the
-//! edge nearest the screen centre: right aligned readouts grow to the left of it.
-module Readouts {
-    const GAP = 3;
-
-    function draw(dc as Dc, icons as IconSet, iconIndex as Number, anchor as Anchor, value as String, font as Graphics.FontDefinition, color as Number, width as Number, height as Number) as Void {
-        var x = width * anchor.x / 100;
-        var y = height * anchor.y / 100;
-        var iconWidth = icons.width(iconIndex);
-        var iconHeight = icons.height(iconIndex);
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        if (anchor.align == Graphics.TEXT_JUSTIFY_RIGHT) {
-            dc.drawBitmap(x - iconWidth, y - iconHeight / 2, icons.get(iconIndex));
-            dc.drawText(x - iconWidth - GAP, y, font, value, Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER);
-        } else if (anchor.align == Graphics.TEXT_JUSTIFY_LEFT) {
-            dc.drawBitmap(x, y - iconHeight / 2, icons.get(iconIndex));
-            dc.drawText(x + iconWidth + GAP, y, font, value, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-        } else {
-            var textWidth = dc.getTextWidthInPixels(value, font);
-            var left = x - (iconWidth + GAP + textWidth) / 2;
-            dc.drawBitmap(left, y - iconHeight / 2, icons.get(iconIndex));
-            dc.drawText(left + iconWidth + GAP, y, font, value, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-        }
-    }
-}

@@ -5,7 +5,7 @@ import Toybox.Time.Gregorian;
 
 class DateSource extends DataSource {
     function initialize() {
-        DataSource.initialize(Rez.Strings.src_Date, Rez.Drawables.icon_date);
+        DataSource.initialize(Rez.Strings.src_Date, Rez.Strings.srcs_Date, null);
     }
 
     function getId() as String {

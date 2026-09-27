@@ -28,11 +28,35 @@ module WeatherCache {
     var moonPhaseLabel as String = "";
     var windBearing as Number?;
     var lastRefresh as Number = 0;
+    //! Pressure over the last six hours, 12 half hour buckets in Pascals, oldest first. 0 when unknown.
+    var pressureBars as Array<Float> = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] as Array<Float>;
+    var pressureBaseline as Float = 0.0;
+    var pressureBarCount as Number = 0;
 
     var _phaseNames as Array<ResourceId> = [
         Rez.Strings.moon_phase_0, Rez.Strings.moon_phase_1, Rez.Strings.moon_phase_2, Rez.Strings.moon_phase_3,
         Rez.Strings.moon_phase_4, Rez.Strings.moon_phase_5, Rez.Strings.moon_phase_6, Rez.Strings.moon_phase_7
     ] as Array<ResourceId>;
+
+    //! Force day or night (simulator probe): sun and moon windows around now, next refresh postponed.
+    function forceSky(now as Number, day as Boolean) as Void {
+        if (lastRefresh == 0) {
+            refresh(now);
+        }
+        sunrise = day ? now - 3600 : now + 3600;
+        sunset = day ? now + 3600 : now + 7200;
+        moonRise = day ? now + 3600 : now - 3600;
+        moonSet = day ? now + 7200 : now + 3600;
+        sunriseLabel = Sources.formatMoment(new Time.Moment(sunrise as Number));
+        sunsetLabel = Sources.formatMoment(new Time.Moment(sunset as Number));
+        lastRefresh = now;
+    }
+
+    //! Force a condition category (simulator probe) and postpone the next refresh.
+    function forceCategory(forced as Number, now as Number) as Void {
+        category = forced;
+        lastRefresh = now;
+    }
 
     //! Refresh when the configured interval has passed. Returns true when refreshed.
     function refreshIfDue(now as Number) as Boolean {
@@ -56,9 +80,21 @@ module WeatherCache {
         uv = formatUv((conditions != null) ? conditions.uvIndex : null);
         windBearing = (conditions != null) ? conditions.windBearing : null;
         pressure = formatPressure(readPressurePa());
+        refreshPressureTrend(now);
         var location = locate(conditions);
         refreshSun(location);
         refreshMoon(location, now);
+        logRefresh(now);
+    }
+
+    //! Debug builds: print the computed sky times once per refresh.
+    (:debug)
+    function logRefresh(now as Number) as Void {
+        System.println("weather: now " + now + " sunrise " + sunrise + " sunset " + sunset + " moonrise " + moonRise + " moonset " + moonSet + " category " + category);
+    }
+
+    (:release)
+    function logRefresh(now as Number) as Void {
     }
 
     //! Observation position, else the positioning subsystem, else the last activity fix.
@@ -123,6 +159,40 @@ module WeatherCache {
     function localMidnight(now as Number) as Number {
         var offset = System.getClockTime().timeZoneOffset;
         return ((now + offset) / Sources.SECONDS_PER_DAY) * Sources.SECONDS_PER_DAY - offset;
+    }
+
+    //! Fill pressureBars from the last six hours of SensorHistory, bucketed per half hour.
+    function refreshPressureTrend(now as Number) as Void {
+        pressureBarCount = 0;
+        for (var i = 0; i < pressureBars.size(); i++) {
+            pressureBars[i] = 0.0;
+        }
+        if (!(Toybox has :SensorHistory) || !(SensorHistory has :getPressureHistory)) {
+            return;
+        }
+        var iterator = SensorHistory.getPressureHistory({:period => new Time.Duration(6 * 3600), :order => SensorHistory.ORDER_NEWEST_FIRST});
+        var sums = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] as Array<Float>;
+        var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as Array<Number>;
+        var sample = iterator.next();
+        while (sample != null) {
+            var data = sample.data;
+            var age = now - sample.when.value();
+            if (data != null && age >= 0 && age < 6 * 3600) {
+                var bucket = 11 - age / 1800;
+                sums[bucket] += data.toFloat();
+                counts[bucket] += 1;
+            }
+            sample = iterator.next();
+        }
+        var total = 0.0;
+        for (var i = 0; i < 12; i++) {
+            if (counts[i] > 0) {
+                pressureBars[i] = sums[i] / counts[i];
+                total += pressureBars[i];
+                pressureBarCount += 1;
+            }
+        }
+        pressureBaseline = (pressureBarCount > 0) ? total / pressureBarCount : 0.0;
     }
 
     //! Latest barometric sample in Pascals, else the activity ambient pressure, else null.
