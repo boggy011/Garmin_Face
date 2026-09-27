@@ -12,3 +12,7 @@ bin/
 __pycache__/
 .ruff_cache/
 .mypy_cache/
+
+# Store packages and side-load binaries, rebuilt from source
+release/*.iq
+release/*.prg

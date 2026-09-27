@@ -49,3 +49,11 @@ Debug colour swatches: set the showColourSwatches setting to true (phone setting
 Python tooling checks for the generator:
 
     ruff format tools/ && ruff check --line-length 160 tools/ && mypy --strict tools/gen_settings.py
+
+## Store release
+
+Preflight: python3 tools/gen_settings.py --check, the test suite, and a strict build for every product in manifest.xml. Bump version in manifest.xml (semver) and add a CHANGELOG.md entry. Export:
+
+    monkeyc -e -f monkey.jungle -o release/ConfigurableAnalog-<version>.iq -y ~/garmin-keys/developer_key.der -w -l 3
+
+The .iq is a 7-zip archive (not zip) holding one .prg per device build plus the manifest; inspect it with py7zr (uv run --with py7zr python) or 7z. Side-load binary for the smoke test: monkeyc -d fenix8solar51mm ... -o release/ConfigurableAnalog-<version>-fenix8solar51mm.prg. Listing assets (native resolution screenshots, icons, listing text) live in release/listing, screenshots come from uv run tools/store_shots.py <product> "generic@8 weather@16 health@32". The developer key fingerprint above must match on every release.
