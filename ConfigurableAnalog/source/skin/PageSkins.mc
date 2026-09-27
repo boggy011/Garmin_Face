@@ -20,6 +20,7 @@ class WeatherSkin {
     var arcWidth as Number;
     var arcWidthPercent as Float;
     var arcDither as Boolean;
+    var conditionBackground as Boolean;
     var sunArcColor as Number;
     var moonArcColor as Number;
     var sunColor as Number;
@@ -42,6 +43,7 @@ class WeatherSkin {
         arcWidth = SkinDefs.num(d, "arcWidth", 2);
         arcWidthPercent = SkinDefs.flt(d, "arcWidthPercent", 2.0);
         arcDither = SkinDefs.bool(d, "arcDither", true);
+        conditionBackground = SkinDefs.bool(d, "conditionBackground", true);
         sunArcColor = SkinDefs.color(d, "sunArcColor", Graphics.COLOR_YELLOW);
         moonArcColor = SkinDefs.color(d, "moonArcColor", Graphics.COLOR_LT_GRAY);
         sunColor = SkinDefs.color(d, "sunColor", Graphics.COLOR_YELLOW);
@@ -140,7 +142,7 @@ class EffectsSkin {
 
 //! Skin block "dial": pre rendered depth for the cached dial bitmap plus hand and cap options.
 class DialSkin {
-    enum { TEXTURE_NONE = 0, TEXTURE_SUNBURST = 1, TEXTURE_RINGS = 2, TEXTURE_CROSSHATCH = 3, TEXTURE_DOT_GRID = 4 }
+    enum { TEXTURE_NONE = 0, TEXTURE_SUNBURST = 1, TEXTURE_RINGS = 2, TEXTURE_CROSSHATCH = 3, TEXTURE_DOT_GRID = 4, TEXTURE_TOPO = 5 }
 
     var texture as Number;
     var textureColor as Number;

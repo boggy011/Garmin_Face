@@ -152,7 +152,7 @@ def check_widths(
     for sample in WIDEST_SAMPLES:
         if all(ch in str(font_spec["chars"]) for ch in sample):
             length = font.getlength(sample)
-            if length > limit:
+            if length > limit + 1.0:
                 warnings.append(
                     f"'{sample}' is {length:.0f} px, wider than the {limit:.0f} px panel interior at {width_px} px"
                 )

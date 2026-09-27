@@ -94,7 +94,8 @@
     "readoutColor": "COLOR_WHITE",
     "chartY": 89,
     "arcWidthPercent": 2.5,
-    "arcDither": true
+    "arcDither": true,
+    "conditionBackground": true
   },
   "healthPage": {
     "arcRadius": 46,
@@ -142,7 +143,7 @@
   },
   "hitboxPaddingPercent": 15,
   "dial": {
-    "texture": "none",
+    "texture": "topo",
     "textureColor": "COLOR_DK_GRAY",
     "textureSpacing": 6,
     "chapterRing": {

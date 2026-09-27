@@ -94,7 +94,8 @@
     "readoutColor": "COLOR_WHITE",
     "chartY": 89,
     "arcWidthPercent": 1.8,
-    "arcDither": true
+    "arcDither": true,
+    "conditionBackground": false
   },
   "healthPage": {
     "arcRadius": 46,

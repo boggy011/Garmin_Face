@@ -12,6 +12,7 @@ class AnalogRenderer {
     private var _pts7 as Array<Array<Number>> = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]] as Array<Array<Number>>;
     private var _clip as Array<Number> = [0, 0, 1, 1] as Array<Number>;
     private var _twoPi as Float;
+    private var _topo as IconSet = new IconSet([Rez.Drawables.bg_topo] as Array<ResourceId>);
 
     function initialize(width as Number, height as Number) {
         _cx = width / 2;
@@ -53,6 +54,11 @@ class AnalogRenderer {
     private function drawTexture(dc as Dc, skin as Skin) as Void {
         var dial = skin.dial;
         if (dial.texture == DialSkin.TEXTURE_NONE) {
+            return;
+        }
+        if (dial.texture == DialSkin.TEXTURE_TOPO) {
+            var bitmap = _topo.get(0);
+            dc.drawBitmap(_cx - bitmap.getWidth() / 2, _cy - bitmap.getHeight() / 2, bitmap);
             return;
         }
         dc.setColor(skin.resolveColor(dial.textureColor), Graphics.COLOR_TRANSPARENT);

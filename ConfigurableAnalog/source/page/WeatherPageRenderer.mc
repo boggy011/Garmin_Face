@@ -11,12 +11,14 @@ class WeatherPageRenderer {
     enum { ICON_TEMPERATURE = 0, ICON_PRECIPITATION = 1, ICON_UV = 2, ICON_PRESSURE = 3, ICON_SUN = 4, ICON_MOON = 5, ICON_MOON_LARGE = 6, ICON_SUNRISE = 7, ICON_SUNSET = 8 }
     const STARS = 30;
     const BARS = 12;
+    const CLEAR_NIGHT_ICON = 10;
 
     private var _width as Number;
     private var _height as Number;
     private var _cx as Number;
     private var _cy as Number;
     private var _conditionIcons as IconSet;
+    private var _backgrounds as IconSet;
     private var _icons as IconSet;
     private var _point as Array<Number> = [0, 0] as Array<Number>;
     private var _starX as Array<Number>;
@@ -35,7 +37,12 @@ class WeatherPageRenderer {
         _conditionIcons = new IconSet([
             Rez.Drawables.ic_clear, Rez.Drawables.ic_partly_cloudy, Rez.Drawables.ic_cloudy, Rez.Drawables.ic_rain,
             Rez.Drawables.ic_heavy_rain, Rez.Drawables.ic_snow, Rez.Drawables.ic_sleet, Rez.Drawables.ic_thunder,
-            Rez.Drawables.ic_fog, Rez.Drawables.ic_wind
+            Rez.Drawables.ic_fog, Rez.Drawables.ic_wind, Rez.Drawables.ic_clear_night
+        ] as Array<ResourceId>);
+        _backgrounds = new IconSet([
+            Rez.Drawables.bg_clear, Rez.Drawables.bg_partly_cloudy, Rez.Drawables.bg_cloudy, Rez.Drawables.bg_rain,
+            Rez.Drawables.bg_heavy_rain, Rez.Drawables.bg_snow, Rez.Drawables.bg_sleet, Rez.Drawables.bg_thunder,
+            Rez.Drawables.bg_fog, Rez.Drawables.bg_wind, Rez.Drawables.bg_clear_night
         ] as Array<ResourceId>);
         _icons = new IconSet([
             Rez.Drawables.ic_temperature, Rez.Drawables.ic_precipitation, Rez.Drawables.ic_uv, Rez.Drawables.ic_pressure,
@@ -135,7 +142,13 @@ class WeatherPageRenderer {
         if (Settings.getShowSunTimes()) {
             drawSunTimes(dc, skin, r);
         }
-        _conditionIcons.drawCentered(dc, WeatherCache.category, _width * ws.icon.x / 100, _height * ws.icon.y / 100);
+        var conditionIcon = (_night && WeatherCache.category == WeatherConditions.CLEAR) ? CLEAR_NIGHT_ICON : WeatherCache.category;
+        var iconX = _width * ws.icon.x / 100;
+        var iconY = _height * ws.icon.y / 100;
+        if (ws.conditionBackground) {
+            _backgrounds.drawCentered(dc, conditionIcon, iconX, iconY);
+        }
+        _conditionIcons.drawCentered(dc, conditionIcon, iconX, iconY);
         if (Settings.getShowMoonPhaseLabel() && SkyState.isUp(now, WeatherCache.moonRise, WeatherCache.moonSet)) {
             dc.setColor(skin.resolveColor(ws.labelColor), Graphics.COLOR_TRANSPARENT);
             drawLabel(dc, ws.phaseLabel, Graphics.FONT_XTINY, WeatherCache.moonPhaseLabel);

@@ -55,7 +55,7 @@ module SkinDefs {
     } as Dictionary<String, Number>;
 
     var TEXTURES as Dictionary<String, Number> = {
-        "none" => 0, "sunburst" => 1, "concentricRings" => 2, "crosshatch" => 3, "dotGrid" => 4
+        "none" => 0, "sunburst" => 1, "concentricRings" => 2, "crosshatch" => 3, "dotGrid" => 4, "topo" => 5
     } as Dictionary<String, Number>;
 
     var SECONDS_MODES as Dictionary<String, Number> = {

@@ -79,3 +79,9 @@ Skin switch trace (probe build, fenix8solar51mm): old skin released 109.0 KB, ne
 4. The sun and moon arcs are tapered bands: one pixel at the horizon ends, arcWidthPercent of the screen at the zenith, drawn as dithered rings so they read as translucent, in pastel colours from the 64 colour palette (0xFFFFAA for the sun, 0xAAAAFF for the moon).
 5. A battery readout (glyph plus percent) sits at 12 percent from the top on every page, in the skin's battery block, accent coloured below 15 percent.
 6. The date panel lost its calendar grid icon. A new NextEvent source shows the nearest calendar event: time as the value, event title as the label, from the system calendar complication. Page one slot four defaults to it.
+
+## Palette and type round
+
+1. Palette. Structure is greyscale on the 64 colour palette: black background and panel fill, 0x555555 rims, rings, hand shadows and tick minors, 0xAAAAAA numerals, tick majors, labels and hands, white values. Colour appears only where it carries meaning and always as a pastel from the palette: gauge bands 0xFFAAAA, 0xFFFFAA and 0xAAFFAA, sun arc and disc 0xFFFFAA, moon arc 0xAAAAFF, pulse ox 0xAAFFFF, HRV 0xAAAAFF, lightning 0xAAAAFF, the accent (classic 0xFFAAAA, sport 0xFFAA55, minimal white) on the seconds hand, active page dot, top health arc, temperature and pressure bars.
+2. Type. Values in Rajdhani SemiBold (OFL), labels in Montserrat SemiBold (OFL) uppercase, both rasterised per device by tools/gen_fonts.py at 8.8, 18 and 4.2 percent of the screen width. The width check allows one pixel of rounding. Oswald and Roboto Condensed stay in assets/fonts as alternatives.
+3. Event panel. The nearest calendar event shows its time as the value and its title as the label; titles longer than nine characters scroll one character per refresh (every second while awake).

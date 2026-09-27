@@ -67,7 +67,8 @@ function testSkinJsonParsing(logger as Logger) as Boolean {
     Test.assertEqualMessage(skin.backgroundColor, Graphics.COLOR_BLACK, "named colour parsed");
     Test.assertEqualMessage(skin.hourHand.shape, SkinDefs.SHAPE_SKELETON, "hand shape parsed");
     Test.assertEqualMessage(skin.secondHand.color, SkinDefs.ACCENT_REF, "accent reference parsed");
-    Test.assertEqualMessage(skin.resolveColor(skin.secondHand.color), Graphics.COLOR_RED, "accent resolves to skin accent");
+    Test.assertEqualMessage(skin.resolveColor(skin.secondHand.color), skin.accentColor, "accent resolves to skin accent");
+    Test.assertEqualMessage(skin.accentColor, 0xFFAAAA, "classic accent is the pastel red from the 64 colour palette");
     Test.assertEqualMessage(skin.secondsHandMode, SkinDefs.SECONDS_AWAKE_ONLY, "seconds mode parsed");
     Test.assertEqualMessage(SkinDefs.parseColor("0xFF5500", 0), 0xFF5500, "hex string parsed");
     Test.assertEqualMessage(SkinDefs.parseColor("bogus", 7), 7, "unknown colour falls back");

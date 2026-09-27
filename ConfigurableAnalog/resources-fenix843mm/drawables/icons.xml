@@ -5,6 +5,7 @@
     <bitmap id="ic_moon" filename="ic_moon.png"/>
     <bitmap id="ic_moon_large" filename="ic_moon_large.png"/>
     <bitmap id="ic_clear" filename="ic_clear.png"/>
+    <bitmap id="ic_clear_night" filename="ic_clear_night.png"/>
     <bitmap id="ic_partly_cloudy" filename="ic_partly_cloudy.png"/>
     <bitmap id="ic_cloudy" filename="ic_cloudy.png"/>
     <bitmap id="ic_rain" filename="ic_rain.png"/>

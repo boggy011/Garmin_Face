@@ -14,6 +14,7 @@ icons:
   moon: moon
   moon-large: moonLarge
   clear: condition
+  clear-night: condition
   partly-cloudy: condition
   cloudy: condition
   rain: condition
