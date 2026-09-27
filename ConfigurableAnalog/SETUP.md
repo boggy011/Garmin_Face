@@ -1,6 +1,6 @@
 # ConfigurableAnalog build and run
 
-Prerequisites: Connect IQ SDK 9.2.0 as current SDK, device packages fenix8solar51mm, fenix8solar47mm, fenix847mm and fenix843mm, developer key at ~/garmin-keys/developer_key.der. PATH setup and machine level details are in ../fenix8-watchface/SETUP.md.
+Prerequisites: Connect IQ SDK 9.2.0 as current SDK, device packages fenix8solar51mm, fenix8solar47mm, fenix847mm and fenix843mm, developer key at ~/garmin-keys/developer_key.der. PATH setup and machine level details are in ../SETUP.md.
 
 All commands run from this folder.
 
