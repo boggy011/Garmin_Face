@@ -132,6 +132,17 @@ module SkinDefs {
         return fallback;
     }
 
+    //! Key with a display specific variant: "<key>Mip" on MIP displays when the skin has one.
+    function displayKey(d as Dictionary, key as String) as String {
+        if (!Display.isAmoled()) {
+            var mipKey = key + "Mip";
+            if (d.hasKey(mipKey)) {
+                return mipKey;
+            }
+        }
+        return key;
+    }
+
     function textureOption(d as Dictionary, key as String, fallback as Number) as Number {
         var value = d[key];
         if (value instanceof String) {

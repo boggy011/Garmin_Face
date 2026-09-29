@@ -1,6 +1,7 @@
 import Toybox.Complications;
 import Toybox.Lang;
 import Toybox.SensorHistory;
+import Toybox.Time;
 
 class BodyBatterySource extends DataSource {
     function initialize() {
@@ -23,26 +24,11 @@ class BodyBatterySource extends DataSource {
         if (!isSupported()) {
             return null;
         }
-        var sample = SensorHistory.getBodyBatteryHistory({:period => 1, :order => SensorHistory.ORDER_NEWEST_FIRST}).next();
-        if (sample == null) {
-            return null;
-        }
-        var data = sample.data;
-        return (data == null) ? null : data.toNumber();
+        var iterator = SensorHistory.getBodyBatteryHistory({:period => new Time.Duration(Sources.HISTORY_WINDOW_SECONDS), :order => SensorHistory.ORDER_NEWEST_FIRST});
+        return Sources.latestHistoryValue(iterator, Sources.HISTORY_MAX_SAMPLES);
     }
 
     function getValue() as String {
-        if (!isSupported()) {
-            return Sources.PLACEHOLDER;
-        }
-        var sample = SensorHistory.getBodyBatteryHistory({:period => 1, :order => SensorHistory.ORDER_NEWEST_FIRST}).next();
-        if (sample == null) {
-            return Sources.PLACEHOLDER;
-        }
-        var data = sample.data;
-        if (data == null) {
-            return Sources.PLACEHOLDER;
-        }
-        return data.toNumber().toString();
+        return Sources.formatNumber(getPercent());
     }
 }

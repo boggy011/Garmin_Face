@@ -58,6 +58,7 @@ function testWeatherAndHealthRegionsDoNotOverlap(logger as Logger) as Boolean {
     }
     layoutPage(PageTypes.WEATHER, 280);
     Test.assertMessage(Regions.hitTest(140, 140) == null, "weather icon inside the centre circle is not a launch region");
-    Test.assertMessage(Regions.hitTest(140, 30) == Regions.WEATHER_SUN_ARC, "sun arc region at the top");
+    Test.assertMessage(Regions.hitTest(140, 86) == null, "condition icon above the centre is not a launch region");
+    Test.assertMessage(Regions.hitTest(73, 129) == Regions.WEATHER_SUNRISE, "sunrise label on the left is a launch region");
     return true;
 }

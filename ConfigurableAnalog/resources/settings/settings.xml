@@ -31,20 +31,12 @@
             <listEntry value="2">@Strings.opt_inHg</listEntry>
         </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.healthArcTop" title="@Strings.set_healthArcTop">
+    <setting propertyKey="@Properties.healthChart" title="@Strings.set_healthChart">
         <settingConfig type="list">
             <listEntry value="0">@Strings.opt_bodyBattery</listEntry>
             <listEntry value="1">@Strings.opt_stress</listEntry>
             <listEntry value="2">@Strings.opt_spo2</listEntry>
-            <listEntry value="3">@Strings.opt_hrv</listEntry>
-        </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.healthArcBottom" title="@Strings.set_healthArcBottom">
-        <settingConfig type="list">
-            <listEntry value="0">@Strings.opt_bodyBattery</listEntry>
-            <listEntry value="1">@Strings.opt_stress</listEntry>
-            <listEntry value="2">@Strings.opt_spo2</listEntry>
-            <listEntry value="3">@Strings.opt_hrv</listEntry>
+            <listEntry value="3">@Strings.opt_heartRate</listEntry>
         </settingConfig>
     </setting>
     <setting propertyKey="@Properties.effectsIntensity" title="@Strings.set_effectsIntensity">

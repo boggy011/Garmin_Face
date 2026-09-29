@@ -549,12 +549,19 @@ def main_outputs(cfg: dict[str, Any]) -> dict[Path, str]:
 
 
 def iter_skin_colors(data: Any, path: str = "") -> Iterator[tuple[str, Any]]:
-    """Yield (path, value) for every field whose key ends in color/Color, at any depth."""
+    """Yield (path, value) for every field whose key ends in color/Color, at any depth.
+
+    A key with a "<key>Mip" sibling is only read on AMOLED displays, so it may use any
+    colour; the Mip variant itself is validated against the palette.
+    """
     if isinstance(data, dict):
         for key, value in data.items():
             child = f"{path}.{key}" if path else str(key)
-            if COLOR_KEY.search(str(key)) or (path == "colors"):
-                yield child, value
+            name = str(key)
+            base = name[:-3] if name.endswith("Mip") else name
+            if COLOR_KEY.search(base) or (path == "colors"):
+                if f"{name}Mip" not in data:
+                    yield child, value
             else:
                 yield from iter_skin_colors(value, child)
     elif isinstance(data, list):

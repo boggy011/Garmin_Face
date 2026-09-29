@@ -111,6 +111,9 @@ class AnalogRenderer {
         dc.drawCircle(_cx, _cy, r);
         for (var i = 0; i < 60; i++) {
             var major = (i % 5 == 0);
+            if (hasNumeral(skin, i)) {
+                continue;
+            }
             var length = major ? _radius * 6 / 100 : _radius * 3 / 100;
             var angle = i * _twoPi / 60.0;
             var s = Math.sin(angle);
@@ -132,7 +135,7 @@ class AnalogRenderer {
         var outer = (_radius - 1).toFloat();
         for (var i = 0; i < 60; i++) {
             var major = (i % 5 == 0);
-            if (!major && !skin.showMinorTicks) {
+            if ((!major && !skin.showMinorTicks) || hasNumeral(skin, i)) {
                 continue;
             }
             var length = (major ? skin.tickMajorLength : skin.tickMinorLength) * _radius / 100.0;
@@ -145,6 +148,15 @@ class AnalogRenderer {
             dc.drawLine(_cx + inner * s, _cy - inner * c, _cx + outer * s, _cy - outer * c);
         }
         dc.setPenWidth(1);
+    }
+
+    //! True when minute mark i carries a numeral, so its tick is left out and the numeral
+    //! can sit at the edge of the display.
+    private function hasNumeral(skin as Skin, i as Number) as Boolean {
+        if (skin.numeralStyle == SkinDefs.NUMERALS_NONE || i % 5 != 0) {
+            return false;
+        }
+        return (skin.numeralStyle != SkinDefs.NUMERALS_QUARTERS) || (i % 15 == 0);
     }
 
     private function drawNumerals(dc as Dc, skin as Skin) as Void {

@@ -22,8 +22,7 @@ module Settings {
     var _secondTimeZoneOffsetMinutes as Number = SettingsKeys.SECOND_TIME_ZONE_OFFSET_MINUTES_DEFAULT;
     var _pageTypes as Array<Number> = [] as Array<Number>;
     var _pressureUnit as String = SettingsKeys.PRESSURE_UNIT_DEFAULT;
-    var _healthArcTop as String = SettingsKeys.HEALTH_ARC_TOP_DEFAULT;
-    var _healthArcBottom as String = SettingsKeys.HEALTH_ARC_BOTTOM_DEFAULT;
+    var _healthChart as String = SettingsKeys.HEALTH_CHART_DEFAULT;
     var _effectsIntensity as String = SettingsKeys.EFFECTS_INTENSITY_DEFAULT;
     var _showSunTimes as Boolean = SettingsKeys.SHOW_SUN_TIMES_DEFAULT;
     var _showMoonPhaseLabel as Boolean = SettingsKeys.SHOW_MOON_PHASE_LABEL_DEFAULT;
@@ -72,8 +71,7 @@ module Settings {
         }
         _pageTypes = types;
         _pressureUnit = coerceChoice(read(SettingsKeys.PRESSURE_UNIT), SettingsKeys.PRESSURE_UNIT_OPTIONS, SettingsKeys.PRESSURE_UNIT_DEFAULT);
-        _healthArcTop = coerceChoice(read(SettingsKeys.HEALTH_ARC_TOP), SettingsKeys.HEALTH_ARC_TOP_OPTIONS, SettingsKeys.HEALTH_ARC_TOP_DEFAULT);
-        _healthArcBottom = coerceChoice(read(SettingsKeys.HEALTH_ARC_BOTTOM), SettingsKeys.HEALTH_ARC_BOTTOM_OPTIONS, SettingsKeys.HEALTH_ARC_BOTTOM_DEFAULT);
+        _healthChart = coerceChoice(read(SettingsKeys.HEALTH_CHART), SettingsKeys.HEALTH_CHART_OPTIONS, SettingsKeys.HEALTH_CHART_DEFAULT);
         _effectsIntensity = coerceChoice(read(SettingsKeys.EFFECTS_INTENSITY), SettingsKeys.EFFECTS_INTENSITY_OPTIONS, SettingsKeys.EFFECTS_INTENSITY_DEFAULT);
         _showSunTimes = coerceBoolean(read(SettingsKeys.SHOW_SUN_TIMES), SettingsKeys.SHOW_SUN_TIMES_DEFAULT);
         _showMoonPhaseLabel = coerceBoolean(read(SettingsKeys.SHOW_MOON_PHASE_LABEL), SettingsKeys.SHOW_MOON_PHASE_LABEL_DEFAULT);
@@ -215,14 +213,10 @@ module Settings {
         return _pressureUnit;
     }
 
-    //! Health metric id shown on the top arc of the health page.
-    function getHealthArcTop() as String {
-        return _healthArcTop;
-    }
 
-    //! Health metric id shown on the bottom arc of the health page.
-    function getHealthArcBottom() as String {
-        return _healthArcBottom;
+    //! Metric id shown in the six hour chart of the health page.
+    function getHealthChart() as String {
+        return _healthChart;
     }
 
     //! "low", "normal" or "high".

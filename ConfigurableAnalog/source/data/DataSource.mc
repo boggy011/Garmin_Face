@@ -1,8 +1,10 @@
 import Toybox.Activity;
+import Toybox.ActivityMonitor;
 import Toybox.Complications;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Position;
+import Toybox.SensorHistory;
 import Toybox.System;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
@@ -13,6 +15,10 @@ import Toybox.Weather;
 module Sources {
     const PLACEHOLDER = "--";
     const SECONDS_PER_DAY = 86400;
+    //! Sensor history is searched this far back for the newest sample that carries a value.
+    const HISTORY_WINDOW_SECONDS = 2 * 3600;
+    const HISTORY_MAX_SAMPLES = 60;
+    const HEART_RATE_WINDOW_SECONDS = 600;
 
     //! Format a clock time honouring the device 12/24 hour setting.
     function formatClock(hour as Number, minute as Number) as String {
@@ -38,6 +44,47 @@ module Sources {
             return PLACEHOLDER;
         }
         return value.toString();
+    }
+
+    //! Newest value in a SensorHistory window. On a real watch the newest sample is often
+    //! empty (stress is not computed while moving, body battery pauses during activities),
+    //! so walk back through recent samples instead of reading only the first one.
+    function latestHistoryValue(iterator as SensorHistory.SensorHistoryIterator?, maxSamples as Number) as Number? {
+        if (iterator == null) {
+            return null;
+        }
+        var sample = iterator.next();
+        var steps = 0;
+        while (sample != null && steps < maxSamples) {
+            var data = sample.data;
+            if (data != null) {
+                return data.toNumber();
+            }
+            sample = iterator.next();
+            steps += 1;
+        }
+        return null;
+    }
+
+    //! Live heart rate, else the newest valid sample of the last ten minutes. Watch faces
+    //! only get a live value while the optical sensor is sampling.
+    function latestHeartRate() as Number? {
+        var rate = Activity.getActivityInfo().currentHeartRate;
+        if (rate != null || !(ActivityMonitor has :getHeartRateHistory)) {
+            return rate;
+        }
+        var iterator = ActivityMonitor.getHeartRateHistory(new Time.Duration(HEART_RATE_WINDOW_SECONDS), true);
+        var sample = iterator.next();
+        var steps = 0;
+        while (sample != null && steps < HISTORY_MAX_SAMPLES) {
+            var value = sample.heartRate;
+            if (value != ActivityMonitor.INVALID_HR_SAMPLE) {
+                return value;
+            }
+            sample = iterator.next();
+            steps += 1;
+        }
+        return null;
     }
 
     //! Best known location: weather observation position, else the last activity position.

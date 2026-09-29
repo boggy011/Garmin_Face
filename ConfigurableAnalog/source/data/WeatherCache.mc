@@ -143,7 +143,7 @@ module WeatherCache {
         moonIllumination = phase.illumination.toFloat();
         moonWaxing = phase.waxing;
         moonPhase = phase.phase;
-        moonPhaseLabel = WatchUi.loadResource(_phaseNames[phase.phase]) as String;
+        moonPhaseLabel = (WatchUi.loadResource(_phaseNames[phase.phase]) as String).toUpper();
         moonRise = null;
         moonSet = null;
         if (location == null) {

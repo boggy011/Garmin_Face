@@ -7,8 +7,7 @@
     <string id="set_secondTimeZoneOffsetMinutes">Second time zone, UTC offset in minutes</string>
     <string id="set_weatherRefreshMinutes">Weather refresh interval in minutes</string>
     <string id="set_pressureUnit">Pressure unit</string>
-    <string id="set_healthArcTop">Health page top arc</string>
-    <string id="set_healthArcBottom">Health page bottom arc</string>
+    <string id="set_healthChart">Health page chart (last 6 hours)</string>
     <string id="set_effectsIntensity">Weather effects intensity</string>
     <string id="set_showSunTimes">Show sunrise and sunset times</string>
     <string id="set_showMoonPhaseLabel">Show moon phase name</string>
@@ -82,7 +81,7 @@
     <string id="opt_bodyBattery">Body Battery</string>
     <string id="opt_stress">Stress</string>
     <string id="opt_spo2">Pulse Ox</string>
-    <string id="opt_hrv">HRV</string>
+    <string id="opt_heartRate">Heart rate</string>
     <string id="opt_low">Low</string>
     <string id="opt_normal">Normal</string>
     <string id="opt_high">High</string>

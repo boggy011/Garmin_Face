@@ -1,14 +1,18 @@
 <strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
     <string id="AppName">ConfigurableAnalog</string>
     <string id="Placeholder">--</string>
-    <string id="moon_phase_0">New moon</string>
-    <string id="moon_phase_1">Waxing crescent</string>
-    <string id="moon_phase_2">First quarter</string>
-    <string id="moon_phase_3">Waxing gibbous</string>
-    <string id="moon_phase_4">Full moon</string>
-    <string id="moon_phase_5">Waning gibbous</string>
-    <string id="moon_phase_6">Last quarter</string>
-    <string id="moon_phase_7">Waning crescent</string>
+    <string id="moon_phase_0">NEW MOON</string>
+    <string id="moon_phase_1">WAXING</string>
+    <string id="moon_phase_2">1ST QTR</string>
+    <string id="moon_phase_3">WAX GIB</string>
+    <string id="moon_phase_4">FULL</string>
+    <string id="moon_phase_5">WAN GIB</string>
+    <string id="moon_phase_6">LAST QTR</string>
+    <string id="moon_phase_7">WANING</string>
+    <string id="chart_bodyBattery">BB 6H</string>
+    <string id="chart_stress">STRESS 6H</string>
+    <string id="chart_spo2">SPO2 6H</string>
+    <string id="chart_heartRate">HR 6H</string>
     <string id="lbl_temperature">TEMP</string>
     <string id="lbl_precipitation">RAIN</string>
     <string id="lbl_uv">UV</string>

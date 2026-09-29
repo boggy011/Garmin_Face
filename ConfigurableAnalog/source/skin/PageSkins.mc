@@ -14,20 +14,18 @@ class Anchor {
     }
 }
 
-//! Skin block "weatherPage".
+
+//! Skin block "weatherPage": condition icon anchor, moon phase geometry and colours, labels.
+//! Keys with a "Mip" suffix override their plain counterpart on MIP displays.
 class WeatherSkin {
-    var arcRadius as Number;
-    var arcWidth as Number;
-    var arcWidthPercent as Float;
-    var arcDither as Boolean;
     var conditionBackground as Boolean;
-    var sunArcColor as Number;
-    var moonArcColor as Number;
-    var sunColor as Number;
-    var sunDimColor as Number;
+    var icon as Anchor;
+    var moon as Anchor;
+    var moonDiameter as Number;
     var moonLitColor as Number;
     var moonDarkColor as Number;
-    var horizonColor as Number;
+    var moonOutlineColor as Number;
+    var moonCraterColor as Number;
     var labelColor as Number;
     var readoutColor as Number;
     var labelFont as Graphics.FontType;
@@ -35,47 +33,35 @@ class WeatherSkin {
     var sunriseLabel as Anchor;
     var sunsetLabel as Anchor;
     var phaseLabel as Anchor;
-    var icon as Anchor;
     var chartY as Number;
 
     function initialize(d as Dictionary) {
-        arcRadius = SkinDefs.num(d, "arcRadius", 41);
-        arcWidth = SkinDefs.num(d, "arcWidth", 2);
-        arcWidthPercent = SkinDefs.flt(d, "arcWidthPercent", 2.0);
-        arcDither = SkinDefs.bool(d, "arcDither", true);
-        conditionBackground = SkinDefs.bool(d, "conditionBackground", true);
-        sunArcColor = SkinDefs.color(d, "sunArcColor", Graphics.COLOR_YELLOW);
-        moonArcColor = SkinDefs.color(d, "moonArcColor", Graphics.COLOR_LT_GRAY);
-        sunColor = SkinDefs.color(d, "sunColor", Graphics.COLOR_YELLOW);
-        sunDimColor = SkinDefs.color(d, "sunDimColor", Graphics.COLOR_DK_GRAY);
-        moonLitColor = SkinDefs.color(d, "moonLitColor", Graphics.COLOR_WHITE);
-        moonDarkColor = SkinDefs.color(d, "moonDarkColor", Graphics.COLOR_DK_GRAY);
-        horizonColor = SkinDefs.color(d, "horizonColor", Graphics.COLOR_DK_GRAY);
+        conditionBackground = SkinDefs.bool(d, SkinDefs.displayKey(d, "conditionBackground"), false);
+        icon = new Anchor(SkinDefs.dict(d, "icon"), 50, 31);
+        moon = new Anchor(SkinDefs.dict(d, "moon"), 50, 68);
+        moonDiameter = SkinDefs.num(d, "moonDiameter", 14);
+        moonLitColor = SkinDefs.color(d, SkinDefs.displayKey(d, "moonLitColor"), Graphics.COLOR_LT_GRAY);
+        moonDarkColor = SkinDefs.color(d, "moonDarkColor", Graphics.COLOR_BLACK);
+        moonOutlineColor = SkinDefs.color(d, "moonOutlineColor", Graphics.COLOR_DK_GRAY);
+        moonCraterColor = SkinDefs.color(d, SkinDefs.displayKey(d, "moonCraterColor"), Graphics.COLOR_DK_GRAY);
         labelColor = SkinDefs.color(d, "labelColor", Graphics.COLOR_LT_GRAY);
         readoutColor = SkinDefs.color(d, "readoutColor", Graphics.COLOR_WHITE);
         labelFont = SkinDefs.font(d, "labelFont", Graphics.FONT_XTINY);
         readoutFont = SkinDefs.font(d, "readoutFont", Graphics.FONT_XTINY);
-        sunriseLabel = new Anchor(SkinDefs.dict(d, "sunriseLabel"), 12, 44);
-        sunsetLabel = new Anchor(SkinDefs.dict(d, "sunsetLabel"), 88, 44);
-        phaseLabel = new Anchor(SkinDefs.dict(d, "phaseLabel"), 50, 84);
-        icon = new Anchor(SkinDefs.dict(d, "icon"), 50, 50);
-        chartY = SkinDefs.num(d, "chartY", 88);
+        sunriseLabel = new Anchor(SkinDefs.dict(d, "sunriseLabel"), 26, 46);
+        sunsetLabel = new Anchor(SkinDefs.dict(d, "sunsetLabel"), 74, 46);
+        phaseLabel = new Anchor(SkinDefs.dict(d, "phaseLabel"), 50, 80);
+        chartY = SkinDefs.num(d, "chartY", 89);
     }
 }
 
 //! Skin block "healthPage".
 class HealthSkin {
-    var arcRadius as Number;
-    var arcWidth as Number;
-    var trackColor as Number;
-    var bodyBatteryColor as Number;
-    var spo2Color as Number;
-    var hrvColor as Number;
-    var stressLowColor as Number;
-    var stressMediumColor as Number;
-    var stressHighColor as Number;
-    var stressLowMax as Number;
-    var stressMediumMax as Number;
+    var gaugeColor as Number;
+    var chartColor as Number;
+    var chartLatestColor as Number;
+    var chartY as Number;
+    var chartLabelY as Number;
     var heartRate as Anchor;
     var heartRateFont as Graphics.FontType;
     var heartRateColor as Number;
@@ -84,17 +70,11 @@ class HealthSkin {
     var readoutFont as Graphics.FontType;
 
     function initialize(d as Dictionary) {
-        arcRadius = SkinDefs.num(d, "arcRadius", 41);
-        arcWidth = SkinDefs.num(d, "arcWidth", 5);
-        trackColor = SkinDefs.color(d, "trackColor", Graphics.COLOR_DK_GRAY);
-        bodyBatteryColor = SkinDefs.color(d, "bodyBatteryColor", Graphics.COLOR_BLUE);
-        spo2Color = SkinDefs.color(d, "spo2Color", Graphics.COLOR_PINK);
-        hrvColor = SkinDefs.color(d, "hrvColor", Graphics.COLOR_PURPLE);
-        stressLowColor = SkinDefs.color(d, "stressLowColor", Graphics.COLOR_GREEN);
-        stressMediumColor = SkinDefs.color(d, "stressMediumColor", Graphics.COLOR_YELLOW);
-        stressHighColor = SkinDefs.color(d, "stressHighColor", Graphics.COLOR_RED);
-        stressLowMax = SkinDefs.num(d, "stressLowMax", 25);
-        stressMediumMax = SkinDefs.num(d, "stressMediumMax", 50);
+        gaugeColor = SkinDefs.color(d, "gaugeColor", Graphics.COLOR_LT_GRAY);
+        chartColor = SkinDefs.color(d, "chartColor", Graphics.COLOR_DK_GRAY);
+        chartLatestColor = SkinDefs.color(d, "chartLatestColor", Graphics.COLOR_LT_GRAY);
+        chartY = SkinDefs.num(d, "chartY", 89);
+        chartLabelY = SkinDefs.num(d, "chartLabelY", 82);
         var hr = SkinDefs.dict(d, "heartRate");
         heartRate = new Anchor(hr, 50, 57);
         heartRateFont = SkinDefs.font(hr, "font", Graphics.FONT_NUMBER_MILD);
@@ -168,7 +148,7 @@ class DialSkin {
     var centreCapFill as Number;
 
     function initialize(d as Dictionary) {
-        texture = SkinDefs.textureOption(d, "texture", TEXTURE_NONE);
+        texture = SkinDefs.textureOption(d, SkinDefs.displayKey(d, "texture"), TEXTURE_NONE);
         textureColor = SkinDefs.color(d, "textureColor", Graphics.COLOR_DK_GRAY);
         textureSpacing = SkinDefs.num(d, "textureSpacing", 3);
         var ring = SkinDefs.dict(d, "chapterRing");

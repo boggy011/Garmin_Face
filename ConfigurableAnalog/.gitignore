@@ -19,3 +19,10 @@ release/*.prg
 
 # macOS Finder metadata
 .DS_Store
+
+# Compiler scratch output from side-load builds into release/
+release/*-settings.json
+release/*.debug.xml
+release/external-mir/
+release/internal-mir/
+release/gen/

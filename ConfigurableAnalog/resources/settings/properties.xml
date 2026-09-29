@@ -7,8 +7,7 @@
     <property id="secondTimeZoneOffsetMinutes" type="number">0</property>
     <property id="weatherRefreshMinutes" type="number">15</property>
     <property id="pressureUnit" type="number">0</property>
-    <property id="healthArcTop" type="number">0</property>
-    <property id="healthArcBottom" type="number">1</property>
+    <property id="healthChart" type="number">0</property>
     <property id="effectsIntensity" type="number">1</property>
     <property id="showSunTimes" type="boolean">true</property>
     <property id="showMoonPhaseLabel" type="boolean">true</property>

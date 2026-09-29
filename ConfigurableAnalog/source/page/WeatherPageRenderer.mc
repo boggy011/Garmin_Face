@@ -1,14 +1,14 @@
 import Toybox.Complications;
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.Math;
 import Toybox.WatchUi;
 
-//! Sun arc, moon arc with phase, condition icon, sunrise and sunset labels, four readout
-//! panels, pressure trend chart, night star field. Geometry and colours come from
-//! skin.weather() and skin.panels(), values from WeatherCache. Per frame drawing allocates nothing.
+//! Condition icon between the 12 numeral and the centre, moon phase below the centre with
+//! its name, sunrise and sunset labels, four readout panels, pressure trend chart and a
+//! star field at night. Geometry and colours come from skin.weather() and skin.panels(),
+//! values from WeatherCache. Per frame drawing allocates nothing.
 class WeatherPageRenderer {
-    enum { ICON_TEMPERATURE = 0, ICON_PRECIPITATION = 1, ICON_UV = 2, ICON_PRESSURE = 3, ICON_SUN = 4, ICON_MOON = 5, ICON_MOON_LARGE = 6, ICON_SUNRISE = 7, ICON_SUNSET = 8 }
+    enum { ICON_TEMPERATURE = 0, ICON_PRECIPITATION = 1, ICON_UV = 2, ICON_PRESSURE = 3, ICON_SUNRISE = 4, ICON_SUNSET = 5 }
     const STARS = 30;
     const BARS = 12;
     const CLEAR_NIGHT_ICON = 10;
@@ -20,14 +20,10 @@ class WeatherPageRenderer {
     private var _conditionIcons as IconSet;
     private var _backgrounds as IconSet;
     private var _icons as IconSet;
-    private var _point as Array<Number> = [0, 0] as Array<Number>;
     private var _starX as Array<Number>;
     private var _starY as Array<Number>;
     private var _labels as Array<String?> = [null, null, null, null] as Array<String?>;
     private var _night as Boolean = false;
-    private var _half as Array<Array<Number>> = [
-        [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
-    ] as Array<Array<Number>>;
 
     function initialize(width as Number, height as Number) {
         _width = width;
@@ -46,7 +42,7 @@ class WeatherPageRenderer {
         ] as Array<ResourceId>);
         _icons = new IconSet([
             Rez.Drawables.ic_temperature, Rez.Drawables.ic_precipitation, Rez.Drawables.ic_uv, Rez.Drawables.ic_pressure,
-            Rez.Drawables.ic_sun, Rez.Drawables.ic_moon, Rez.Drawables.ic_moon_large, Rez.Drawables.icon_sunrise, Rez.Drawables.icon_sunset
+            Rez.Drawables.icon_sunrise, Rez.Drawables.icon_sunset
         ] as Array<ResourceId>);
         _starX = new [STARS] as Array<Number>;
         _starY = new [STARS] as Array<Number>;
@@ -72,18 +68,13 @@ class WeatherPageRenderer {
         }
     }
 
-    function arcRadius(skin as Skin) as Number {
-        return _width * skin.weather().arcRadius / 100;
-    }
-
     function isNight(now as Number) as Boolean {
         return !SkyState.isUp(now, WeatherCache.sunrise, WeatherCache.sunset);
     }
 
-    //! Static layer: star field at night, arcs, horizon ticks, panel frames.
+    //! Static layer: star field at night and the panel frames.
     function drawStatic(dc as Dc, skin as Skin, night as Boolean) as Void {
         var ws = skin.weather();
-        var r = arcRadius(skin);
         _night = night;
         if (night) {
             dc.setColor(skin.resolveColor(ws.labelColor), Graphics.COLOR_TRANSPARENT);
@@ -91,89 +82,28 @@ class WeatherPageRenderer {
                 dc.drawPoint(_starX[i], _starY[i]);
             }
         }
-        var maxWidth = (_width * ws.arcWidthPercent / 100.0).toNumber();
-        drawTaperedArc(dc, r, skin.resolveColor(ws.sunArcColor), maxWidth, ws.arcDither, true);
-        drawTaperedArc(dc, r, skin.resolveColor(ws.moonArcColor), maxWidth, ws.arcDither, false);
-        var tick = _width * 3 / 100;
-        dc.setColor(skin.resolveColor(ws.horizonColor), Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(_cx - r - tick, _cy, _cx - r + tick, _cy);
-        dc.drawLine(_cx + r - tick, _cy, _cx + r + tick, _cy);
         dc.setPenWidth(1);
         for (var i = 0; i < Panels.OUTER_COUNT; i++) {
             Panels.drawFrame(dc, skin, Panels.centreX(i), Panels.centreY(i), Panels.radius());
         }
     }
 
-    //! Semicircle band that is widest at the zenith and one pixel at the horizon ends. With
-    //! dither on, every other ring of the band is skipped in a checker pattern so the band
-    //! reads as translucent, and one dashed ring in the dimmed colour outside each edge softens
-    //! the border. Static, drawn once per page or skin change.
-    private function drawTaperedArc(dc as Dc, r as Number, color as Number, maxWidth as Number, dither as Boolean, top as Boolean) as Void {
-        var steps = 36;
-        var edge = SkinDefs.dimColor(color);
-        dc.setPenWidth(1);
-        for (var i = 0; i < steps; i++) {
-            var a0 = 180.0 * i / steps;
-            var a1 = 180.0 * (i + 1) / steps;
-            var mid = (a0 + a1) / 2.0 * Math.PI / 180.0;
-            var width = 1 + ((maxWidth - 1) * Math.sin(mid)).toNumber();
-            var half = width / 2;
-            var stride = dither ? 2 : 1;
-            for (var off = -half - 1; off <= half + 1; off += 1) {
-                var border = (off < -half) || (off > half);
-                if (border) {
-                    if (i % 2 == 1) {
-                        continue;
-                    }
-                    dc.setColor(edge, Graphics.COLOR_TRANSPARENT);
-                } else {
-                    if (dither && ((off + half + i) % stride != 0)) {
-                        continue;
-                    }
-                    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-                }
-                if (top) {
-                    dc.drawArc(_cx, _cy, r + off, Graphics.ARC_CLOCKWISE, 180 - a0, 180 - a1);
-                } else {
-                    dc.drawArc(_cx, _cy, r + off, Graphics.ARC_COUNTER_CLOCKWISE, 180 + a0, 180 + a1);
-                }
-            }
-        }
-    }
-
-    //! Kept for callers that do not know the sky state.
-    function drawStaticDefault(dc as Dc, skin as Skin) as Void {
-        drawStatic(dc, skin, _night);
-    }
-
     function draw(dc as Dc, skin as Skin, now as Number) as Void {
         var ws = skin.weather();
-        var r = arcRadius(skin);
         loadLabels();
-        drawSun(dc, skin, r, now);
-        drawMoon(dc, skin, r, now);
+        drawCondition(dc, ws);
+        drawMoon(dc, skin, ws);
         if (Settings.getShowSunTimes()) {
-            drawSunTimes(dc, skin, r);
-        }
-        var conditionIcon = (_night && WeatherCache.category == WeatherConditions.CLEAR) ? CLEAR_NIGHT_ICON : WeatherCache.category;
-        var iconX = _width * ws.icon.x / 100;
-        var iconY = _height * ws.icon.y / 100;
-        if (ws.conditionBackground) {
-            _backgrounds.drawCentered(dc, conditionIcon, iconX, iconY);
-        }
-        _conditionIcons.drawCentered(dc, conditionIcon, iconX, iconY);
-        if (Settings.getShowMoonPhaseLabel() && SkyState.isUp(now, WeatherCache.moonRise, WeatherCache.moonSet)) {
-            dc.setColor(skin.resolveColor(ws.labelColor), Graphics.COLOR_TRANSPARENT);
-            drawLabel(dc, ws.phaseLabel, Graphics.FONT_XTINY, WeatherCache.moonPhaseLabel);
+            drawSunTimes(dc, skin, ws);
         }
         var color = skin.resolveColor(ws.readoutColor);
         var labelColor = skin.resolveColor(ws.labelColor);
-        drawPanel(dc, skin, 0, ICON_TEMPERATURE, WeatherCache.temperature, _labels[0], skin.accentColor, labelColor, null);
-        drawPanel(dc, skin, 1, ICON_PRECIPITATION, WeatherCache.precipitation, _labels[1], color, labelColor, null);
-        drawPanel(dc, skin, 2, ICON_UV, WeatherCache.uv, _labels[2], color, labelColor, null);
-        drawPanel(dc, skin, 3, ICON_PRESSURE, WeatherCache.pressure, _labels[3], color, labelColor, null);
+        drawPanel(dc, skin, 0, ICON_TEMPERATURE, WeatherCache.temperature, _labels[0], skin.accentColor, labelColor);
+        drawPanel(dc, skin, 1, ICON_PRECIPITATION, WeatherCache.precipitation, _labels[1], color, labelColor);
+        drawPanel(dc, skin, 2, ICON_UV, WeatherCache.uv, _labels[2], color, labelColor);
+        drawPanel(dc, skin, 3, ICON_PRESSURE, WeatherCache.pressure, _labels[3], color, labelColor);
         drawPressureTrend(dc, skin);
-        registerRegions(dc, skin, r);
+        registerRegions(ws);
     }
 
     private function loadLabels() as Void {
@@ -185,19 +115,36 @@ class WeatherPageRenderer {
         }
     }
 
-    private function drawPanel(dc as Dc, skin as Skin, index as Number, iconIndex as Number, value as String, label as String?, valueColor as Number, labelColor as Number, percent as Number?) as Void {
-        var x = Panels.centreX(index);
-        var y = Panels.centreY(index);
-        var r = Panels.radius();
-        if (percent != null && skin.panels().gauge) {
-            Panels.drawGauge(dc, skin, x, y, r, percent, false);
+    //! Condition icon on the top half, over a stylised sky disc where the skin asks for one
+    //! on this display type. Clear skies at night use the moon icon.
+    private function drawCondition(dc as Dc, ws as WeatherSkin) as Void {
+        var index = (_night && WeatherCache.category == WeatherConditions.CLEAR) ? CLEAR_NIGHT_ICON : WeatherCache.category;
+        var x = _width * ws.icon.x / 100;
+        var y = _height * ws.icon.y / 100;
+        if (ws.conditionBackground) {
+            _backgrounds.drawCentered(dc, index, x, y);
         }
-        Panels.drawContent(dc, skin, x, y, r, _icons.get(iconIndex), value, label, valueColor, labelColor, false);
+        _conditionIcons.drawCentered(dc, index, x, y);
     }
 
-    //! Sunrise on the left and sunset on the right, small icon then time, level with the arc ends.
-    private function drawSunTimes(dc as Dc, skin as Skin, r as Number) as Void {
-        var ws = skin.weather();
+    //! Moon phase disc with its name below, from the cached astronomy.
+    private function drawMoon(dc as Dc, skin as Skin, ws as WeatherSkin) as Void {
+        var x = _width * ws.moon.x / 100;
+        var y = _height * ws.moon.y / 100;
+        var radius = _width * ws.moonDiameter / 200;
+        MoonPhase.draw(dc, x, y, radius, WeatherCache.moonIllumination, WeatherCache.moonWaxing, skin.resolveColor(ws.moonLitColor), skin.resolveColor(ws.moonDarkColor), skin.resolveColor(ws.moonOutlineColor), skin.resolveColor(ws.moonCraterColor));
+        if (Settings.getShowMoonPhaseLabel()) {
+            dc.setColor(skin.resolveColor(ws.labelColor), Graphics.COLOR_TRANSPARENT);
+            drawLabel(dc, ws.phaseLabel, ws.labelFont, WeatherCache.moonPhaseLabel);
+        }
+    }
+
+    private function drawPanel(dc as Dc, skin as Skin, index as Number, iconIndex as Number, value as String, label as String?, valueColor as Number, labelColor as Number) as Void {
+        Panels.drawContent(dc, skin, Panels.centreX(index), Panels.centreY(index), Panels.radius(), _icons.get(iconIndex), value, label, valueColor, labelColor, false);
+    }
+
+    //! Sunrise on the left and sunset on the right, small icon then time.
+    private function drawSunTimes(dc as Dc, skin as Skin, ws as WeatherSkin) as Void {
         var font = ws.labelFont;
         var gap = 2;
         dc.setColor(skin.resolveColor(ws.labelColor), Graphics.COLOR_TRANSPARENT);
@@ -264,85 +211,25 @@ class WeatherPageRenderer {
         }
     }
 
-    //! Press regions: readout panels, sun and moon arcs. The icon sits inside the centre circle.
-    function registerRegions(dc as Dc, skin as Skin, r as Number) as Void {
+    //! Press regions: the readout panels open the weather app, the sunrise and sunset labels
+    //! open the sunrise and sunset app. The condition icon and the moon sit too close to the
+    //! centre cycling circle for targets of their own.
+    function registerRegions(ws as WeatherSkin) as Void {
         var weather = ComplicationLaunch.idForType(Complications.COMPLICATION_TYPE_CURRENT_WEATHER);
         var side = Panels.targetSide();
         Regions.register(Regions.WEATHER_TEMPERATURE, Panels.centreX(0), Panels.centreY(0), side, side, weather);
         Regions.register(Regions.WEATHER_PRECIPITATION, Panels.centreX(1), Panels.centreY(1), side, side, weather);
         Regions.register(Regions.WEATHER_UV, Panels.centreX(2), Panels.centreY(2), side, side, weather);
         Regions.register(Regions.WEATHER_PRESSURE, Panels.centreX(3), Panels.centreY(3), side, side, ComplicationLaunch.idForType(Complications.COMPLICATION_TYPE_ALTITUDE));
-        var band = Regions.getMinimumSize();
-        Regions.register(Regions.WEATHER_SUN_ARC, _cx, _cy - r + band / 4, band, band, weather);
-        Regions.register(Regions.WEATHER_MOON_ARC, _cx, _cy + r - band / 4, band, band, ComplicationLaunch.idForType(Complications.COMPLICATION_TYPE_SUNRISE));
+        if (Settings.getShowSunTimes()) {
+            var sun = ComplicationLaunch.idForType(Complications.COMPLICATION_TYPE_SUNRISE);
+            var band = Regions.getMinimumSize();
+            Regions.register(Regions.WEATHER_SUNRISE, _width * ws.sunriseLabel.x / 100, _height * ws.sunriseLabel.y / 100, band, band, sun);
+            Regions.register(Regions.WEATHER_SUNSET, _width * ws.sunsetLabel.x / 100, _height * ws.sunsetLabel.y / 100, band, band, sun);
+        }
     }
 
     private function drawLabel(dc as Dc, anchor as Anchor, font as Graphics.FontType, text as String) as Void {
         dc.drawText(_width * anchor.x / 100, _height * anchor.y / 100, font, text, anchor.align | Graphics.TEXT_JUSTIFY_VCENTER);
-    }
-
-    //! Point on the top (or mirrored bottom) semicircle for a 0..1 progress, left to right.
-    private function arcPoint(r as Number, progress as Float, top as Boolean) as Void {
-        var angle = Math.PI * (1.0 - progress);
-        _point[0] = (_cx + r * Math.cos(angle)).toNumber();
-        var dy = (r * Math.sin(angle)).toNumber();
-        _point[1] = top ? _cy - dy : _cy + dy;
-    }
-
-    //! Sun disc with a two ring dithered glow, only between sunrise and sunset.
-    private function drawSun(dc as Dc, skin as Skin, r as Number, now as Number) as Void {
-        var progress = SkyState.progress(now, WeatherCache.sunrise, WeatherCache.sunset);
-        if (progress == null) {
-            return;
-        }
-        arcPoint(r, progress, true);
-        var x = _point[0];
-        var y = _point[1];
-        var glow = _icons.width(ICON_SUN) / 2;
-        dc.setColor(skin.resolveColor(skin.weather().sunColor), Graphics.COLOR_TRANSPARENT);
-        for (var ring = 1; ring <= 2; ring++) {
-            var rr = glow + 2 * ring + 1;
-            for (var step = 0; step < 24; step += ring) {
-                var angle = step * Math.PI / 12.0;
-                dc.drawPoint(x + rr * Math.cos(angle), y + rr * Math.sin(angle));
-            }
-        }
-        _icons.drawCentered(dc, ICON_SUN, x, y);
-    }
-
-    //! Moon disc on the bottom arc while it is above the horizon, larger at night.
-    private function drawMoon(dc as Dc, skin as Skin, r as Number, now as Number) as Void {
-        var progress = SkyState.progress(now, WeatherCache.moonRise, WeatherCache.moonSet);
-        if (progress == null) {
-            return;
-        }
-        arcPoint(r, progress, false);
-        var icon = _night ? ICON_MOON_LARGE : ICON_MOON;
-        drawMoonDisc(dc, skin, _point[0], _point[1], icon, _icons.width(icon) / 2);
-    }
-
-    //! Moon disc with the illuminated fraction drawn procedurally: base bitmap, unlit half,
-    //! then an ellipse for the terminator (dark for a crescent, lit for a gibbous moon).
-    function drawMoonDisc(dc as Dc, skin as Skin, x as Number, y as Number, icon as Number, radius as Number) as Void {
-        var ws = skin.weather();
-        var lit = skin.resolveColor(ws.moonLitColor);
-        var dark = skin.resolveColor(ws.moonDarkColor);
-        var k = WeatherCache.moonIllumination;
-        var litOnRight = WeatherCache.moonWaxing;
-        _icons.drawCentered(dc, icon, x, y);
-        dc.setColor(dark, Graphics.COLOR_TRANSPARENT);
-        var side = litOnRight ? -1.0 : 1.0;
-        var count = _half.size();
-        for (var i = 0; i < count; i++) {
-            var angle = Math.PI * i / (count - 1) - Math.PI / 2.0;
-            _half[i][0] = (x + side * (radius + 1) * Math.cos(angle)).toNumber();
-            _half[i][1] = (y + (radius + 1) * Math.sin(angle)).toNumber();
-        }
-        dc.fillPolygon(_half as Array<[Numeric, Numeric]>);
-        var a = ((1.0 - 2.0 * k).abs() * radius).toNumber();
-        if (a > 0) {
-            dc.setColor((k < 0.5) ? dark : lit, Graphics.COLOR_TRANSPARENT);
-            dc.fillEllipse(x, y, a, radius);
-        }
     }
 }

@@ -17,12 +17,9 @@ module SettingsKeys {
     const PRESSURE_UNIT = "pressureUnit";
     const PRESSURE_UNIT_DEFAULT = "hPa";
     var PRESSURE_UNIT_OPTIONS as Array<String> = ["hPa", "mmHg", "inHg"];
-    const HEALTH_ARC_TOP = "healthArcTop";
-    const HEALTH_ARC_TOP_DEFAULT = "bodyBattery";
-    var HEALTH_ARC_TOP_OPTIONS as Array<String> = ["bodyBattery", "stress", "spo2", "hrv"];
-    const HEALTH_ARC_BOTTOM = "healthArcBottom";
-    const HEALTH_ARC_BOTTOM_DEFAULT = "stress";
-    var HEALTH_ARC_BOTTOM_OPTIONS as Array<String> = ["bodyBattery", "stress", "spo2", "hrv"];
+    const HEALTH_CHART = "healthChart";
+    const HEALTH_CHART_DEFAULT = "bodyBattery";
+    var HEALTH_CHART_OPTIONS as Array<String> = ["bodyBattery", "stress", "spo2", "heartRate"];
     const EFFECTS_INTENSITY = "effectsIntensity";
     const EFFECTS_INTENSITY_DEFAULT = "normal";
     var EFFECTS_INTENSITY_OPTIONS as Array<String> = ["low", "normal", "high"];

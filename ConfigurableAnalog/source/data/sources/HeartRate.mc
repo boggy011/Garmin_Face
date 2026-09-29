@@ -21,13 +21,6 @@ class HeartRateSource extends DataSource {
     }
 
     function getValue() as String {
-        var rate = Activity.getActivityInfo().currentHeartRate;
-        if (rate == null && (ActivityMonitor has :getHeartRateHistory)) {
-            var sample = ActivityMonitor.getHeartRateHistory(1, true).next();
-            if (sample != null && sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-                rate = sample.heartRate;
-            }
-        }
-        return Sources.formatNumber(rate);
+        return Sources.formatNumber(Sources.latestHeartRate());
     }
 }

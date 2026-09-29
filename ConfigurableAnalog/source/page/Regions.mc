@@ -57,8 +57,8 @@ module Regions {
     const WEATHER_UV = 103;
     const WEATHER_PRESSURE = 104;
     const WEATHER_ICON = 105;
-    const WEATHER_SUN_ARC = 106;
-    const WEATHER_MOON_ARC = 107;
+    const WEATHER_SUNRISE = 106;
+    const WEATHER_SUNSET = 107;
     const HEALTH_HEART_RATE = 201;
     const HEALTH_STRESS = 202;
     const HEALTH_BODY_BATTERY = 203;

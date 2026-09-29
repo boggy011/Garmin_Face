@@ -22,7 +22,7 @@
   "numerals": {
     "style": "quarters",
     "font": "FONT_XTINY",
-    "radius": 87
+    "radius": 90
   },
   "hands": {
     "hour": {
@@ -59,19 +59,27 @@
   "pageIndicator": {
     "visible": true,
     "x": 50,
-    "y": 96,
+    "y": 23,
     "dotRadius": 1.4
   },
   "weatherPage": {
-    "arcRadius": 40,
-    "arcWidth": 3,
-    "sunArcColor": "0xFFFFAA",
-    "moonArcColor": "0xAAAAFF",
-    "sunColor": "0xFFFFAA",
-    "sunDimColor": "COLOR_DK_GRAY",
-    "moonLitColor": "COLOR_WHITE",
-    "moonDarkColor": "COLOR_DK_GRAY",
-    "horizonColor": "COLOR_DK_GRAY",
+    "conditionBackground": true,
+    "conditionBackgroundMip": false,
+    "icon": {
+      "x": 50,
+      "y": 34
+    },
+    "moon": {
+      "x": 50,
+      "y": 68
+    },
+    "moonDiameter": 14,
+    "moonLitColor": "0xE6DCB4",
+    "moonLitColorMip": "COLOR_WHITE",
+    "moonCraterColor": "0xBDB48F",
+    "moonCraterColorMip": "COLOR_LT_GRAY",
+    "moonDarkColor": "COLOR_BLACK",
+    "moonOutlineColor": "COLOR_DK_GRAY",
     "labelFont": "@Label",
     "labelColor": "COLOR_LT_GRAY",
     "sunriseLabel": {
@@ -84,31 +92,13 @@
     },
     "phaseLabel": {
       "x": 50,
-      "y": 66
-    },
-    "icon": {
-      "x": 50,
-      "y": 50
+      "y": 80
     },
     "readoutFont": "@Value",
     "readoutColor": "COLOR_WHITE",
-    "chartY": 89,
-    "arcWidthPercent": 2.5,
-    "arcDither": true,
-    "conditionBackground": true
+    "chartY": 89
   },
   "healthPage": {
-    "arcRadius": 46,
-    "arcWidth": 7,
-    "trackColor": "COLOR_DK_GRAY",
-    "bodyBatteryColor": "accent",
-    "spo2Color": "0xAAFFFF",
-    "hrvColor": "0xAAAAFF",
-    "stressLowColor": "0xAAFFAA",
-    "stressMediumColor": "0xFFFFAA",
-    "stressHighColor": "0xFFAAAA",
-    "stressLowMax": 25,
-    "stressMediumMax": 50,
     "heartRate": {
       "x": 50,
       "y": 74,
@@ -120,7 +110,12 @@
       "y": 29
     },
     "readoutFont": "@Value",
-    "readoutColor": "COLOR_WHITE"
+    "readoutColor": "COLOR_WHITE",
+    "gaugeColor": "COLOR_LT_GRAY",
+    "chartColor": "COLOR_DK_GRAY",
+    "chartLatestColor": "COLOR_LT_GRAY",
+    "chartY": 89,
+    "chartLabelY": 82
   },
   "effects": {
     "mip": {
@@ -148,7 +143,7 @@
     "textureSpacing": 4,
     "chapterRing": {
       "enabled": true,
-      "radius": 96,
+      "radius": 99,
       "width": 2,
       "color": "COLOR_DK_GRAY",
       "accentQuadrant": -1
@@ -174,7 +169,8 @@
       "radius": 5,
       "rim": "COLOR_LT_GRAY",
       "fill": "accent"
-    }
+    },
+    "textureMip": "none"
   },
   "panels": {
     "diameter": 24,
@@ -195,7 +191,7 @@
   },
   "battery": {
     "visible": true,
-    "y": 22,
+    "y": 17,
     "color": "COLOR_LT_GRAY",
     "lowColor": "0xFFAAAA",
     "lowPercent": 15,

@@ -1,23 +1,31 @@
-import Toybox.Activity;
 import Toybox.ActivityMonitor;
 import Toybox.Complications;
 import Toybox.Lang;
 import Toybox.SensorHistory;
 import Toybox.System;
+import Toybox.Time;
 import Toybox.WatchUi;
 
 //! Heart rate, stress, body battery, pulse ox and HRV for the health page. Refreshed once
-//! per minute from onUpdate. HRV comes from a system complication when the device offers
-//! one, found at runtime by label because the SDK has no dedicated HRV complication type.
+//! per minute from onUpdate. Sensor history is walked back from the newest sample to the
+//! newest one that carries a value, because on a real watch the latest stress or body
+//! battery sample is often empty (not measured while moving) and pulse ox only measures a
+//! few times a day. HRV comes from a system complication when the device offers one,
+//! found at runtime by label because the SDK has no dedicated HRV complication type.
 //! Health metric ids, matching the healthArcTop/healthArcBottom options in tools/sources.yaml.
 module HealthMetrics {
     const BODY_BATTERY = "bodyBattery";
     const STRESS = "stress";
     const SPO2 = "spo2";
     const HRV = "hrv";
+    const HEART_RATE = "heartRate";
 }
 
 class HealthCache {
+    const SPO2_WINDOW_SECONDS = 12 * 3600;
+    const CHART_BARS = 12;
+    const CHART_WINDOW_SECONDS = 6 * 3600;
+    const CHART_REFRESH_MINUTES = 10;
 
     var heartRate as String = Sources.PLACEHOLDER;
     var stress as String = Sources.PLACEHOLDER;
@@ -28,6 +36,14 @@ class HealthCache {
     var bodyBatteryValue as Number?;
     var spo2Value as Number?;
     var hrvValue as Number?;
+    //! Six hour chart of the metric chosen in settings, one bar per half hour, oldest first.
+    //! Zero means no sample in that half hour.
+    var chartBars as Array<Number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as Array<Number>;
+    var chartCount as Number = 0;
+    var chartMetric as String = "";
+    private var _chartSums as Array<Number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as Array<Number>;
+    private var _chartCounts as Array<Number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as Array<Number>;
+    private var _chartMinute as Number = -1;
 
     private var _lastMinute as Number = -1;
     private var _hrvId as Complications.Id?;
@@ -45,11 +61,16 @@ class HealthCache {
         }
         _lastMinute = minute;
         refresh();
+        var metric = Settings.getHealthChart();
+        if (_chartMinute < 0 || minute - _chartMinute >= CHART_REFRESH_MINUTES || !metric.equals(chartMetric)) {
+            _chartMinute = minute;
+            refreshChart(metric, now);
+        }
         return true;
     }
 
     function refresh() as Void {
-        heartRate = Sources.formatNumber(readHeartRate());
+        heartRate = Sources.formatNumber(Sources.latestHeartRate());
         stressValue = latestSample(HealthMetrics.STRESS);
         bodyBatteryValue = latestSample(HealthMetrics.BODY_BATTERY);
         spo2Value = latestSample(HealthMetrics.SPO2);
@@ -64,60 +85,91 @@ class HealthCache {
         return _hrvId;
     }
 
-    //! Numeric value of a metric id for the arc gauges, null when unavailable.
-    function gaugeValue(metric as String) as Number? {
-        if (metric.equals(HealthMetrics.BODY_BATTERY)) {
-            return bodyBatteryValue;
+    //! Bucket the last six hours of the chosen metric into half hour averages.
+    function refreshChart(metric as String, now as Number) as Void {
+        chartMetric = metric;
+        chartCount = 0;
+        for (var i = 0; i < CHART_BARS; i++) {
+            chartBars[i] = 0;
+            _chartSums[i] = 0;
+            _chartCounts[i] = 0;
         }
-        if (metric.equals(HealthMetrics.STRESS)) {
-            return stressValue;
+        if (metric.equals(HealthMetrics.HEART_RATE)) {
+            collectHeartRate(now);
+        } else {
+            collectHistory(historyIterator(metric, CHART_WINDOW_SECONDS), now);
         }
-        if (metric.equals(HealthMetrics.SPO2)) {
-            return spo2Value;
+        for (var i = 0; i < CHART_BARS; i++) {
+            if (_chartCounts[i] > 0) {
+                chartBars[i] = _chartSums[i] / _chartCounts[i];
+                chartCount += 1;
+            }
         }
-        if (metric.equals(HealthMetrics.HRV)) {
-            return hrvValue;
+    }
+
+    private function addChartSample(value as Number, when as Number, now as Number) as Void {
+        var age = now - when;
+        if (value <= 0 || age < 0 || age >= CHART_WINDOW_SECONDS) {
+            return;
+        }
+        var bucket = CHART_BARS - 1 - age / (CHART_WINDOW_SECONDS / CHART_BARS);
+        _chartSums[bucket] += value;
+        _chartCounts[bucket] += 1;
+    }
+
+    private function collectHistory(iterator as SensorHistory.SensorHistoryIterator?, now as Number) as Void {
+        if (iterator == null) {
+            return;
+        }
+        var sample = iterator.next();
+        while (sample != null) {
+            var data = sample.data;
+            var when = sample.when;
+            if (data != null && when != null) {
+                addChartSample(data.toNumber(), when.value(), now);
+            }
+            sample = iterator.next();
+        }
+    }
+
+    private function collectHeartRate(now as Number) as Void {
+        if (!(ActivityMonitor has :getHeartRateHistory)) {
+            return;
+        }
+        var iterator = ActivityMonitor.getHeartRateHistory(new Time.Duration(CHART_WINDOW_SECONDS), true);
+        var sample = iterator.next();
+        while (sample != null) {
+            var rate = sample.heartRate;
+            var when = sample.when;
+            if (rate != null && rate != ActivityMonitor.INVALID_HR_SAMPLE && when != null) {
+                addChartSample(rate, when.value(), now);
+            }
+            sample = iterator.next();
+        }
+    }
+
+    //! SensorHistory iterator for a metric over a window, null when the device lacks it.
+    private function historyIterator(metric as String, seconds as Number) as SensorHistory.SensorHistoryIterator? {
+        if (!(Toybox has :SensorHistory)) {
+            return null;
+        }
+        var options = {:period => new Time.Duration(seconds), :order => SensorHistory.ORDER_NEWEST_FIRST};
+        if (metric.equals(HealthMetrics.STRESS) && (SensorHistory has :getStressHistory)) {
+            return SensorHistory.getStressHistory(options);
+        }
+        if (metric.equals(HealthMetrics.BODY_BATTERY) && (SensorHistory has :getBodyBatteryHistory)) {
+            return SensorHistory.getBodyBatteryHistory(options);
+        }
+        if (metric.equals(HealthMetrics.SPO2) && (SensorHistory has :getOxygenSaturationHistory)) {
+            return SensorHistory.getOxygenSaturationHistory(options);
         }
         return null;
     }
 
-    private function readHeartRate() as Number? {
-        var rate = Activity.getActivityInfo().currentHeartRate;
-        if (rate == null && (ActivityMonitor has :getHeartRateHistory)) {
-            var sample = ActivityMonitor.getHeartRateHistory(1, true).next();
-            if (sample != null && sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-                rate = sample.heartRate;
-            }
-        }
-        return rate;
-    }
-
-    //! Newest SensorHistory sample of a metric as an integer, gated with has checks.
+    //! Newest SensorHistory sample of a metric that carries a value, gated with has checks.
     private function latestSample(metric as String) as Number? {
-        if (!(Toybox has :SensorHistory)) {
-            return null;
-        }
-        var iterator = null as SensorHistory.SensorHistoryIterator?;
-        var options = {:period => 1, :order => SensorHistory.ORDER_NEWEST_FIRST};
-        if (metric.equals(HealthMetrics.STRESS) && (SensorHistory has :getStressHistory)) {
-            iterator = SensorHistory.getStressHistory(options);
-        } else if (metric.equals(HealthMetrics.BODY_BATTERY) && (SensorHistory has :getBodyBatteryHistory)) {
-            iterator = SensorHistory.getBodyBatteryHistory(options);
-        } else if (metric.equals(HealthMetrics.SPO2) && (SensorHistory has :getOxygenSaturationHistory)) {
-            iterator = SensorHistory.getOxygenSaturationHistory(options);
-        }
-        if (iterator == null) {
-            return null;
-        }
-        var sample = iterator.next();
-        if (sample == null) {
-            return null;
-        }
-        var data = sample.data;
-        if (data == null) {
-            return null;
-        }
-        return data.toNumber();
+        var seconds = metric.equals(HealthMetrics.SPO2) ? SPO2_WINDOW_SECONDS : Sources.HISTORY_WINDOW_SECONDS;
+        return Sources.latestHistoryValue(historyIterator(metric, seconds), Sources.HISTORY_MAX_SAMPLES);
     }
 
     //! Look for a complication labelled HRV and subscribe to it, else log once.

@@ -64,18 +64,14 @@ choice_settings:
       - { id: hPa, label: hPa }
       - { id: mmHg, label: mmHg }
       - { id: inHg, label: inHg }
-  - key: healthArcTop
-    label: Health page top arc
+  - key: healthChart
+    label: Health page chart (last 6 hours)
     default: bodyBattery
-    options: &health_metrics
+    options:
       - { id: bodyBattery, label: Body Battery }
       - { id: stress, label: Stress }
       - { id: spo2, label: Pulse Ox }
-      - { id: hrv, label: HRV }
-  - key: healthArcBottom
-    label: Health page bottom arc
-    default: stress
-    options: *health_metrics
+      - { id: heartRate, label: Heart rate }
   - key: effectsIntensity
     label: Weather effects intensity
     default: normal
