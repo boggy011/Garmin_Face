@@ -129,3 +129,33 @@ function testPageRenderersDrawEveryPageType(logger as Logger) as Boolean {
     logger.debug("weather category " + WeatherCache.category + ", moon phase " + WeatherCache.moonPhase + " (" + WeatherCache.moonPhaseLabel + "), rise " + WeatherCache.moonRise + " set " + WeatherCache.moonSet);
     return true;
 }
+
+(:test)
+function testEverySourceIdIsRegistered(logger as Logger) as Boolean {
+    for (var i = 0; i < SettingsKeys.SOURCE_IDS.size(); i++) {
+        var id = SettingsKeys.SOURCE_IDS[i];
+        Test.assertMessage(DataSourceRegistry.isRegistered(id), "source " + id + " is registered");
+        var source = DataSourceRegistry.get(id);
+        Test.assertEqualMessage(source.getId(), id, "registry returns the source for " + id);
+        var value = source.getValue();
+        Test.assertMessage(id.equals(SettingsKeys.EMPTY_SOURCE_ID) || value.length() > 0, "source " + id + " formats a value");
+        logger.debug(id + " = " + value);
+    }
+    return true;
+}
+
+(:test)
+function testHandStylesMapToShapes(logger as Logger) as Boolean {
+    Test.assertEqualMessage(SettingsKeys.HAND_STYLES[0], "skin", "first hand style keeps the skin hands");
+    for (var i = 1; i < SettingsKeys.HAND_STYLES.size(); i++) {
+        Test.assertMessage(SkinDefs.shape(SettingsKeys.HAND_STYLES[i]) != null, "hand style " + SettingsKeys.HAND_STYLES[i] + " is a known shape");
+    }
+    var size = 260;
+    var buffer = Graphics.createBufferedBitmap({:width => size, :height => size}).get() as BufferedBitmap;
+    var renderer = new AnalogRenderer(size, size);
+    var skin = SkinRegistry.load("classic");
+    for (var i = 0; i < SettingsKeys.HAND_STYLES.size(); i++) {
+        renderer.drawHourMinute(buffer.getDc(), skin, 10, 8, i);
+    }
+    return true;
+}

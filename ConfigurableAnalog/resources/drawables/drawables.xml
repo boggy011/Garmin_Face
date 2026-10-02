@@ -18,4 +18,19 @@
     <bitmap id="icon_sunrise" filename="icon_sunrise.svg"/>
     <bitmap id="icon_sunset" filename="icon_sunset.svg"/>
     <bitmap id="icon_weather" filename="icon_weather.svg"/>
+    <bitmap id="icon_pulseox" filename="icon_pulseox.svg"/>
+    <bitmap id="icon_respiration" filename="icon_respiration.svg"/>
+    <bitmap id="icon_recovery" filename="icon_recovery.svg"/>
+    <bitmap id="icon_sleep" filename="icon_sleep.svg"/>
+    <bitmap id="icon_training" filename="icon_training.svg"/>
+    <bitmap id="icon_vo2max" filename="icon_vo2max.svg"/>
+    <bitmap id="icon_barometer" filename="icon_barometer.svg"/>
+    <bitmap id="icon_highlow" filename="icon_highlow.svg"/>
+    <bitmap id="icon_humidity" filename="icon_humidity.svg"/>
+    <bitmap id="icon_wind" filename="icon_wind.svg"/>
+    <bitmap id="icon_rainchance" filename="icon_rainchance.svg"/>
+    <bitmap id="icon_uvindex" filename="icon_uvindex.svg"/>
+    <bitmap id="icon_feelslike" filename="icon_feelslike.svg"/>
+    <bitmap id="icon_batterydays" filename="icon_batterydays.svg"/>
+    <bitmap id="icon_stepgoal" filename="icon_stepgoal.svg"/>
 </drawables>

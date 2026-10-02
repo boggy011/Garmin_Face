@@ -155,7 +155,7 @@ class FaceView extends WatchUi.WatchFace {
         var target = (face != null) ? face.getDc() : dc;
         drawFace(target, skin, renderer, pageRenderer, page, health, now);
         pageRenderer.getGeneric().getSlotRenderer().drawPageIndicator(target, skin, _pages.getIndex(), _pages.getPageCount());
-        renderer.drawHourMinute(target, skin, time.hour, time.min);
+        renderer.drawHourMinute(target, skin, time.hour, time.min, Settings.getPageHandStyle(_pages.getIndex()));
         if (Settings.getShowColourSwatches()) {
             Swatches.draw(target, _width, _height);
         }
@@ -307,7 +307,7 @@ class FaceView extends WatchUi.WatchFace {
                 var target = face.getDc();
                 drawFace(target, skin, renderer, pageRenderer, _pages.getCurrentPage(), health, Time.now().value());
                 pageRenderer.getGeneric().getSlotRenderer().drawPageIndicator(target, skin, _pages.getIndex(), _pages.getPageCount());
-                renderer.drawHourMinute(target, skin, time.hour, time.min);
+                renderer.drawHourMinute(target, skin, time.hour, time.min, Settings.getPageHandStyle(_pages.getIndex()));
                 dc.setClip(0, 0, _width, _height);
                 dc.drawBitmap(0, 0, face);
                 _fullRefresh = true;

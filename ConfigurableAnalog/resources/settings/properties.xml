@@ -20,6 +20,12 @@
     <property id="page4type" type="number">0</property>
     <property id="page5type" type="number">0</property>
     <property id="page6type" type="number">0</property>
+    <property id="page1hands" type="number">0</property>
+    <property id="page2hands" type="number">0</property>
+    <property id="page3hands" type="number">0</property>
+    <property id="page4hands" type="number">0</property>
+    <property id="page5hands" type="number">0</property>
+    <property id="page6hands" type="number">0</property>
     <property id="page1slot1" type="number">2</property>
     <property id="page1slot2" type="number">3</property>
     <property id="page1slot3" type="number">1</property>

@@ -82,6 +82,11 @@ def page_type_key(page: int) -> str:
     return f"page{page}type"
 
 
+def page_hands_key(page: int) -> str:
+    """Property key of a 1-based page's hand style."""
+    return f"page{page}hands"
+
+
 def complication_uid(page: int, slot: int) -> int:
     """On-device editor complication id for a 1-based page and slot."""
     return page * 10 + slot
@@ -197,6 +202,10 @@ def render_properties(cfg: dict[str, Any]) -> str:
         lines.append(
             f'    <property id="{page_type_key(page)}" type="number">{type_ids.index(page_type)}</property>'
         )
+    for page in range(1, int(cfg["pages"]["max"]) + 1):
+        lines.append(
+            f'    <property id="{page_hands_key(page)}" type="number">0</property>'
+        )
     for page, row in enumerate(page_defaults(cfg), start=1):
         for slot, source in enumerate(row, start=1):
             lines.append(
@@ -237,11 +246,15 @@ def render_settings(cfg: dict[str, Any]) -> str:
         lines += boolean_setting(setting["key"], f"set_{setting['key']}")
     source_labels = [f"@Strings.src_{source_id}" for source_id in ids(cfg["sources"])]
     type_labels = [f"@Strings.ptype_{type_id}" for type_id in ids(cfg["page_types"])]
+    hand_labels = [f"@Strings.hst_{style_id}" for style_id in ids(cfg["hand_styles"])]
     slots = int(cfg["pages"]["slots_per_page"])
     for page in range(1, int(cfg["pages"]["max"]) + 1):
         lines.append(f'    <group id="page{page}" title="@Strings.page_{page}">')
         lines += list_setting(
             page_type_key(page), "set_pageType", type_labels, indent=8
+        )
+        lines += list_setting(
+            page_hands_key(page), "set_pageHands", hand_labels, indent=8
         )
         for slot in range(1, slots + 1):
             lines += list_setting(
@@ -277,6 +290,9 @@ def render_strings(cfg: dict[str, Any]) -> str:
         add(f"shm_{mode['id']}", str(mode["label"]))
     for page_type in cfg["page_types"]:
         add(f"ptype_{page_type['id']}", str(page_type["label"]))
+    add("set_pageHands", "Hands")
+    for style in cfg["hand_styles"]:
+        add(f"hst_{style['id']}", str(style["label"]))
     for source in cfg["sources"]:
         add(f"src_{source['id']}", str(source["label"]))
         add(f"srcs_{source['id']}", str(source.get("short", source["label"])).upper())
@@ -344,6 +360,7 @@ def render_settings_keys(cfg: dict[str, Any]) -> str:
     slots = int(pages["slots_per_page"])
     lines = [
         f"// {HEADER}",
+        "import Toybox.Complications;",
         "import Toybox.Lang;",
         "",
         "//! Property keys, limits and defaults shared by Settings.mc and the generated resources.",
@@ -399,6 +416,19 @@ def render_settings_keys(cfg: dict[str, Any]) -> str:
         f"    var PAGE_TYPE_IDS as Array<String> = {mc_string_list(ids(cfg['page_types']))};"
     )
     lines.append(
+        f"    var HAND_STYLES as Array<String> = {mc_string_list(ids(cfg['hand_styles']))};"
+    )
+    complication_types = ", ".join(
+        f"Complications.{s['complication']} as Number" if s["complication"] else "-1"
+        for s in cfg["sources"]
+    )
+    lines.append(
+        "    //! System complication type per entry of SOURCE_IDS, -1 when there is none."
+    )
+    lines.append(
+        f"    var SOURCE_COMPLICATION_TYPES as Array<Number> = [{complication_types}];"
+    )
+    lines.append(
         f"    var DEFAULT_PAGE_TYPES as Array<String> = {mc_string_list(page_types(cfg))};"
     )
     source_index = {
@@ -421,6 +451,11 @@ def render_settings_keys(cfg: dict[str, Any]) -> str:
         "    //! Property key of a 0-based page's type.",
         "    function pageTypeKey(page as Number) as String {",
         '        return "page" + (page + 1) + "type";',
+        "    }",
+        "",
+        "    //! Property key of a 0-based page's hand style.",
+        "    function handsKey(page as Number) as String {",
+        '        return "page" + (page + 1) + "hands";',
         "    }",
         "",
         "    //! Default source ids of a 0-based page.",
@@ -604,6 +639,10 @@ def check_registry(cfg: dict[str, Any]) -> list[str]:
     registry = PROJECT_DIR / "source/data/DataSourceRegistry.mc"
     registry_text = registry.read_text(encoding="utf-8") if registry.exists() else ""
     for source_id in ids(cfg["sources"]):
+        # Shared classes (ComplicationSource, WeatherFieldSource, DeviceFieldSource) are
+        # registered with the id as their first argument instead of a class of their own.
+        if f'("{source_id}",' in registry_text:
+            continue
         if f"new {source_id}Source(" not in registry_text:
             errors.append(f"DataSourceRegistry.mc does not register {source_id}Source")
         if not (PROJECT_DIR / "source/data/sources" / f"{source_id}.mc").exists():

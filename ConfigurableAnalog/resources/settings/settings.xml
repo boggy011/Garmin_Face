@@ -69,6 +69,16 @@
                 <listEntry value="2">@Strings.ptype_health</listEntry>
             </settingConfig>
         </setting>
+        <setting propertyKey="@Properties.page1hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
+            </settingConfig>
+        </setting>
         <setting propertyKey="@Properties.page1slot1" title="@Strings.slot_1">
             <settingConfig type="list">
                 <listEntry value="0">@Strings.src_Empty</listEntry>
@@ -91,6 +101,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot2" title="@Strings.slot_2">
@@ -115,6 +140,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot3" title="@Strings.slot_3">
@@ -139,6 +179,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot4" title="@Strings.slot_4">
@@ -163,6 +218,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page1slot5" title="@Strings.slot_5">
@@ -187,6 +257,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -196,6 +281,16 @@
                 <listEntry value="0">@Strings.ptype_generic</listEntry>
                 <listEntry value="1">@Strings.ptype_weather</listEntry>
                 <listEntry value="2">@Strings.ptype_health</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.page2hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot1" title="@Strings.slot_1">
@@ -220,6 +315,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot2" title="@Strings.slot_2">
@@ -244,6 +354,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot3" title="@Strings.slot_3">
@@ -268,6 +393,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot4" title="@Strings.slot_4">
@@ -292,6 +432,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page2slot5" title="@Strings.slot_5">
@@ -316,6 +471,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -325,6 +495,16 @@
                 <listEntry value="0">@Strings.ptype_generic</listEntry>
                 <listEntry value="1">@Strings.ptype_weather</listEntry>
                 <listEntry value="2">@Strings.ptype_health</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.page3hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot1" title="@Strings.slot_1">
@@ -349,6 +529,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot2" title="@Strings.slot_2">
@@ -373,6 +568,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot3" title="@Strings.slot_3">
@@ -397,6 +607,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot4" title="@Strings.slot_4">
@@ -421,6 +646,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page3slot5" title="@Strings.slot_5">
@@ -445,6 +685,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -454,6 +709,16 @@
                 <listEntry value="0">@Strings.ptype_generic</listEntry>
                 <listEntry value="1">@Strings.ptype_weather</listEntry>
                 <listEntry value="2">@Strings.ptype_health</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.page4hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot1" title="@Strings.slot_1">
@@ -478,6 +743,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot2" title="@Strings.slot_2">
@@ -502,6 +782,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot3" title="@Strings.slot_3">
@@ -526,6 +821,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot4" title="@Strings.slot_4">
@@ -550,6 +860,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page4slot5" title="@Strings.slot_5">
@@ -574,6 +899,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -583,6 +923,16 @@
                 <listEntry value="0">@Strings.ptype_generic</listEntry>
                 <listEntry value="1">@Strings.ptype_weather</listEntry>
                 <listEntry value="2">@Strings.ptype_health</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.page5hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot1" title="@Strings.slot_1">
@@ -607,6 +957,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot2" title="@Strings.slot_2">
@@ -631,6 +996,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot3" title="@Strings.slot_3">
@@ -655,6 +1035,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot4" title="@Strings.slot_4">
@@ -679,6 +1074,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page5slot5" title="@Strings.slot_5">
@@ -703,6 +1113,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>
@@ -712,6 +1137,16 @@
                 <listEntry value="0">@Strings.ptype_generic</listEntry>
                 <listEntry value="1">@Strings.ptype_weather</listEntry>
                 <listEntry value="2">@Strings.ptype_health</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.page6hands" title="@Strings.set_pageHands">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.hst_skin</listEntry>
+                <listEntry value="1">@Strings.hst_baton</listEntry>
+                <listEntry value="2">@Strings.hst_dauphine</listEntry>
+                <listEntry value="3">@Strings.hst_arrow</listEntry>
+                <listEntry value="4">@Strings.hst_line</listEntry>
+                <listEntry value="5">@Strings.hst_skeleton</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot1" title="@Strings.slot_1">
@@ -736,6 +1171,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot2" title="@Strings.slot_2">
@@ -760,6 +1210,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot3" title="@Strings.slot_3">
@@ -784,6 +1249,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot4" title="@Strings.slot_4">
@@ -808,6 +1288,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.page6slot5" title="@Strings.slot_5">
@@ -832,6 +1327,21 @@
                 <listEntry value="17">@Strings.src_SolarIntensity</listEntry>
                 <listEntry value="18">@Strings.src_ActiveMinutes</listEntry>
                 <listEntry value="19">@Strings.src_NextEvent</listEntry>
+                <listEntry value="20">@Strings.src_PulseOx</listEntry>
+                <listEntry value="21">@Strings.src_RespirationRate</listEntry>
+                <listEntry value="22">@Strings.src_RecoveryTime</listEntry>
+                <listEntry value="23">@Strings.src_SleepScore</listEntry>
+                <listEntry value="24">@Strings.src_TrainingStatus</listEntry>
+                <listEntry value="25">@Strings.src_Vo2Max</listEntry>
+                <listEntry value="26">@Strings.src_Barometer</listEntry>
+                <listEntry value="27">@Strings.src_HighLowTemp</listEntry>
+                <listEntry value="28">@Strings.src_Humidity</listEntry>
+                <listEntry value="29">@Strings.src_Wind</listEntry>
+                <listEntry value="30">@Strings.src_RainChance</listEntry>
+                <listEntry value="31">@Strings.src_UvIndex</listEntry>
+                <listEntry value="32">@Strings.src_FeelsLike</listEntry>
+                <listEntry value="33">@Strings.src_BatteryDays</listEntry>
+                <listEntry value="34">@Strings.src_StepGoal</listEntry>
             </settingConfig>
         </setting>
     </group>

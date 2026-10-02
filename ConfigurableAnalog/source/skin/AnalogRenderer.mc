@@ -174,22 +174,52 @@ class AnalogRenderer {
         }
     }
 
-    //! Hour and minute hands plus the centre cap.
-    function drawHourMinute(dc as Dc, skin as Skin, hour as Number, minute as Number) as Void {
+    //! Hour and minute hands plus the centre cap. style is an index into
+    //! SettingsKeys.HAND_STYLES: 0 keeps the skin's hands, any other replaces their shape
+    //! and width (scaled to the screen) while keeping the skin's colours and lengths.
+    function drawHourMinute(dc as Dc, skin as Skin, hour as Number, minute as Number, style as Number) as Void {
         var minuteAngle = minute * _twoPi / 60.0;
         var hourAngle = ((hour % 12) * 60 + minute) * _twoPi / 720.0;
+        var hourShape = skin.hourHand.shape;
+        var minuteShape = skin.minuteHand.shape;
+        var hourWidth = skin.hourHand.width;
+        var minuteWidth = skin.minuteHand.width;
+        var shape = (style > 0 && style < SettingsKeys.HAND_STYLES.size()) ? SkinDefs.shape(SettingsKeys.HAND_STYLES[style]) : null;
+        if (shape != null) {
+            hourShape = shape;
+            minuteShape = shape;
+            hourWidth = styleWidth(shape, true);
+            minuteWidth = styleWidth(shape, false);
+        }
         if (skin.dial().handShadow) {
             var offset = skin.dial().handShadowOffset;
             _cx += offset;
             _cy += offset;
-            drawHand(dc, skin, skin.hourHand, hourAngle, skin.dial().handShadowColor);
-            drawHand(dc, skin, skin.minuteHand, minuteAngle, skin.dial().handShadowColor);
+            drawHand(dc, skin, skin.hourHand, hourAngle, skin.dial().handShadowColor, hourShape, hourWidth);
+            drawHand(dc, skin, skin.minuteHand, minuteAngle, skin.dial().handShadowColor, minuteShape, minuteWidth);
             _cx -= offset;
             _cy -= offset;
         }
-        drawHand(dc, skin, skin.hourHand, hourAngle, null);
-        drawHand(dc, skin, skin.minuteHand, minuteAngle, null);
+        drawHand(dc, skin, skin.hourHand, hourAngle, null, hourShape, hourWidth);
+        drawHand(dc, skin, skin.minuteHand, minuteAngle, null, minuteShape, minuteWidth);
         drawCap(dc, skin);
+    }
+
+    //! Hand width in pixels for a hand style override, in thousandths of the dial radius
+    //! so the hands look the same on every screen size.
+    private function styleWidth(shape as Number, hour as Boolean) as Number {
+        var permille = hour ? 55 : 42;
+        if (shape == SkinDefs.SHAPE_DAUPHINE) {
+            permille = hour ? 85 : 70;
+        } else if (shape == SkinDefs.SHAPE_ARROW) {
+            permille = hour ? 95 : 80;
+        } else if (shape == SkinDefs.SHAPE_LINE) {
+            permille = hour ? 25 : 18;
+        } else if (shape == SkinDefs.SHAPE_SKELETON) {
+            permille = hour ? 70 : 55;
+        }
+        var width = _radius * permille / 1000;
+        return (width < 2) ? 2 : width;
     }
 
     //! Centre cap: filled disc with a rim when enabled, else the plain cap colour.
@@ -209,7 +239,7 @@ class AnalogRenderer {
     //! Seconds hand only. Used by full and partial updates.
     function drawSeconds(dc as Dc, skin as Skin, second as Number) as Void {
         var angle = second * _twoPi / 60.0;
-        drawHand(dc, skin, skin.secondHand, angle, null);
+        drawHand(dc, skin, skin.secondHand, angle, null, skin.secondHand.shape, skin.secondHand.width);
         if (skin.secondHand.counterweight > 0) {
             var tail = skin.secondHand.tail * _radius * 0.7;
             dc.setColor(skin.resolveColor(skin.secondHand.color), Graphics.COLOR_TRANSPARENT);
@@ -244,20 +274,20 @@ class AnalogRenderer {
     }
 
     //! Draw one hand, in its own colour or in an override colour (used for the shadow pass).
-    private function drawHand(dc as Dc, skin as Skin, hand as HandSpec, angle as Float, colorOverride as Number?) as Void {
+    private function drawHand(dc as Dc, skin as Skin, hand as HandSpec, angle as Float, colorOverride as Number?, shape as Number, width as Number) as Void {
         dc.setColor((colorOverride != null) ? colorOverride : skin.resolveColor(hand.color), Graphics.COLOR_TRANSPARENT);
         var s = Math.sin(angle);
         var c = Math.cos(angle);
         var length = hand.length * _radius;
         var tail = -hand.tail * _radius;
-        var half = hand.width / 2.0;
-        if (hand.shape == SkinDefs.SHAPE_LINE) {
-            dc.setPenWidth(hand.width);
+        var half = width / 2.0;
+        if (shape == SkinDefs.SHAPE_LINE) {
+            dc.setPenWidth(width);
             dc.drawLine(_cx + tail * s, _cy - tail * c, _cx + length * s, _cy - length * c);
             dc.setPenWidth(1);
             return;
         }
-        if (hand.shape == SkinDefs.SHAPE_SKELETON) {
+        if (shape == SkinDefs.SHAPE_SKELETON) {
             setPoint(_pts4, 0, tail, -half, s, c);
             setPoint(_pts4, 1, length, -half, s, c);
             setPoint(_pts4, 2, length, half, s, c);
@@ -276,7 +306,7 @@ class AnalogRenderer {
             }
             return;
         }
-        if (hand.shape == SkinDefs.SHAPE_DAUPHINE) {
+        if (shape == SkinDefs.SHAPE_DAUPHINE) {
             setPoint(_pts4, 0, tail, 0.0, s, c);
             setPoint(_pts4, 1, length * 0.35, -half, s, c);
             setPoint(_pts4, 2, length, 0.0, s, c);
@@ -284,7 +314,7 @@ class AnalogRenderer {
             dc.fillPolygon(_pts4 as Array<[Numeric, Numeric]>);
             return;
         }
-        if (hand.shape == SkinDefs.SHAPE_ARROW) {
+        if (shape == SkinDefs.SHAPE_ARROW) {
             var body = half * 0.5;
             var head = half * 1.5;
             var shoulder = length * 0.7;

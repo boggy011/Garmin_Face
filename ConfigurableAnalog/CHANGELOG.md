@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0, 2026-10-02
+
+1. Fourteen new slot sources: pulse ox, respiration rate, recovery time, sleep score, training status, VO2 max, sea level barometer, high and low temperature, humidity, wind speed, rain chance, UV index, feels like temperature, battery days left and step goal progress. The ones backed by a system complication also appear in the on-device editor.
+2. Hand style per page: each page has a new "Hands" setting (skin default, baton, dauphine, arrow, thin line, skeleton). The skin keeps its colours and lengths; the shape and width change.
+3. Fix: the temperature slot showed decimals (for example 57.200001°).
+4. Data sources are now created only when a page shows them, which keeps memory use close to 1.2.0 despite the extra sources.
+
 ## 1.2.0, 2026-09-29
 
 1. Chapter ring and hour numerals moved to the edge of the display on every page; the ticks under the numerals are left out so the numerals fit.

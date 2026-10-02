@@ -95,3 +95,10 @@ tools/gen_settings.py renders settings, strings, editor config and SettingsKeys.
 ## Tests
 
 source/tests/Tests.mc contains Toybox.Test functions for settings coercion, page wrap around and clamping, skin JSON parsing and a memory budget check. Run them with "Monkey C: Run Tests" in VS Code or with the commands in SETUP.md.
+
+## Shared source classes and per page hands
+
+Most slot sources have their own class in source/data/sources. Sources that only format one value share a class instead: ComplicationSource (any system complication, formatted as a number, percent, hours, pressure or short text), WeatherFieldSource (humidity, wind, rain chance, UV, feels like) and DeviceFieldSource (battery days, step goal). DataSourceRegistry.create builds them by id on first use, so unused sources cost no memory; the editor's complication type lookup uses the generated SettingsKeys.SOURCE_COMPLICATION_TYPES table. To add a complication backed source, append it to tools/sources.yaml, add one create line and an icon, and run tools/gen_settings.py.
+
+Each page has a pageNhands setting (tools/sources.yaml hand_styles). Index 0 keeps the skin hands; any other replaces the hour and minute hand shape and width (thousandths of the dial radius, AnalogRenderer.styleWidth) while keeping the skin's colours and lengths. Resting heart rate was left out on purpose: it needs the UserProfile permission, and a new permission makes every existing user re-approve the app.
+

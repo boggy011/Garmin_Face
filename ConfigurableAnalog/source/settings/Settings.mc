@@ -21,6 +21,7 @@ module Settings {
     var _secondsHandMode as String = SettingsKeys.DEFAULT_SECONDS_HAND_MODE;
     var _secondTimeZoneOffsetMinutes as Number = SettingsKeys.SECOND_TIME_ZONE_OFFSET_MINUTES_DEFAULT;
     var _pageTypes as Array<Number> = [] as Array<Number>;
+    var _pageHands as Array<Number> = [] as Array<Number>;
     var _pressureUnit as String = SettingsKeys.PRESSURE_UNIT_DEFAULT;
     var _healthChart as String = SettingsKeys.HEALTH_CHART_DEFAULT;
     var _effectsIntensity as String = SettingsKeys.EFFECTS_INTENSITY_DEFAULT;
@@ -70,6 +71,11 @@ module Settings {
             types.add(PageTypes.fromId(coerceChoice(read(SettingsKeys.pageTypeKey(p)), SettingsKeys.PAGE_TYPE_IDS, SettingsKeys.DEFAULT_PAGE_TYPES[p])));
         }
         _pageTypes = types;
+        var hands = [] as Array<Number>;
+        for (var p = 0; p < SettingsKeys.MAX_PAGES; p++) {
+            hands.add(SettingsKeys.HAND_STYLES.indexOf(coerceChoice(read(SettingsKeys.handsKey(p)), SettingsKeys.HAND_STYLES, SettingsKeys.HAND_STYLES[0])));
+        }
+        _pageHands = hands;
         _pressureUnit = coerceChoice(read(SettingsKeys.PRESSURE_UNIT), SettingsKeys.PRESSURE_UNIT_OPTIONS, SettingsKeys.PRESSURE_UNIT_DEFAULT);
         _healthChart = coerceChoice(read(SettingsKeys.HEALTH_CHART), SettingsKeys.HEALTH_CHART_OPTIONS, SettingsKeys.HEALTH_CHART_DEFAULT);
         _effectsIntensity = coerceChoice(read(SettingsKeys.EFFECTS_INTENSITY), SettingsKeys.EFFECTS_INTENSITY_OPTIONS, SettingsKeys.EFFECTS_INTENSITY_DEFAULT);
@@ -204,6 +210,11 @@ module Settings {
     }
 
     //! PageTypes value of a 0-based page.
+    //! Hand style index into SettingsKeys.HAND_STYLES for a 0-based page, 0 keeps the skin hands.
+    function getPageHandStyle(page as Number) as Number {
+        return (page >= 0 && page < _pageHands.size()) ? _pageHands[page] : 0;
+    }
+
     function getPageType(page as Number) as Number {
         return _pageTypes[page];
     }

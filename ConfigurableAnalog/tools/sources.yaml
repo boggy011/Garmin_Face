@@ -43,6 +43,21 @@ seconds_hand_modes:
   - id: never
     label: Never
 
+# Per page hand style, setting page<N>hands. "skin" keeps the skin's own hands. Append only.
+hand_styles:
+  - id: skin
+    label: Skin default
+  - id: baton
+    label: Baton
+  - id: dauphine
+    label: Dauphine
+  - id: arrow
+    label: Arrow
+  - id: line
+    label: Thin line
+  - id: skeleton
+    label: Skeleton
+
 number_settings:
   - key: secondTimeZoneOffsetMinutes
     label: Second time zone, UTC offset in minutes
@@ -87,7 +102,8 @@ boolean_settings:
   - { key: effectsOnWristRaiseOnly, label: Weather effects only while awake, default: true }
   - { key: showColourSwatches, label: Debug, draw the 64 colour palette grid, default: false }
 
-# id must match the class in source/data/sources (<id>Source) and the registry entry.
+# id must match a registry entry in source/data/DataSourceRegistry.mc (a <id>Source class, or a
+# ComplicationSource, WeatherFieldSource or DeviceFieldSource instance created with that id).
 # Phone settings store the position in this list, so append new sources at the end and never reorder.
 # complication is the Toybox.Complications type used by the on-device editor, or null
 # when the source has no system complication equivalent (then it is phone-settings only).
@@ -112,3 +128,18 @@ sources:
   - { id: SolarIntensity, label: Solar intensity, short: SOLAR,   complication: COMPLICATION_TYPE_SOLAR_INPUT }
   - { id: ActiveMinutes,  label: Intensity minutes, short: INTENS, complication: COMPLICATION_TYPE_INTENSITY_MINUTES }
   - { id: NextEvent,      label: Next calendar event, short: EVENT, complication: COMPLICATION_TYPE_CALENDAR_EVENTS }
+  - { id: PulseOx,        label: Pulse Ox, short: SPO2,            complication: COMPLICATION_TYPE_PULSE_OX }
+  - { id: RespirationRate, label: Respiration rate, short: BREATH, complication: COMPLICATION_TYPE_RESPIRATION_RATE }
+  - { id: RecoveryTime,   label: Recovery time, short: RECOVERY,  complication: COMPLICATION_TYPE_RECOVERY_TIME }
+  - { id: SleepScore,     label: Sleep score, short: SLEEP,       complication: COMPLICATION_TYPE_SLEEP_SCORE }
+  - { id: TrainingStatus, label: Training status, short: TRAINING, complication: COMPLICATION_TYPE_TRAINING_STATUS }
+  - { id: Vo2Max,         label: VO2 max, short: VO2,             complication: COMPLICATION_TYPE_VO2MAX_RUN }
+  - { id: Barometer,      label: Barometer (sea level), short: BARO, complication: COMPLICATION_TYPE_SEA_LEVEL_PRESSURE }
+  - { id: HighLowTemp,    label: High and low temperature, short: HI/LO, complication: COMPLICATION_TYPE_HIGH_LOW_TEMPERATURE }
+  - { id: Humidity,       label: Humidity, short: HUMID,          complication: null }
+  - { id: Wind,           label: Wind speed, short: WIND,         complication: null }
+  - { id: RainChance,     label: Rain chance, short: RAIN,        complication: null }
+  - { id: UvIndex,        label: UV index, short: UV,             complication: null }
+  - { id: FeelsLike,      label: Feels like temperature, short: FEELS, complication: null }
+  - { id: BatteryDays,    label: Battery days left, short: DAYS,  complication: null }
+  - { id: StepGoal,       label: Step goal progress, short: GOAL, complication: null }

@@ -1,6 +1,5 @@
 import Toybox.Complications;
 import Toybox.Lang;
-import Toybox.System;
 import Toybox.Weather;
 
 class WeatherSource extends DataSource {
@@ -32,10 +31,6 @@ class WeatherSource extends DataSource {
         if (celsius == null) {
             return Sources.PLACEHOLDER;
         }
-        var value = celsius;
-        if (System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE) {
-            value = value * 9 / 5 + 32;
-        }
-        return value.toString() + "°";
+        return WeatherCache.formatTemperature(celsius);
     }
 }
